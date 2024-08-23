@@ -1,30 +1,28 @@
-[gd_scene load_steps=18 format=3 uid="uid://bpdq3av7p7qu4"]
+[gd_scene load_steps=17 format=3 uid="uid://bpdq3av7p7qu4"]
 
-[ext_resource type="Script" path="res://Code/AbilityComponents/AbilityRoot.gd" id="1_ikjhm"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/AbilitySeq.gd" id="2_5vcv4"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="2_5vcv4"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="3_bleet"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/ExpressionSource.gd" id="4_mrn6b"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/PlayerSource.gd" id="5_pd87e"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/MovePlayer.gd" id="6_ghn11"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/AbilityParAny.gd" id="6_lh5ef"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/BlackboardSource.gd" id="7_f3qdl"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/InputSource.gd" id="4_610dl"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="4_mrn6b"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/StateChange.gd" id="5_bnyta"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="5_pd87e"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="6_ghn11"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="6_lh5ef"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="7_f3qdl"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="9_cg6rd"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/TestComponent.gd" id="10_44w68"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jth2n"]
-
-[sub_resource type="Resource" id="Resource_fv1ve"]
-script = ExtResource("5_pd87e")
+[sub_resource type="Resource" id="Resource_svlls"]
+script = ExtResource("4_610dl")
 what = 0
 
 [sub_resource type="Resource" id="Resource_tbp2u"]
 script = ExtResource("5_pd87e")
-what = 1
+what = 0
 
 [sub_resource type="Resource" id="Resource_36er5"]
 script = ExtResource("4_mrn6b")
 expression = "(x - y).normalized()"
-x = SubResource("Resource_fv1ve")
+x = SubResource("Resource_svlls")
 y = SubResource("Resource_tbp2u")
 
 [sub_resource type="Resource" id="Resource_2js7s"]
@@ -40,30 +38,26 @@ expression = "96*2"
 script = ExtResource("4_mrn6b")
 expression = "1"
 
-[node name="Ability" type="MultiplayerSynchronizer"]
-root_path = NodePath(".")
-replication_config = SubResource("SceneReplicationConfig_jth2n")
-script = ExtResource("1_ikjhm")
-
-[node name="Seq" type="Node" parent="."]
+[node name="Seq" type="Node"]
 script = ExtResource("2_5vcv4")
 
-[node name="WriteToBlackboard" type="Node" parent="Seq"]
+[node name="WriteToBlackboard" type="Node" parent="."]
 script = ExtResource("3_bleet")
 property = &"direction"
 source = SubResource("Resource_36er5")
 
-[node name="AbilityParAny" type="Node" parent="Seq"]
+[node name="Phasing" type="Node" parent="."]
+script = ExtResource("5_bnyta")
+phase_through_units = true
+
+[node name="AbilityParAny" type="Node" parent="Phasing"]
 script = ExtResource("6_lh5ef")
 
-[node name="MovePlayer" type="Node" parent="Seq/AbilityParAny"]
+[node name="MovePlayer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("6_ghn11")
 direction = SubResource("Resource_2js7s")
 factor = SubResource("Resource_aycgm")
 
-[node name="AbilityTimer" type="Node" parent="Seq/AbilityParAny"]
+[node name="AbilityTimer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("9_cg6rd")
 duration = SubResource("Resource_3xhjt")
-
-[node name="TestComponent" type="Node" parent="Seq/AbilityParAny"]
-script = ExtResource("10_44w68")

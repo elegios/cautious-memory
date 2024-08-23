@@ -7,7 +7,7 @@ class_name BlackboardSource extends DataSource
 ## will act as though 'null' was written to it.
 @export var allow_absent: bool = false
 
-func get_data(_player: Player, blackboard: Dictionary) -> Variant:
+func get_data(_delta: float) -> Variant:
 	if not allow_absent and not blackboard.has(property):
 		push_error("Missing blackboard key: " + property)
 	return blackboard[property]

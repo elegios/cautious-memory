@@ -16,18 +16,20 @@ enum AInterruptResult {
 	Uninterrupted  # The node was protected, it should keep running
 }
 
-var player: Player
+var runner: AbilityRunner
 var blackboard: Dictionary
 
-func setup(p: Player, b: Dictionary) -> void:
-	player = p
+func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+	runner = a
 	blackboard = b
+	if register_props:
+		register_properties(r)
 	for i in get_child_count():
 		var c := get_child(i) as AbilityNode
 		if c:
-			c.setup(player, blackboard)
+			c.setup(a, r, b, register_props)
 
-# Register properties that need to be synced for this node
+## Register properties that need to be synced for this node
 func register_properties(_root: AbilityRoot) -> void:
 	pass
 

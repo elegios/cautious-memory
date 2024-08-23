@@ -31,8 +31,26 @@ func _validate_property(property: Dictionary) -> void:
 	if property.name == "expression":
 		property.hint = PROPERTY_HINT_EXPRESSION
 
-func get_data(p: Player, b: Dictionary) -> Variant:
-	var res: Variant = parsed.execute([x.get_data(p, b) if x else null, y.get_data(p, b) if y else null, z.get_data(p, b) if z else null])
+func setup(r: AbilityRunner, b: Dictionary) -> void:
+	super(r, b)
+	if x:
+		x.setup(r, b)
+	if y:
+		y.setup(r, b)
+	if z:
+		z.setup(r, b)
+
+func register_properties(node: Node, property: String, root: AbilityRoot) -> void:
+	super(node, property, root)
+	if x:
+		x.register_properties(node, property + ":x", root)
+	if y:
+		y.register_properties(node, property + ":y", root)
+	if z:
+		z.register_properties(node, property + ":z", root)
+
+func get_data(delta: float) -> Variant:
+	var res: Variant = parsed.execute([x.get_data(delta) if x else null, y.get_data(delta) if y else null, z.get_data(delta) if z else null])
 	if parsed.has_execute_failed():
 		push_error(parsed.get_error_text())
 	return res

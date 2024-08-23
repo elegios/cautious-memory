@@ -11,24 +11,28 @@ class_name Conditional extends AbilitySeq
 
 var checked: bool = false
 
+func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+	condition.setup(a, b)
+	super(a, r, b, register_props)
+
 func register_properties(root: AbilityRoot) -> void:
 	root.register_prop(self, "checked")
 	super(root)
 
-func process_ability(delta: float, player: Player, blackboard: Dictionary) -> ARunResult:
+func process_ability(delta: float) -> ARunResult:
 	if not checked:
-		if condition.get_data(player, blackboard):
+		if condition.get_data(0.0):
 			checked = not continuous
 		else:
 			var _ignore := current_child.interrupt(AInterruptKind.Hard)
 			return ARunResult.Done
-	return super(delta, player, blackboard)
+	return super(delta)
 
-func physics_process_ability(delta: float, player: Player, blackboard: Dictionary) -> ARunResult:
+func physics_process_ability(delta: float) -> ARunResult:
 	if not checked:
-		if condition.get_data(player, blackboard):
+		if condition.get_data(delta):
 			checked = not continuous
 		else:
 			var _ignore := current_child.interrupt(AInterruptKind.Hard)
 			return ARunResult.Done
-	return super(delta, player, blackboard)
+	return super(delta)

@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=8 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_2bwdi"]
 [ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
+[ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
 [ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://Scenes/Ability.tscn" id="3_ftytm"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
 radius = 16.0
@@ -26,6 +28,10 @@ script = ExtResource("1_2bwdi")
 movement_speed = 96.0
 abilities = Array[PackedScene]([ExtResource("3_ftytm")])
 
+[node name="PlayerInput" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_6juq4")
+
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 unique_name_in_owner = true
 
@@ -41,13 +47,23 @@ unique_name_in_owner = true
 position = Vector2(0, -8)
 scale = Vector2(4, 4)
 sprite_frames = ExtResource("2_4r553")
-animation = &"walk-rd"
+animation = &"idle-rd"
+autoplay = "idle-rd"
 centered = false
 offset = Vector2(-16, -16)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_e08i6")
 
-[node name="Spawner" type="MultiplayerSpawner" parent="."]
+[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "nav_agent", "player_input")]
 unique_name_in_owner = true
-spawn_path = NodePath("..")
+spawn_path = NodePath(".")
+script = ExtResource("4_aqo0i")
+abilities = Array[PackedScene]([ExtResource("3_ftytm")])
+character = NodePath("..")
+nav_agent = NodePath("../NavAgent")
+player_input = NodePath("../PlayerInput")
+
+[connection signal="action_pressed" from="PlayerInput" to="AbilityRunner" method="try_run_ability"]
+[connection signal="move_command" from="PlayerInput" to="." method="_move_command_given"]
+[connection signal="main_ability_started" from="AbilityRunner" to="." method="_ability_started"]
