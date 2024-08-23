@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://gcgee3glc6vc"]
+
+[ext_resource type="Script" path="res://Scenes/Player.gd" id="1_2bwdi"]
+[ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
+[ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://Scenes/Ability.tscn" id="3_ftytm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
+radius = 16.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e08i6"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:controller")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 3
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1_2bwdi")
+movement_speed = 96.0
+abilities = Array[PackedScene]([ExtResource("3_ftytm")])
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rf6ld")
+
+[node name="Camera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+enabled = false
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -8)
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("2_4r553")
+animation = &"walk-rd"
+centered = false
+offset = Vector2(-16, -16)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_e08i6")
+
+[node name="Spawner" type="MultiplayerSpawner" parent="."]
+unique_name_in_owner = true
+spawn_path = NodePath("..")
