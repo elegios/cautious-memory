@@ -58,7 +58,7 @@ offset = Vector2(-16, -16)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_e08i6")
 
-[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "nav_agent", "player_input")]
+[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "nav_agent", "player_input", "shape_cast")]
 unique_name_in_owner = true
 spawn_path = NodePath(".")
 script = ExtResource("4_aqo0i")
@@ -66,6 +66,11 @@ abilities = Array[PackedScene]([ExtResource("3_ftytm")])
 character = NodePath("..")
 nav_agent = NodePath("../NavAgent")
 player_input = NodePath("../PlayerInput")
+shape_cast = NodePath("../ShapeCast2D")
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="."]
+shape = SubResource("CircleShape2D_rf6ld")
+target_position = Vector2(0, 0)
 
 [connection signal="action_pressed" from="PlayerInput" to="AbilityRunner" method="try_run_ability"]
 [connection signal="move_command" from="PlayerInput" to="." method="_move_command_given"]

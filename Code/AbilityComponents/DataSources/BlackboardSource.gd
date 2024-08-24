@@ -10,4 +10,4 @@ class_name BlackboardSource extends DataSource
 func get_data(_delta: float) -> Variant:
 	if not allow_absent and not blackboard.has(property):
 		push_error("Missing blackboard key: " + property)
-	return blackboard[property]
+	return blackboard.get(property, null)

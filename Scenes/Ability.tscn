@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bpdq3av7p7qu4"]
+[gd_scene load_steps=25 format=3 uid="uid://bpdq3av7p7qu4"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="2_5vcv4"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="3_bleet"]
@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="6_lh5ef"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="7_f3qdl"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="9_cg6rd"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="11_fk47b"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="12_go76q"]
 
 [sub_resource type="Resource" id="Resource_svlls"]
 script = ExtResource("4_610dl")
@@ -32,16 +34,42 @@ allow_absent = false
 
 [sub_resource type="Resource" id="Resource_aycgm"]
 script = ExtResource("4_mrn6b")
-expression = "96*2"
+expression = "96*4"
 
 [sub_resource type="Resource" id="Resource_3xhjt"]
 script = ExtResource("4_mrn6b")
-expression = "1"
+expression = "0.3"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v6ut8"]
+radius = 8.0
+
+[sub_resource type="Resource" id="Resource_kjd15"]
+script = ExtResource("7_f3qdl")
+property = &"hit_position"
+allow_absent = true
+
+[sub_resource type="Resource" id="Resource_x3ihw"]
+script = ExtResource("4_mrn6b")
+expression = "0.3"
+
+[sub_resource type="Resource" id="Resource_fygb1"]
+script = ExtResource("4_610dl")
+what = 0
+
+[sub_resource type="Resource" id="Resource_1g8dk"]
+script = ExtResource("5_pd87e")
+what = 0
+
+[sub_resource type="Resource" id="Resource_7po6w"]
+script = ExtResource("4_mrn6b")
+expression = "(x - y).normalized()"
+x = SubResource("Resource_fygb1")
+y = SubResource("Resource_1g8dk")
 
 [node name="Seq" type="Node"]
 script = ExtResource("2_5vcv4")
 
-[node name="WriteToBlackboard" type="Node" parent="."]
+[node name="FirstAim" type="Node" parent="."]
 script = ExtResource("3_bleet")
 property = &"direction"
 source = SubResource("Resource_36er5")
@@ -59,5 +87,39 @@ direction = SubResource("Resource_2js7s")
 factor = SubResource("Resource_aycgm")
 
 [node name="AbilityTimer" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("9_cg6rd")
+duration = SubResource("Resource_3xhjt")
+
+[node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("11_fk47b")
+shape = SubResource("CircleShape2D_v6ut8")
+collider_position = &"hit_position"
+
+[node name="If Hit" type="Node" parent="Phasing"]
+script = ExtResource("12_go76q")
+condition = SubResource("Resource_kjd15")
+
+[node name="Clear Hit" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("3_bleet")
+property = &"hit_position"
+
+[node name="AbilityTimer" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("9_cg6rd")
+duration = SubResource("Resource_x3ihw")
+
+[node name="SecondAim" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("3_bleet")
+property = &"direction"
+source = SubResource("Resource_7po6w")
+
+[node name="AbilityParAny" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("6_lh5ef")
+
+[node name="MovePlayer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
+script = ExtResource("6_ghn11")
+direction = SubResource("Resource_2js7s")
+factor = SubResource("Resource_aycgm")
+
+[node name="AbilityTimer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
 script = ExtResource("9_cg6rd")
 duration = SubResource("Resource_3xhjt")

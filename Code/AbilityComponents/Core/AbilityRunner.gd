@@ -17,6 +17,7 @@ signal main_ability_ended
 @export var character: CharacterBody2D
 @export var nav_agent: NavigationAgent2D
 @export var player_input: PlayerInput
+@export var shape_cast: ShapeCast2D
 
 var blackboards: Array[Dictionary] = []
 var sync_blackboards: Array[Dictionary]
