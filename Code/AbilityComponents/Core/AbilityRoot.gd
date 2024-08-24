@@ -6,13 +6,17 @@ var child: AbilityNode
 
 var done: bool = false
 
-func setup(runner: AbilityRunner, blackboard: Dictionary, register_properties: bool) -> void:
+var blackboard: Dictionary
+
+func setup(runner: AbilityRunner, register_properties: bool) -> void:
+	blackboard = {}
 	replication_config = SceneReplicationConfig.new()
 	root_path = ^"."
 	child = get_child(0) as AbilityNode
 	assert(child != null, "AbilityRoot child should be a sub-class of AbilityNode")
 	if register_properties:
 		register_prop(self, "done")
+		register_prop(self, "blackboard")
 	child.setup(runner, self, blackboard, register_properties)
 
 func try_soft_interrupt() -> bool:

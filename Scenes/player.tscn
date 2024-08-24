@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
-radius = 16.0
+radius = 14.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e08i6"]
 properties/0/path = NodePath(".:position")
@@ -19,9 +19,6 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:controller")
 properties/2/spawn = true
 properties/2/replication_mode = 2
-properties/3/path = NodePath("AbilityRunner:sync_blackboards")
-properties/3/spawn = true
-properties/3/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 3
@@ -52,7 +49,6 @@ unique_name_in_owner = true
 position = Vector2(0, -8)
 scale = Vector2(4, 4)
 sprite_frames = ExtResource("2_4r553")
-animation = &"idle-rd"
 autoplay = "idle-rd"
 centered = false
 offset = Vector2(-16, -16)

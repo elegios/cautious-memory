@@ -19,9 +19,6 @@ signal main_ability_ended
 @export var player_input: PlayerInput
 @export var shape_cast: ShapeCast2D
 
-var blackboards: Array[Dictionary] = []
-var sync_blackboards: Array[Dictionary]
-
 ## The currently running main ability, if any. Trying to run a new
 ## ability will soft-interrupt the current main ability, then start a
 ## new ability [i]if the main ability actually did interrupt[/i],
@@ -37,23 +34,8 @@ var main_ability: AbilityRoot:
 func _ready() -> void:
 	var _connected := despawned.connect(_ability_despawned)
 	spawn_function = _spawn_ability
-	for _i in abilities.size():
-		blackboards.append({})
-	sync_blackboards = blackboards
 	if auto_run:
 		var _success := try_run_ability(0)
-
-## Take the values from sync_blackboards, update the dictionaries in
-## blackboards to have the same values, then set sync_blackboards to
-## blackboards.
-func resync_blackboards() -> void:
-	for i in sync_blackboards.size():
-		var b := blackboards[i]
-		var s := sync_blackboards[i]
-		b.clear()
-		for k: Variant in s:
-			b[k] = s[k]
-	sync_blackboards = blackboards
 
 ## Try to run an ability, sending a soft interrupt to the currently
 ## running main ability, if one exists. Fails if:
@@ -83,7 +65,7 @@ func _spawn_ability(id: int) -> Node:
 	var abi := abilities[id].instantiate() as AbilityNode
 	var root := AbilityRoot.new()
 	root.add_child(abi)
-	root.setup(self, blackboards[id], multiplayer.is_server())
+	root.setup(self, multiplayer.is_server())
 	var _connected := root.ability_done.connect(_ability_done)
 	main_ability = root
 	return root
