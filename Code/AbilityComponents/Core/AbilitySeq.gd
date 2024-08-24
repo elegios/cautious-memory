@@ -3,17 +3,13 @@
 ## gets interrupted this node also gets interrupted.
 class_name AbilitySeq extends AbilityNode
 
-var current_child: AbilityNode
-var executing_idx: int:
-	set(value):
-		executing_idx = value
-		if executing_idx < get_child_count():
-			current_child = get_child(value) as AbilityNode
-	get:
-		return executing_idx
+var executing_idx: int = 0
 
-func _ready() -> void:
-	current_child = get_child(executing_idx) as AbilityNode
+var current_child: AbilityNode:
+	get:
+		if executing_idx < get_child_count():
+			return get_child(executing_idx) as AbilityNode
+		return null
 
 func register_properties(root: AbilityRoot) -> void:
 	root.register_prop(self, "executing_idx")
@@ -39,4 +35,7 @@ func physics_process_ability(delta: float) -> ARunResult:
 	return ARunResult.Done
 
 func interrupt(kind: AInterruptKind) -> AInterruptResult:
-	return current_child.interrupt(kind)
+	var child := current_child
+	if child:
+		return child.interrupt(kind)
+	return AInterruptResult.Interrupted

@@ -50,9 +50,10 @@ func physics_process_ability(delta: float) -> ARunResult:
 	var sc := runner.shape_cast
 	var relative: Vector2 = relative_target.get_data(delta) if relative_target else Vector2.ZERO
 	var new_shape := shape if shape else sc.shape
-	var changed := sc.target_position != relative or sc.collision_mask != collision_mask or sc.shape != new_shape
+	var changed := sc.target_position != relative or sc.collision_mask != collision_mask or sc.shape != new_shape or sc.exclude_parent != ignore_self
 
 	if changed:
+		sc.exclude_parent = ignore_self
 		sc.target_position = relative
 		sc.collision_mask = collision_mask
 		sc.shape = new_shape
@@ -65,10 +66,10 @@ func physics_process_ability(delta: float) -> ARunResult:
 		if save_all:
 			var res := []
 			for i in sc.get_collision_count():
-				res.append(sc.get_collider(i))
+				res.append((sc.get_collider(i) as Node2D).get_path())
 			blackboard[collider] = res
 		else:
-			blackboard[collider] = sc.get_collider(0)
+			blackboard[collider] = (sc.get_collider(0) as Node2D).get_path()
 
 	if collider_position:
 		if save_all:

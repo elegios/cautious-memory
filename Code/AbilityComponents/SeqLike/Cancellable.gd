@@ -4,4 +4,7 @@
 class_name Cancellable extends AbilitySeq
 
 func interrupt(_kind: AInterruptKind) -> AInterruptResult:
-	return current_child.interrupt(AInterruptKind.Hard)
+	var c := current_child
+	if c:
+		return c.interrupt(AInterruptKind.Hard)
+	return AInterruptResult.Interrupted

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bpdq3av7p7qu4"]
+[gd_scene load_steps=28 format=3 uid="uid://bpdq3av7p7qu4"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="2_5vcv4"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="3_bleet"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="9_cg6rd"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="11_fk47b"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="12_go76q"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/TeleportCharacter.gd" id="13_sm5nd"]
 
 [sub_resource type="Resource" id="Resource_svlls"]
 script = ExtResource("4_610dl")
@@ -45,12 +46,22 @@ radius = 8.0
 
 [sub_resource type="Resource" id="Resource_kjd15"]
 script = ExtResource("7_f3qdl")
-property = &"hit_position"
+property = &"hit_unit"
 allow_absent = true
 
 [sub_resource type="Resource" id="Resource_x3ihw"]
 script = ExtResource("4_mrn6b")
 expression = "0.3"
+
+[sub_resource type="Resource" id="Resource_h0sap"]
+script = ExtResource("7_f3qdl")
+property = &"hit_unit"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_l48mo"]
+script = ExtResource("4_mrn6b")
+expression = "x.position"
+x = SubResource("Resource_h0sap")
 
 [sub_resource type="Resource" id="Resource_fygb1"]
 script = ExtResource("4_610dl")
@@ -68,6 +79,10 @@ y = SubResource("Resource_1g8dk")
 
 [node name="Seq" type="Node"]
 script = ExtResource("2_5vcv4")
+
+[node name="Clear Hit" type="Node" parent="."]
+script = ExtResource("3_bleet")
+property = &"hit_unit"
 
 [node name="FirstAim" type="Node" parent="."]
 script = ExtResource("3_bleet")
@@ -93,19 +108,23 @@ duration = SubResource("Resource_3xhjt")
 [node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("11_fk47b")
 shape = SubResource("CircleShape2D_v6ut8")
-collider_position = &"hit_position"
+collider = &"hit_unit"
 
 [node name="If Hit" type="Node" parent="Phasing"]
 script = ExtResource("12_go76q")
 condition = SubResource("Resource_kjd15")
 
-[node name="Clear Hit" type="Node" parent="Phasing/If Hit"]
-script = ExtResource("3_bleet")
-property = &"hit_position"
+[node name="Stick To Target" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("6_lh5ef")
 
-[node name="AbilityTimer" type="Node" parent="Phasing/If Hit"]
+[node name="AbilityTimer" type="Node" parent="Phasing/If Hit/Stick To Target"]
 script = ExtResource("9_cg6rd")
 duration = SubResource("Resource_x3ihw")
+
+[node name="TeleportCharacter" type="Node" parent="Phasing/If Hit/Stick To Target"]
+script = ExtResource("13_sm5nd")
+continuous = true
+position = SubResource("Resource_l48mo")
 
 [node name="SecondAim" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("3_bleet")

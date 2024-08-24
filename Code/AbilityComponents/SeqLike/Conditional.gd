@@ -24,7 +24,9 @@ func process_ability(delta: float) -> ARunResult:
 		if condition.get_data(0.0):
 			checked = not continuous
 		else:
-			var _ignore := current_child.interrupt(AInterruptKind.Hard)
+			var c := current_child
+			if c:
+				var _ignore := c.interrupt(AInterruptKind.Hard)
 			return ARunResult.Done
 	return super(delta)
 
@@ -33,6 +35,8 @@ func physics_process_ability(delta: float) -> ARunResult:
 		if condition.get_data(delta):
 			checked = not continuous
 		else:
-			var _ignore := current_child.interrupt(AInterruptKind.Hard)
+			var c := current_child
+			if c:
+				var _ignore := c.interrupt(AInterruptKind.Hard)
 			return ARunResult.Done
 	return super(delta)

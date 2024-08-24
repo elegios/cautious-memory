@@ -50,7 +50,10 @@ func register_properties(node: Node, property: String, root: AbilityRoot) -> voi
 		z.register_properties(node, property + ":z", root)
 
 func get_data(delta: float) -> Variant:
-	var res: Variant = parsed.execute([x.get_data(delta) if x else null, y.get_data(delta) if y else null, z.get_data(delta) if z else null])
+	var xval: Variant = x.get_data(delta) if x else null
+	var yval: Variant = y.get_data(delta) if y else null
+	var zval: Variant = z.get_data(delta) if z else null
+	var res: Variant = parsed.execute([xval, yval, zval])
 	if parsed.has_execute_failed():
-		push_error(parsed.get_error_text())
+		push_error("Error: %s\nx: %s\ny: %s\nz %s\ndebug_server: %s" % [parsed.get_error_text(), xval, yval, zval, OS.has_feature("debug_server")])
 	return res

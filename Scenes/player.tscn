@@ -44,6 +44,8 @@ shape = SubResource("CircleShape2D_rf6ld")
 [node name="Camera" type="Camera2D" parent="."]
 unique_name_in_owner = true
 enabled = false
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
