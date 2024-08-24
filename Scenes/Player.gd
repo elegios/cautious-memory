@@ -44,11 +44,9 @@ func _physics_process(_delta: float) -> void:
 	var _hit := move_and_slide()
 
 func _ability_started() -> void:
-	print("abi start")
 	pathing = false
 
 func _move_command_given(target: Vector2) -> void:
-	print("move command")
 	if runner.try_soft_interrupt():
 		pathing = true
 		agent.target_position = target

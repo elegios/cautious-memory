@@ -19,6 +19,9 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:controller")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath("AbilityRunner:sync_blackboards")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 3
@@ -66,4 +69,5 @@ player_input = NodePath("../PlayerInput")
 
 [connection signal="action_pressed" from="PlayerInput" to="AbilityRunner" method="try_run_ability"]
 [connection signal="move_command" from="PlayerInput" to="." method="_move_command_given"]
+[connection signal="synchronized" from="MultiplayerSynchronizer" to="AbilityRunner" method="resync_blackboards"]
 [connection signal="main_ability_started" from="AbilityRunner" to="." method="_ability_started"]

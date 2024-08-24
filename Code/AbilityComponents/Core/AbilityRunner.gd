@@ -19,6 +19,7 @@ signal main_ability_ended
 @export var player_input: PlayerInput
 
 var blackboards: Array[Dictionary] = []
+var sync_blackboards: Array[Dictionary]
 
 ## The currently running main ability, if any. Trying to run a new
 ## ability will soft-interrupt the current main ability, then start a
@@ -37,8 +38,21 @@ func _ready() -> void:
 	spawn_function = _spawn_ability
 	for _i in abilities.size():
 		blackboards.append({})
+	sync_blackboards = blackboards
 	if auto_run:
 		var _success := try_run_ability(0)
+
+## Take the values from sync_blackboards, update the dictionaries in
+## blackboards to have the same values, then set sync_blackboards to
+## blackboards.
+func resync_blackboards() -> void:
+	for i in sync_blackboards.size():
+		var b := blackboards[i]
+		var s := sync_blackboards[i]
+		b.clear()
+		for k: Variant in s:
+			b[k] = s[k]
+	sync_blackboards = blackboards
 
 ## Try to run an ability, sending a soft interrupt to the currently
 ## running main ability, if one exists. Fails if:
