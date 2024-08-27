@@ -8,8 +8,8 @@ var done: bool = false
 
 var blackboard: Dictionary
 
-func setup(runner: AbilityRunner, register_properties: bool) -> void:
-	blackboard = {}
+func setup(runner: AbilityRunner, initial_blackboard: Dictionary, register_properties: bool) -> void:
+	blackboard = initial_blackboard
 	replication_config = SceneReplicationConfig.new()
 	root_path = ^"."
 	child = get_child(0) as AbilityNode
@@ -21,6 +21,9 @@ func setup(runner: AbilityRunner, register_properties: bool) -> void:
 
 func try_soft_interrupt() -> bool:
 	return AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Soft)
+
+func try_counter_interrupt() -> bool:
+	return AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Counter)
 
 func hard_interrupt() -> void:
 	var _ignore := child.interrupt(AbilityNode.AInterruptKind.Hard)

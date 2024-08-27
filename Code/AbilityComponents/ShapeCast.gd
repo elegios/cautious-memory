@@ -43,7 +43,7 @@ func register_properties(root: AbilityRoot) -> void:
 
 func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
 	if relative_target:
-		relative_target.setup(a, b)
+		relative_target = relative_target.setup(a, b)
 	super(a, r, b, register_props)
 
 func physics_process_ability(delta: float) -> ARunResult:

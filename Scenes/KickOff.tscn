@@ -1,0 +1,190 @@
+[gd_scene load_steps=34 format=3 uid="uid://bpdq3av7p7qu4"]
+
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_p58mn"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="2_16uj4"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="3_hr3vg"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/InputSource.gd" id="4_wqjnk"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="5_ob26k"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/StateChange.gd" id="6_5vq7d"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="7_0fdxt"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="8_kqbyn"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="9_boh4n"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="10_sdp4w"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="11_14v02"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="12_8mjfk"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/RunAbility.gd" id="13_6hv5o"]
+[ext_resource type="PackedScene" uid="uid://de7yjo0qe63et" path="res://Scenes/GenericKnockback.tscn" id="14_4bqvk"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/TeleportCharacter.gd" id="15_m02hw"]
+
+[sub_resource type="Resource" id="Resource_svlls"]
+script = ExtResource("4_wqjnk")
+what = 0
+
+[sub_resource type="Resource" id="Resource_tbp2u"]
+script = ExtResource("5_ob26k")
+what = 0
+
+[sub_resource type="Resource" id="Resource_36er5"]
+script = ExtResource("3_hr3vg")
+expression = "(x - y).normalized()"
+x = SubResource("Resource_svlls")
+y = SubResource("Resource_tbp2u")
+
+[sub_resource type="Resource" id="Resource_2js7s"]
+script = ExtResource("9_boh4n")
+property = &"direction"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_aycgm"]
+script = ExtResource("3_hr3vg")
+expression = "96*4"
+
+[sub_resource type="Resource" id="Resource_3xhjt"]
+script = ExtResource("3_hr3vg")
+expression = "0.3"
+
+[sub_resource type="Resource" id="Resource_kjd15"]
+script = ExtResource("9_boh4n")
+property = &"hit_unit"
+allow_absent = true
+
+[sub_resource type="Resource" id="Resource_etvny"]
+script = ExtResource("9_boh4n")
+property = &"direction"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_h3ds0"]
+script = ExtResource("3_hr3vg")
+expression = "96*4"
+
+[sub_resource type="Resource" id="Resource_1bcyj"]
+script = ExtResource("9_boh4n")
+property = &"hit_unit"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_x3ihw"]
+script = ExtResource("3_hr3vg")
+expression = "0.3"
+
+[sub_resource type="Resource" id="Resource_h0sap"]
+script = ExtResource("9_boh4n")
+property = &"hit_unit"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_l48mo"]
+script = ExtResource("3_hr3vg")
+expression = "x.position"
+x = SubResource("Resource_h0sap")
+
+[sub_resource type="Resource" id="Resource_fygb1"]
+script = ExtResource("4_wqjnk")
+what = 0
+
+[sub_resource type="Resource" id="Resource_1g8dk"]
+script = ExtResource("5_ob26k")
+what = 0
+
+[sub_resource type="Resource" id="Resource_7po6w"]
+script = ExtResource("3_hr3vg")
+expression = "(x - y).normalized()"
+x = SubResource("Resource_fygb1")
+y = SubResource("Resource_1g8dk")
+
+[sub_resource type="Resource" id="Resource_gi7ww"]
+script = ExtResource("9_boh4n")
+property = &"direction"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_hvphj"]
+resource_local_to_scene = true
+script = ExtResource("3_hr3vg")
+expression = "-x"
+x = SubResource("Resource_gi7ww")
+
+[node name="KickOff" type="Node"]
+script = ExtResource("1_p58mn")
+
+[node name="FirstAim" type="Node" parent="."]
+script = ExtResource("2_16uj4")
+property = &"direction"
+source = SubResource("Resource_36er5")
+
+[node name="Phasing" type="Node" parent="."]
+script = ExtResource("6_5vq7d")
+phase_through_units = true
+
+[node name="AbilityParAny" type="Node" parent="Phasing"]
+script = ExtResource("7_0fdxt")
+
+[node name="MovePlayer" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("8_kqbyn")
+direction = SubResource("Resource_2js7s")
+factor = SubResource("Resource_aycgm")
+
+[node name="AbilityTimer" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("10_sdp4w")
+duration = SubResource("Resource_3xhjt")
+
+[node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("11_14v02")
+collider = &"hit_unit"
+
+[node name="If Hit" type="Node" parent="Phasing"]
+script = ExtResource("12_8mjfk")
+condition = SubResource("Resource_kjd15")
+
+[node name="knockback_direction" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("2_16uj4")
+property = &"knockback_direction"
+source = SubResource("Resource_etvny")
+
+[node name="knockback_speed" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("2_16uj4")
+property = &"knockback_speed"
+source = SubResource("Resource_h3ds0")
+
+[node name="RunAbility" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("13_6hv5o")
+ability = ExtResource("14_4bqvk")
+target = SubResource("Resource_1bcyj")
+copy_blackboard = true
+
+[node name="Stick To Target" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("7_0fdxt")
+
+[node name="AbilityTimer" type="Node" parent="Phasing/If Hit/Stick To Target"]
+script = ExtResource("10_sdp4w")
+duration = SubResource("Resource_x3ihw")
+
+[node name="TeleportCharacter" type="Node" parent="Phasing/If Hit/Stick To Target"]
+script = ExtResource("15_m02hw")
+continuous = true
+position = SubResource("Resource_l48mo")
+
+[node name="SecondAim" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("2_16uj4")
+property = &"direction"
+source = SubResource("Resource_7po6w")
+
+[node name="knockback_direction2" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("2_16uj4")
+property = &"knockback_direction"
+source = SubResource("Resource_hvphj")
+
+[node name="RunAbility2" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("13_6hv5o")
+ability = ExtResource("14_4bqvk")
+target = SubResource("Resource_1bcyj")
+copy_blackboard = true
+
+[node name="AbilityParAny" type="Node" parent="Phasing/If Hit"]
+script = ExtResource("7_0fdxt")
+
+[node name="MovePlayer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
+script = ExtResource("8_kqbyn")
+direction = SubResource("Resource_2js7s")
+factor = SubResource("Resource_aycgm")
+
+[node name="AbilityTimer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
+script = ExtResource("10_sdp4w")
+duration = SubResource("Resource_3xhjt")

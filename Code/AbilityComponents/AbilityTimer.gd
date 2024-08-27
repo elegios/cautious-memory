@@ -6,7 +6,7 @@ class_name AbilityTimer extends AbilityNode
 var elapsed: float = 0.0
 
 func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
-	duration.setup(a, b)
+	duration = duration.setup(a, b)
 	super(a, r, b, register_props)
 
 func register_properties(root: AbilityRoot) -> void:

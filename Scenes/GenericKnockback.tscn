@@ -1,0 +1,49 @@
+[gd_scene load_steps=13 format=3 uid="uid://de7yjo0qe63et"]
+
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="1_yftua"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="2_1waq4"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="3_xuvtb"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="4_y214b"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CurveSource.gd" id="5_nslpm"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="6_ett83"]
+
+[sub_resource type="Resource" id="Resource_16uhq"]
+script = ExtResource("3_xuvtb")
+property = &"knockback_direction"
+allow_absent = false
+
+[sub_resource type="Curve" id="Curve_tutbm"]
+_data = [Vector2(0, 1), 0.0, -0.986747, 0, 1, Vector2(1, 0.0132531), -0.986747, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Resource" id="Resource_pephf"]
+script = ExtResource("5_nslpm")
+duration = 0.3
+curve = SubResource("Curve_tutbm")
+
+[sub_resource type="Resource" id="Resource_wcj6s"]
+script = ExtResource("3_xuvtb")
+property = &"knockback_speed"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_t73wv"]
+script = ExtResource("4_y214b")
+expression = "x*y"
+x = SubResource("Resource_pephf")
+y = SubResource("Resource_wcj6s")
+
+[sub_resource type="Resource" id="Resource_o45ba"]
+script = ExtResource("4_y214b")
+expression = "0.3"
+
+[node name="AbilityParAny" type="Node"]
+script = ExtResource("1_yftua")
+
+[node name="MoveCharacter" type="Node" parent="."]
+script = ExtResource("2_1waq4")
+direction = SubResource("Resource_16uhq")
+factor = SubResource("Resource_t73wv")
+
+[node name="AbilityTimer" type="Node" parent="."]
+script = ExtResource("6_ett83")
+duration = SubResource("Resource_o45ba")

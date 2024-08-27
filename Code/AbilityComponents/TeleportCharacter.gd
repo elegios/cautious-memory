@@ -14,7 +14,7 @@ func register_properties(root: AbilityRoot) -> void:
 	position.register_properties(self, "position", root)
 
 func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
-	position.setup(a, b)
+	position = position.setup(a, b)
 	super(a, r, b, register_props)
 
 func physics_process_ability(delta: float) -> ARunResult:

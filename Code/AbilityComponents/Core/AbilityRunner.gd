@@ -20,9 +20,9 @@ signal main_ability_ended
 @export var shape_cast: ShapeCast2D
 
 ## The currently running main ability, if any. Trying to run a new
-## ability will soft-interrupt the current main ability, then start a
-## new ability [i]if the main ability actually did interrupt[/i],
-## e.g., if it used the [Cancellable] node.
+## main ability will soft-interrupt the current main ability, then
+## start a new ability [i]if the main ability actually did
+## interrupt[/i], e.g., if it used the [Cancellable] node.
 var main_ability: AbilityRoot:
 	set(value):
 		if not main_ability and value:
@@ -49,9 +49,17 @@ func try_run_ability(id: int) -> bool:
 		main_ability.queue_free()
 		main_ability = null
 	if not main_ability:
-		var _abi := spawn(id)
+		var _abi := spawn({&"path": abilities[id].resource_path})
 		return true
 	return false
+
+func try_run_custom_ability(config: Dictionary) -> bool:
+	var is_main: bool = config.get(&"is_main", true)
+	if main_ability and not main_ability.done and is_main and not main_ability.try_counter_interrupt():
+		return false
+
+	var _ignore := spawn(config)
+	return true
 
 func is_main_ability_running() -> bool:
 	return main_ability and not main_ability.done
@@ -61,13 +69,18 @@ func try_soft_interrupt() -> bool:
 		return not main_ability.done and main_ability.try_soft_interrupt()
 	return true
 
-func _spawn_ability(id: int) -> Node:
-	var abi := abilities[id].instantiate() as AbilityNode
+func _spawn_ability(config: Dictionary) -> Node:
+	var path: String = config[&"path"]
+	var is_main: bool = config.get(&"is_main", true)
+	var initial_blackboard: Dictionary = config.get(&"blackboard", {})
+	var ps: PackedScene = ResourceLoader.load(path)
+	var abi := ps.instantiate() as AbilityNode
 	var root := AbilityRoot.new()
 	root.add_child(abi)
-	root.setup(self, multiplayer.is_server())
+	root.setup(self, initial_blackboard, multiplayer.is_server())
 	var _connected := root.ability_done.connect(_ability_done)
-	main_ability = root
+	if is_main:
+		main_ability = root
 	return root
 
 ## NOTE(vipa, 2024-08-23): Called via signal when an owned ability

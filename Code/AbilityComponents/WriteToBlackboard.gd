@@ -13,7 +13,7 @@ func register_properties(root: AbilityRoot) -> void:
 
 func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
 	if source:
-		source.setup(a, b)
+		source = source.setup(a, b)
 	super(a, r, b, register_props)
 
 # NOTE(vipa, 2024-08-23): It's ok to pass delta from both process

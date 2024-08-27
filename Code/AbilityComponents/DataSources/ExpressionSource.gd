@@ -27,18 +27,32 @@ var parsed: Expression = Expression.new()
 ## exposing it to the expression through the 'z' variable
 @export var z: DataSource
 
+func maybe_duplicate() -> DataSource:
+	var new_x := x.maybe_duplicate() if x else null
+	var new_y := y.maybe_duplicate() if y else null
+	var new_z := z.maybe_duplicate() if z else null
+
+	if x != new_x or y != new_y or z != new_z:
+		var ret: ExpressionSource = duplicate()
+		ret.x = new_x
+		ret.y = new_y
+		ret.z = new_z
+		return ret
+	return self
+
 func _validate_property(property: Dictionary) -> void:
 	if property.name == "expression":
 		property.hint = PROPERTY_HINT_EXPRESSION
 
-func setup(r: AbilityRunner, b: Dictionary) -> void:
-	super(r, b)
-	if x:
-		x.setup(r, b)
-	if y:
-		y.setup(r, b)
-	if z:
-		z.setup(r, b)
+func setup(r: AbilityRunner, b: Dictionary) -> DataSource:
+	var ret: ExpressionSource = super(r, b)
+	if ret.x:
+		ret.x = x.setup(r, b)
+	if ret.y:
+		ret.y = y.setup(r, b)
+	if ret.z:
+		ret.z = z.setup(r, b)
+	return ret
 
 func register_properties(node: Node, property: String, root: AbilityRoot) -> void:
 	super(node, property, root)

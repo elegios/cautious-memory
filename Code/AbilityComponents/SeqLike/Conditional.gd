@@ -12,7 +12,7 @@ class_name Conditional extends AbilitySeq
 var checked: bool = false
 
 func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
-	condition.setup(a, b)
+	condition = condition.setup(a, b)
 	super(a, r, b, register_props)
 
 func register_properties(root: AbilityRoot) -> void:

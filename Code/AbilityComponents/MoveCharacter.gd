@@ -10,9 +10,9 @@ class_name MoveCharacter extends AbilityNode
 @export var factor: DataSource
 
 func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
-	direction.setup(a, b)
+	direction = direction.setup(a, b)
 	if factor:
-		factor.setup(a, b)
+		factor = factor.setup(a, b)
 	super(a, r, b, register_props)
 
 func register_properties(root: AbilityRoot) -> void:
