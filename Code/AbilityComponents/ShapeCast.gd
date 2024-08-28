@@ -37,14 +37,23 @@ class_name ShapeCast extends AbilityNode
 ## if the property is empty.
 @export var collision_normal: StringName
 
-func register_properties(root: AbilityRoot) -> void:
-	if relative_target:
-		relative_target.register_properties(self, "relative_target", root)
-
-func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+func setup(a: AbilityRunner, b: Dictionary) -> void:
 	if relative_target:
 		relative_target = relative_target.setup(a, b)
-	super(a, r, b, register_props)
+	super(a, b)
+
+func save_state(buffer: Array) -> void:
+	if relative_target:
+		relative_target.save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	if relative_target:
+		idx = relative_target.load_state(buffer, idx)
+	return idx
+
+func pre_first_process() -> void:
+	if relative_target:
+		relative_target.pre_first_data()
 
 func physics_process_ability(delta: float) -> ARunResult:
 	var sc := runner.shape_cast

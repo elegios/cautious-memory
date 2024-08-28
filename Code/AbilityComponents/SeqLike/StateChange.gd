@@ -11,8 +11,8 @@ var active: bool:
 			set_state_active(value)
 		active = value
 
-func register_properties(root: AbilityRoot) -> void:
-	root.register_prop(self, "active")
+func sync_lost() -> void:
+	active = false
 
 func process_ability(delta: float) -> ARunResult:
 	active = true

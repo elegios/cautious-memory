@@ -27,19 +27,6 @@ var parsed: Expression = Expression.new()
 ## exposing it to the expression through the 'z' variable
 @export var z: DataSource
 
-func maybe_duplicate() -> DataSource:
-	var new_x := x.maybe_duplicate() if x else null
-	var new_y := y.maybe_duplicate() if y else null
-	var new_z := z.maybe_duplicate() if z else null
-
-	if x != new_x or y != new_y or z != new_z:
-		var ret: ExpressionSource = duplicate()
-		ret.x = new_x
-		ret.y = new_y
-		ret.z = new_z
-		return ret
-	return self
-
 func _validate_property(property: Dictionary) -> void:
 	if property.name == "expression":
 		property.hint = PROPERTY_HINT_EXPRESSION
@@ -54,14 +41,30 @@ func setup(r: AbilityRunner, b: Dictionary) -> DataSource:
 		ret.z = z.setup(r, b)
 	return ret
 
-func register_properties(node: Node, property: String, root: AbilityRoot) -> void:
-	super(node, property, root)
+func save_state(buffer: Array) -> void:
 	if x:
-		x.register_properties(node, property + ":x", root)
+		x.save_state(buffer)
 	if y:
-		y.register_properties(node, property + ":y", root)
+		y.save_state(buffer)
 	if z:
-		z.register_properties(node, property + ":z", root)
+		z.save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	if x:
+		idx = x.load_state(buffer, idx)
+	if y:
+		idx = y.load_state(buffer, idx)
+	if z:
+		idx = z.load_state(buffer, idx)
+	return idx
+
+func pre_first_data() -> void:
+	if x:
+		x.pre_first_data()
+	if y:
+		y.pre_first_data()
+	if z:
+		z.pre_first_data()
 
 func get_data(delta: float) -> Variant:
 	var xval: Variant = x.get_data(delta) if x else null

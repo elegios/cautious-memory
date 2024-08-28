@@ -10,12 +10,18 @@ class_name TeleportCharacter extends AbilityNode
 ## Position to set the character to.
 @export var position: DataSource
 
-func register_properties(root: AbilityRoot) -> void:
-	position.register_properties(self, "position", root)
-
-func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+func setup(a: AbilityRunner, b: Dictionary) -> void:
 	position = position.setup(a, b)
-	super(a, r, b, register_props)
+	super(a, b)
+
+func save_state(buffer: Array) -> void:
+	position.save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	return position.load_state(buffer, idx)
+
+func pre_first_process() -> void:
+	position.pre_first_data()
 
 func physics_process_ability(delta: float) -> ARunResult:
 	runner.character.position = position.get_data(delta)

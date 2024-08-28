@@ -11,13 +11,21 @@ class_name Conditional extends AbilitySeq
 
 var checked: bool = false
 
-func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+func setup(a: AbilityRunner, b: Dictionary) -> void:
 	condition = condition.setup(a, b)
-	super(a, r, b, register_props)
+	super(a, b)
 
-func register_properties(root: AbilityRoot) -> void:
-	root.register_prop(self, "checked")
-	super(root)
+func save_state(buffer: Array) -> void:
+	condition.save_state(buffer)
+	super(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	idx = condition.load_state(buffer, idx)
+	return super(buffer, idx)
+
+func pre_first_process() -> void:
+	condition.pre_first_data()
+	super()
 
 func process_ability(delta: float) -> ARunResult:
 	if not checked:

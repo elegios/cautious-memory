@@ -5,13 +5,21 @@ class_name AbilityTimer extends AbilityNode
 @export var duration: DataSource
 var elapsed: float = 0.0
 
-func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+func setup(a: AbilityRunner, b: Dictionary) -> void:
 	duration = duration.setup(a, b)
-	super(a, r, b, register_props)
+	super(a, b)
 
-func register_properties(root: AbilityRoot) -> void:
-	root.register_prop(self, "elapsed")
-	duration.register_properties(self, "duration", root)
+func save_state(buffer: Array) -> void:
+	buffer.push_back(elapsed)
+	duration.save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	elapsed = buffer[idx]
+	return duration.load_state(buffer, idx + 1)
+
+func pre_first_process() -> void:
+	elapsed = 0.0
+	duration.pre_first_data()
 
 func physics_process_ability(delta: float) -> ARunResult:
 	elapsed += delta

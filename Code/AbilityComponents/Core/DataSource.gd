@@ -14,14 +14,17 @@ func setup(r: AbilityRunner, b: Dictionary) -> DataSource:
 	ret.blackboard = b
 	return ret
 
-## Register properties that need to be synced for this source.
-func register_properties(_node: Node, _property: String, _root: AbilityRoot) -> void:
+## Encode source state (if any) in an array, to be sent to other
+## clients when syncing execution status.
+func save_state(_buffer: Array) -> void:
 	pass
 
-## Duplicate self if there is mutable state, i.e., if [get_data)
-func maybe_duplicate() -> DataSource:
-	return self
+## Inverse of [method DataSource.save_state], should restore state.
+func load_state(_buffer: Array, idx: int) -> int:
+	return idx
 
+func pre_first_data() -> void:
+	pass
 
 ## Get the current value from the source. Make sure to only contribute
 ## 'delta' from one of the _process functions (physics or idle).

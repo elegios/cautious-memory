@@ -77,7 +77,7 @@ func _spawn_ability(config: Dictionary) -> Node:
 	var abi := ps.instantiate() as AbilityNode
 	var root := AbilityRoot.new()
 	root.add_child(abi)
-	root.setup(self, initial_blackboard, multiplayer.is_server())
+	root.setup(self, initial_blackboard)
 	var _connected := root.ability_done.connect(_ability_done)
 	if is_main:
 		main_ability = root
@@ -92,7 +92,7 @@ func _ability_done(abi: AbilityRoot) -> void:
 		main_ability = null
 
 ## NOTE(vipa, 2024-08-23): Called on clients (not the server) when an
-## ability has been despawned, i.e., when the servere thinks it's
+## ability has been despawned, i.e., when the server thinks it's
 ## finished executing.
 func _ability_despawned(node: Node) -> void:
 	var abi := node as AbilityRoot

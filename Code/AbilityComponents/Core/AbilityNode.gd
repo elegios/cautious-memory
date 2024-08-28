@@ -19,18 +19,43 @@ enum AInterruptResult {
 var runner: AbilityRunner
 var blackboard: Dictionary
 
-func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+func setup(a: AbilityRunner, b: Dictionary) -> void:
 	runner = a
 	blackboard = b
-	if register_props:
-		register_properties(r)
 	for i in get_child_count():
 		var c := get_child(i) as AbilityNode
 		if c:
-			c.setup(a, r, b, register_props)
+			c.setup(a, b)
 
-## Register properties that need to be synced for this node
-func register_properties(_root: AbilityRoot) -> void:
+## Encode node state in an array, to be sent to other clients when
+## syncing execution status
+func save_state(_buffer: Array) -> void:
+	pass
+
+## Inverse of [method AbilityNode.save_state], should restore state
+## and possibly call [method AbilityNode.sync_lost] and [method
+## AbilityNode.sync_gained] on children.
+func load_state(_buffer: Array, idx: int) -> int:
+	return idx
+
+## Called by parent node if the local ability was executing this node,
+## but the sync stated that it should not be executing. Should
+## recursively call itself in children and perform any required
+## cleanup.
+func sync_lost() -> void:
+	pass
+
+## Called by parent node if the local ability was not executing this
+## node, but the sync stated that it should be executing. Should
+## perform any required setup. Always called [i]after[/i] a
+## corresponding [method AbilityNode.load_state] call. This method
+## typically doesn't need to recursively call itself in children,
+## because the corresponding [method AbilityNode.load_state] should
+## typically perform such calls as needed.
+func sync_gained() -> void:
+	pass
+
+func pre_first_process() -> void:
 	pass
 
 func process_ability(_delta: float) -> ARunResult:

@@ -1,23 +1,22 @@
-class_name AbilityRoot extends MultiplayerSynchronizer
+class_name AbilityRoot extends Node
 
 signal ability_done(root: AbilityRoot)
 
 var child: AbilityNode
 
 var done: bool = false
+var started: bool = false
+
+var elapsed: float = 0.0
+@export var time_between_syncs: float = 0.1
 
 var blackboard: Dictionary
 
-func setup(runner: AbilityRunner, initial_blackboard: Dictionary, register_properties: bool) -> void:
+func setup(runner: AbilityRunner, initial_blackboard: Dictionary) -> void:
 	blackboard = initial_blackboard
-	replication_config = SceneReplicationConfig.new()
-	root_path = ^"."
 	child = get_child(0) as AbilityNode
 	assert(child != null, "AbilityRoot child should be a sub-class of AbilityNode")
-	if register_properties:
-		register_prop(self, "done")
-		register_prop(self, "blackboard")
-	child.setup(runner, self, blackboard, register_properties)
+	child.setup(runner, blackboard)
 
 func try_soft_interrupt() -> bool:
 	return AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Soft)
@@ -31,6 +30,9 @@ func hard_interrupt() -> void:
 func _process(delta: float) -> void:
 	if done:
 		return
+	if not started:
+		child.pre_first_process()
+		started = true
 	match child.process_ability(delta):
 		AbilityNode.ARunResult.Wait:
 			pass
@@ -39,8 +41,16 @@ func _process(delta: float) -> void:
 			ability_done.emit(self)
 
 func _physics_process(delta: float) -> void:
+	if multiplayer.is_server():
+		elapsed += delta
+		if elapsed >= time_between_syncs:
+			elapsed = 0
+			init_sync()
 	if done:
 		return
+	if not started:
+		child.pre_first_process()
+		started = true
 	match child.physics_process_ability(delta):
 		AbilityNode.ARunResult.Wait:
 			pass
@@ -48,7 +58,18 @@ func _physics_process(delta: float) -> void:
 			done = true
 			ability_done.emit(self)
 
-func register_prop(node: Node, property: String, mode: SceneReplicationConfig.ReplicationMode = SceneReplicationConfig.ReplicationMode.REPLICATION_MODE_ALWAYS) -> void:
-	var prop := NodePath(get_path_to(node).get_concatenated_names() + ":" + property)
-	replication_config.add_property(prop)
-	replication_config.property_set_replication_mode(prop, mode)
+func init_sync() -> void:
+	var state: Array = [done, started]
+	child.save_state(state)
+	rpc_load_state.rpc(state, blackboard)
+
+@rpc("unreliable_ordered", "authority", "call_remote", 1)
+func rpc_load_state(state: Array, new_blackboard: Dictionary) -> void:
+	blackboard.clear()
+	for k: StringName in new_blackboard:
+		blackboard[k] = new_blackboard[k]
+	done = state[0]
+	started = state[1]
+	var idx := child.load_state(state, 2)
+	if idx != state.size():
+		push_error("Failed to use up all state in ability synchronization")

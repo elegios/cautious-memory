@@ -29,14 +29,19 @@ class_name RunAbility extends AbilityNode
 ##    ability did not acknowledge the interrupt.
 @export var success_property: StringName
 
-func register_properties(root: AbilityRoot) -> void:
-	if target:
-		target.register_properties(self, "target", root)
-
-func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+func setup(a: AbilityRunner, b: Dictionary) -> void:
 	if target:
 		target = target.setup(a, b)
-	super(a, r, b, register_props)
+	super(a, b)
+
+func save_state(buffer: Array) -> void:
+	target.save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	return target.load_state(buffer, idx)
+
+func pre_first_process() -> void:
+	target.pre_first_data()
 
 func physics_process_ability(delta: float) -> ARunResult:
 	return shared_process(delta)
@@ -47,7 +52,6 @@ func process_ability(_delta: float) -> ARunResult:
 func shared_process(delta: float) -> ARunResult:
 	if not multiplayer.is_server():
 		return ARunResult.Done
-
 
 	var other_runner: AbilityRunner = null
 

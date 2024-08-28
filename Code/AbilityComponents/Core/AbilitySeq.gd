@@ -3,7 +3,7 @@
 ## gets interrupted this node also gets interrupted.
 class_name AbilitySeq extends AbilityNode
 
-var executing_idx: int = 0
+var executing_idx: int = -1
 
 var current_child: AbilityNode:
 	get:
@@ -11,24 +11,55 @@ var current_child: AbilityNode:
 			return get_child(executing_idx) as AbilityNode
 		return null
 
-func register_properties(root: AbilityRoot) -> void:
-	root.register_prop(self, "executing_idx")
+func save_state(buffer: Array) -> void:
+	buffer.push_back(executing_idx)
+	current_child.save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	var new_idx: int = buffer[idx]
+	idx += 1
+	if executing_idx != new_idx:
+		if current_child:
+			current_child.sync_lost()
+		executing_idx = new_idx
+		idx = current_child.load_state(buffer, idx)
+		current_child.sync_gained()
+	else:
+		idx = current_child.load_state(buffer, idx)
+	return idx
+
+func sync_lost() -> void:
+	if current_child:
+		current_child.sync_lost()
+	executing_idx = -1
+
+func pre_first_process() -> void:
+	executing_idx = 0
+	current_child.pre_first_process()
 
 func process_ability(delta: float) -> ARunResult:
+	var first := false
 	while executing_idx < get_child_count():
+		if first:
+			current_child.pre_first_process()
 		var res := current_child.process_ability(delta)
 		if res == ARunResult.Done:
 			executing_idx += 1
+			first = true
 			continue
 		else:
 			return res
 	return ARunResult.Done
 
 func physics_process_ability(delta: float) -> ARunResult:
+	var first := false
 	while executing_idx < get_child_count():
+		if first:
+			current_child.pre_first_process()
 		var res := current_child.physics_process_ability(delta)
 		if res == ARunResult.Done:
 			executing_idx += 1
+			first = true
 			continue
 		else:
 			return res

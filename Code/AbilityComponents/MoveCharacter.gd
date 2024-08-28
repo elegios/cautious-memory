@@ -9,16 +9,27 @@ class_name MoveCharacter extends AbilityNode
 ## absent.
 @export var factor: DataSource
 
-func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+func setup(a: AbilityRunner, b: Dictionary) -> void:
 	direction = direction.setup(a, b)
 	if factor:
 		factor = factor.setup(a, b)
-	super(a, r, b, register_props)
+	super(a, b)
 
-func register_properties(root: AbilityRoot) -> void:
-	direction.register_properties(self, "direction", root)
+func save_state(buffer: Array) -> void:
+	direction.save_state(buffer)
 	if factor:
-		factor.register_properties(self, "factor", root)
+		factor.save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	idx = direction.load_state(buffer, idx)
+	if factor:
+		idx = factor.load_state(buffer, idx)
+	return idx
+
+func pre_first_process() -> void:
+	direction.pre_first_data()
+	if factor:
+		factor.pre_first_data()
 
 func physics_process_ability(delta: float) -> ARunResult:
 	var dir: Vector2 = direction.get_data(delta)

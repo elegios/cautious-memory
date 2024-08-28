@@ -7,14 +7,23 @@ class_name WriteToBlackboard extends AbilityNode
 ## The value to write. Will clear the property if absent.
 @export var source: DataSource
 
-func register_properties(root: AbilityRoot) -> void:
-	if source:
-		source.register_properties(self, "source", root)
-
-func setup(a: AbilityRunner, r: AbilityRoot, b: Dictionary, register_props: bool) -> void:
+func setup(a: AbilityRunner, b: Dictionary) -> void:
 	if source:
 		source = source.setup(a, b)
-	super(a, r, b, register_props)
+	super(a, b)
+
+func save_state(buffer: Array) -> void:
+	if source:
+		source.save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	if source:
+		idx = source.load_state(buffer, idx)
+	return idx
+
+func pre_first_process() -> void:
+	if source:
+		source.pre_first_data()
 
 # NOTE(vipa, 2024-08-23): It's ok to pass delta from both process
 # functions because this action finishes immediately, i.e., we only

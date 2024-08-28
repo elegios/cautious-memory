@@ -20,11 +20,46 @@ func _ready() -> void:
 	children = []
 	for i in get_child_count():
 		children.append(get_child(i) as AbilityNode)
-	for i in children.size():
-		executing_idxes |= 1 << i
 
-func register_properties(root: AbilityRoot) -> void:
-	root.register_prop(self, "executing_idxes")
+func save_state(buffer: Array) -> void:
+	buffer.push_back(executing_idxes)
+	for i in children.size():
+		if not ((1 << i) & executing_idxes):
+			continue
+		children[i].save_state(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	var synced_idxes: int = buffer[idx]
+	idx += 1
+	for i in children.size():
+		var was_executing := ((1 << i) & executing_idxes)
+		var is_executing := ((1 << i) & synced_idxes)
+		if is_executing:
+			idx = children[i].load_state(buffer, idx)
+			if not was_executing:
+				children[i].sync_gained()
+		if was_executing and not is_executing:
+			children[i].sync_lost()
+	executing_idxes = synced_idxes
+	return idx
+
+func sync_gained() -> void:
+	for i in children.size():
+		if not ((1 << i) & executing_idxes):
+			continue
+		children[i].sync_gained()
+
+func sync_lost() -> void:
+	for i in children.size():
+		if not ((1 << i) & executing_idxes):
+			continue
+		children[i].sync_lost()
+	executing_idxes = 0
+
+func pre_first_process() -> void:
+	executing_idxes = (1 << children.size()) - 1
+	for c in children:
+		c.pre_first_process()
 
 func process_ability(delta: float) -> ARunResult:
 	for i in children.size():
