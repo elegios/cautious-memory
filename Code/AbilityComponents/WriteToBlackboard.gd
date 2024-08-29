@@ -25,17 +25,6 @@ func pre_first_process() -> void:
 	if source:
 		source.pre_first_data()
 
-# NOTE(vipa, 2024-08-23): It's ok to pass delta from both process
-# functions because this action finishes immediately, i.e., we only
-# ever apply the delta once. (This also means that it's not very
-# useful to have stateful sources here)
-func process_ability(delta: float) -> ARunResult:
-	if source:
-		blackboard[property] = source.get_data(delta)
-	else:
-		var _existed := blackboard.erase(property)
-	return ARunResult.Done
-
 func physics_process_ability(delta: float) -> ARunResult:
 	if source:
 		blackboard[property] = source.get_data(delta)

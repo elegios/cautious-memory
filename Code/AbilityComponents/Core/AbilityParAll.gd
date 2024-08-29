@@ -53,19 +53,6 @@ func pre_first_process() -> void:
 	for c in children:
 		c.pre_first_process()
 
-func process_ability(delta: float) -> ARunResult:
-	for i in children.size():
-		if not ((1 << i) & executing_idxes):
-			continue
-		match children[i].process_ability(delta):
-			ARunResult.Done:
-				executing_idxes = executing_idxes & ~(1 << i)
-			ARunResult.Wait:
-				continue
-	if executing_idxes:
-		return ARunResult.Wait
-	return ARunResult.Done
-
 func physics_process_ability(delta: float) -> ARunResult:
 	for i in children.size():
 		if not ((1 << i) & executing_idxes):

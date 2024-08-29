@@ -44,12 +44,6 @@ func pre_first_process() -> void:
 	target.pre_first_data()
 
 func physics_process_ability(delta: float) -> ARunResult:
-	return shared_process(delta)
-
-func process_ability(_delta: float) -> ARunResult:
-	return shared_process(0.0)
-
-func shared_process(delta: float) -> ARunResult:
 	if not multiplayer.is_server():
 		return ARunResult.Done
 

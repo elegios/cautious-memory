@@ -1,6 +1,6 @@
 ## Wait for a [ShapeCast2D] to hit something, save data to the
 ## blackboard, then finish
-class_name ShapeCast extends AbilityNode
+class_name ShapeCast extends AbilityTriggered
 
 ## A [Vector2] describing where to cast to, relative to the position
 ## of the [ShapeCast2D]. Defaults to Vector2(0, 0).
@@ -15,11 +15,13 @@ class_name ShapeCast extends AbilityNode
 ## Optionally change the shape from the default
 @export var shape: Shape2D
 
-@export_group("Blackboard Output")
+## Whether to finish after the first collision detected or keep
+## going. If true, will run child nodes once per collision, setting
+## the blackboard properties below before each. Note that each
+## collider is only reported once.
+@export var continuous: bool = false
 
-## Save data from [i]all[/i] cast hits. If true, save arrays for all
-## properties below, otherwise just a single value.
-@export var save_all: bool = false
+@export_group("Blackboard Output")
 
 ## Save the collider(s) to this blackboard property. Not saved if the
 ## property is empty.
@@ -52,6 +54,12 @@ func load_state(buffer: Array, idx: int) -> int:
 	return idx
 
 func pre_first_process() -> void:
+	runner.shape_cast.clear_exceptions()
+	# NOTE(vipa, 2024-08-29): This seems like a bug in Godot, since
+	# the corresponding method for raycast re-adds the parent if it's
+	# to be excluded
+	if ignore_self:
+		runner.shape_cast.add_exception(runner.shape_cast.get_parent() as CollisionObject2D)
 	if relative_target:
 		relative_target.pre_first_data()
 
@@ -71,40 +79,24 @@ func physics_process_ability(delta: float) -> ARunResult:
 	if not sc.is_colliding():
 		return ARunResult.Wait
 
-	if collider:
-		if save_all:
-			var res := []
-			for i in sc.get_collision_count():
-				res.append((sc.get_collider(i) as Node2D).get_path())
-			blackboard[collider] = res
-		else:
-			blackboard[collider] = (sc.get_collider(0) as Node2D).get_path()
+	for i in sc.get_collision_count():
+		if collider:
+			blackboard[collider] = (sc.get_collider(i) as Node2D).get_path()
 
-	if collider_position:
-		if save_all:
-			var res := []
-			for i in sc.get_collision_count():
-				res.append((sc.get_collider(i) as Node2D).position)
-			blackboard[collider_position] = res
-		else:
-			blackboard[collider_position] = (sc.get_collider(0) as Node2D).position
+		if collider_position:
+			blackboard[collider_position] = (sc.get_collider(i) as Node2D).position
 
-	if collision_point:
-		if save_all:
-			var res := []
-			for i in sc.get_collision_count():
-				res.append(sc.get_collision_point(i))
-			blackboard[collision_point] = res
-		else:
-			blackboard[collision_point] = sc.get_collision_point(0)
+		if collision_point:
+			blackboard[collision_point] = sc.get_collision_point(i)
 
-	if collision_normal:
-		if save_all:
-			var res := []
-			for i in sc.get_collision_count():
-				res.append(sc.get_collision_normal(i))
-			blackboard[collision_normal] = res
-		else:
-			blackboard[collision_normal] = sc.get_collision_normal(0)
+		if collision_normal:
+			blackboard[collision_normal] = sc.get_collision_normal(i)
 
-	return ARunResult.Done
+		trigger()
+
+		if not continuous:
+			return ARunResult.Done
+
+		sc.add_exception(sc.get_collider(i) as CollisionObject2D)
+
+	return ARunResult.Wait

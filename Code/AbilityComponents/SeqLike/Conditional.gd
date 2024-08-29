@@ -27,17 +27,6 @@ func pre_first_process() -> void:
 	condition.pre_first_data()
 	super()
 
-func process_ability(delta: float) -> ARunResult:
-	if not checked:
-		if condition.get_data(0.0):
-			checked = not continuous
-		else:
-			var c := current_child
-			if c:
-				var _ignore := c.interrupt(AInterruptKind.Hard)
-			return ARunResult.Done
-	return super(delta)
-
 func physics_process_ability(delta: float) -> ARunResult:
 	if not checked:
 		if condition.get_data(delta):

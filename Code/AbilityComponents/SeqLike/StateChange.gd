@@ -13,13 +13,7 @@ var active: bool:
 
 func sync_lost() -> void:
 	active = false
-
-func process_ability(delta: float) -> ARunResult:
-	active = true
-	var res := super(delta)
-	if res == ARunResult.Done:
-		active = false
-	return res
+	super()
 
 func physics_process_ability(delta: float) -> ARunResult:
 	active = true

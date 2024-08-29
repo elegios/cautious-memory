@@ -58,9 +58,6 @@ func sync_gained() -> void:
 func pre_first_process() -> void:
 	pass
 
-func process_ability(_delta: float) -> ARunResult:
-	return ARunResult.Wait
-
 func physics_process_ability(_delta: float) -> ARunResult:
 	return ARunResult.Wait
 

@@ -27,19 +27,6 @@ func try_counter_interrupt() -> bool:
 func hard_interrupt() -> void:
 	var _ignore := child.interrupt(AbilityNode.AInterruptKind.Hard)
 
-func _process(delta: float) -> void:
-	if done:
-		return
-	if not started:
-		child.pre_first_process()
-		started = true
-	match child.process_ability(delta):
-		AbilityNode.ARunResult.Wait:
-			pass
-		AbilityNode.ARunResult.Done:
-			done = true
-			ability_done.emit(self)
-
 func _physics_process(delta: float) -> void:
 	if multiplayer.is_server():
 		elapsed += delta

@@ -37,20 +37,6 @@ func pre_first_process() -> void:
 	executing_idx = 0
 	current_child.pre_first_process()
 
-func process_ability(delta: float) -> ARunResult:
-	var first := false
-	while executing_idx < get_child_count():
-		if first:
-			current_child.pre_first_process()
-		var res := current_child.process_ability(delta)
-		if res == ARunResult.Done:
-			executing_idx += 1
-			first = true
-			continue
-		else:
-			return res
-	return ARunResult.Done
-
 func physics_process_ability(delta: float) -> ARunResult:
 	var first := false
 	while executing_idx < get_child_count():
