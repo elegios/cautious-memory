@@ -32,6 +32,10 @@ gdscript/warnings/return_value_discarded=1
 
 window/stretch/aspect="expand"
 
+[global_group]
+
+spawners="Unit spawners in one scene or another"
+
 [input]
 
 "Action 1"={

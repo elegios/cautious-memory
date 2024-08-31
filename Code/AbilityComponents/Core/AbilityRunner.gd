@@ -19,6 +19,8 @@ signal main_ability_ended
 @export var player_input: PlayerInput
 @export var shape_cast: ShapeCast2D
 
+var unit_spawner: UnitSpawner
+
 ## The currently running main ability, if any. Trying to run a new
 ## main ability will soft-interrupt the current main ability, then
 ## start a new ability [i]if the main ability actually did
@@ -36,6 +38,9 @@ func _ready() -> void:
 	spawn_function = _spawn_ability
 	if auto_run:
 		var _success := try_run_ability(0)
+	unit_spawner = get_tree().get_first_node_in_group(&"spawners")
+	if not unit_spawner:
+		push_warning("No spawner found, abilities cannot spawn things")
 
 ## Try to run an ability, sending a soft interrupt to the currently
 ## running main ability, if one exists. Fails if:
