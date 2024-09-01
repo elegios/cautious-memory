@@ -7,31 +7,31 @@
 [ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CurveSource.gd" id="5_nslpm"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="6_ett83"]
 
-[sub_resource type="Resource" id="Resource_16uhq"]
+[sub_resource type="Resource" id="Resource_y53kj"]
 script = ExtResource("3_xuvtb")
 property = &"knockback_direction"
 allow_absent = false
 
-[sub_resource type="Curve" id="Curve_tutbm"]
-_data = [Vector2(0, 1), 0.0, -0.986747, 0, 1, Vector2(1, 0.0132531), -0.986747, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="Resource" id="Resource_pephf"]
-script = ExtResource("5_nslpm")
-duration = 0.3
-curve = SubResource("Curve_tutbm")
-
-[sub_resource type="Resource" id="Resource_wcj6s"]
+[sub_resource type="Resource" id="Resource_lhimu"]
 script = ExtResource("3_xuvtb")
 property = &"knockback_speed"
 allow_absent = false
 
-[sub_resource type="Resource" id="Resource_t73wv"]
+[sub_resource type="Curve" id="Curve_43j46"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Resource" id="Resource_arlib"]
+script = ExtResource("5_nslpm")
+duration = 0.3
+curve = SubResource("Curve_43j46")
+
+[sub_resource type="Resource" id="Resource_oykr5"]
 resource_local_to_scene = true
 script = ExtResource("4_y214b")
 expression = "x*y"
-x = SubResource("Resource_pephf")
-y = SubResource("Resource_wcj6s")
+x = SubResource("Resource_lhimu")
+y = SubResource("Resource_arlib")
 
 [sub_resource type="Resource" id="Resource_o45ba"]
 resource_local_to_scene = true
@@ -43,8 +43,8 @@ script = ExtResource("1_yftua")
 
 [node name="MoveCharacter" type="Node" parent="."]
 script = ExtResource("2_1waq4")
-direction = SubResource("Resource_16uhq")
-factor = SubResource("Resource_t73wv")
+target = SubResource("Resource_y53kj")
+speed = SubResource("Resource_oykr5")
 
 [node name="AbilityTimer" type="Node" parent="."]
 script = ExtResource("6_ett83")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bpdq3av7p7qu4"]
+[gd_scene load_steps=36 format=3 uid="uid://bpdq3av7p7qu4"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_p58mn"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="2_16uj4"]
@@ -31,12 +31,12 @@ expression = "(x - y).normalized()"
 x = SubResource("Resource_svlls")
 y = SubResource("Resource_tbp2u")
 
-[sub_resource type="Resource" id="Resource_2js7s"]
+[sub_resource type="Resource" id="Resource_130ni"]
 script = ExtResource("9_boh4n")
 property = &"direction"
 allow_absent = false
 
-[sub_resource type="Resource" id="Resource_aycgm"]
+[sub_resource type="Resource" id="Resource_ffgc3"]
 resource_local_to_scene = true
 script = ExtResource("3_hr3vg")
 expression = "96*4"
@@ -108,6 +108,16 @@ script = ExtResource("3_hr3vg")
 expression = "-x"
 x = SubResource("Resource_gi7ww")
 
+[sub_resource type="Resource" id="Resource_ejafp"]
+script = ExtResource("9_boh4n")
+property = &"direction"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_84s27"]
+resource_local_to_scene = true
+script = ExtResource("3_hr3vg")
+expression = "96*4"
+
 [node name="KickOff" type="Node"]
 script = ExtResource("1_p58mn")
 
@@ -125,8 +135,8 @@ script = ExtResource("7_0fdxt")
 
 [node name="MovePlayer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("8_kqbyn")
-direction = SubResource("Resource_2js7s")
-factor = SubResource("Resource_aycgm")
+target = SubResource("Resource_130ni")
+speed = SubResource("Resource_ffgc3")
 
 [node name="AbilityTimer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("10_sdp4w")
@@ -189,8 +199,8 @@ script = ExtResource("7_0fdxt")
 
 [node name="MovePlayer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
 script = ExtResource("8_kqbyn")
-direction = SubResource("Resource_2js7s")
-factor = SubResource("Resource_aycgm")
+target = SubResource("Resource_ejafp")
+speed = SubResource("Resource_84s27")
 
 [node name="AbilityTimer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
 script = ExtResource("10_sdp4w")

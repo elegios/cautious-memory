@@ -1,16 +1,16 @@
-[gd_scene load_steps=20 format=3 uid="uid://b1bdaxje0qmm8"]
+[gd_scene load_steps=18 format=3 uid="uid://b1bdaxje0qmm8"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_6e6wh"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/FacePoint.gd" id="2_b8yu8"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/RotateCharacter.gd" id="2_b8yu8"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="2_yndcs"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="3_n2wc2"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="4_a82k1"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="5_wea80"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="6_xj7wq"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="7_67hk1"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="7_ylswt"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="9_5566f"]
 
-[sub_resource type="Resource" id="Resource_g1xhx"]
+[sub_resource type="Resource" id="Resource_i65f3"]
 script = ExtResource("4_a82k1")
 property = &"target_point"
 allow_absent = false
@@ -31,28 +31,12 @@ expression = "(x-y).normalized()"
 x = SubResource("Resource_5chkj")
 y = SubResource("Resource_5ihoh")
 
-[sub_resource type="Resource" id="Resource_lefne"]
-script = ExtResource("5_wea80")
-what = 0
-
-[sub_resource type="Resource" id="Resource_3kjgr"]
+[sub_resource type="Resource" id="Resource_xjyfb"]
 script = ExtResource("4_a82k1")
 property = &"target_point"
 allow_absent = false
 
-[sub_resource type="Resource" id="Resource_0q6cx"]
-resource_local_to_scene = true
-script = ExtResource("3_n2wc2")
-expression = "x.distance_squared_to(y) >= 10"
-x = SubResource("Resource_lefne")
-y = SubResource("Resource_3kjgr")
-
-[sub_resource type="Resource" id="Resource_i2mgi"]
-script = ExtResource("4_a82k1")
-property = &"direction"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_74gy8"]
+[sub_resource type="Resource" id="Resource_uoiw2"]
 resource_local_to_scene = true
 script = ExtResource("3_n2wc2")
 expression = "96*4"
@@ -60,31 +44,39 @@ expression = "96*4"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4lnmg"]
 size = Vector2(20, 10)
 
+[sub_resource type="Resource" id="Resource_gtgdp"]
+resource_local_to_scene = true
+script = ExtResource("3_n2wc2")
+expression = "PI/2"
+
 [node name="ASwordToPoint" type="Node"]
 script = ExtResource("1_6e6wh")
 
 [node name="FacePoint" type="Node" parent="."]
 script = ExtResource("2_b8yu8")
-point = SubResource("Resource_g1xhx")
+target = SubResource("Resource_i65f3")
 
 [node name="direction" type="Node" parent="."]
 script = ExtResource("2_yndcs")
 property = &"direction"
 source = SubResource("Resource_4o1ae")
 
-[node name="Conditional" type="Node" parent="."]
-script = ExtResource("6_xj7wq")
-continuous = true
-condition = SubResource("Resource_0q6cx")
+[node name="ParAny" type="Node" parent="."]
+script = ExtResource("7_67hk1")
 
-[node name="MoveCharacter" type="Node" parent="Conditional"]
+[node name="MoveCharacter" type="Node" parent="ParAny"]
 script = ExtResource("7_ylswt")
-direction = SubResource("Resource_i2mgi")
-factor = SubResource("Resource_74gy8")
+what = 1
+target = SubResource("Resource_xjyfb")
+speed = SubResource("Resource_uoiw2")
 
-[node name="ShapeCast" type="Node" parent="Conditional"]
+[node name="ShapeCast" type="Node" parent="ParAny"]
 script = ExtResource("9_5566f")
 collision_mask = 2
 shape = SubResource("RectangleShape2D_4lnmg")
 continuous = true
 collider = &"hit_unit"
+
+[node name="FacePoint2" type="Node" parent="."]
+script = ExtResource("2_b8yu8")
+target = SubResource("Resource_gtgdp")
