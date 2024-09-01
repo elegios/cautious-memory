@@ -25,6 +25,7 @@ script = ExtResource("5_ob26k")
 what = 0
 
 [sub_resource type="Resource" id="Resource_36er5"]
+resource_local_to_scene = true
 script = ExtResource("3_hr3vg")
 expression = "(x - y).normalized()"
 x = SubResource("Resource_svlls")
@@ -36,10 +37,12 @@ property = &"direction"
 allow_absent = false
 
 [sub_resource type="Resource" id="Resource_aycgm"]
+resource_local_to_scene = true
 script = ExtResource("3_hr3vg")
 expression = "96*4"
 
 [sub_resource type="Resource" id="Resource_3xhjt"]
+resource_local_to_scene = true
 script = ExtResource("3_hr3vg")
 expression = "0.3"
 
@@ -54,6 +57,7 @@ property = &"direction"
 allow_absent = false
 
 [sub_resource type="Resource" id="Resource_h3ds0"]
+resource_local_to_scene = true
 script = ExtResource("3_hr3vg")
 expression = "96*4"
 
@@ -63,6 +67,7 @@ property = &"hit_unit"
 allow_absent = false
 
 [sub_resource type="Resource" id="Resource_x3ihw"]
+resource_local_to_scene = true
 script = ExtResource("3_hr3vg")
 expression = "0.3"
 
@@ -72,6 +77,7 @@ property = &"hit_unit"
 allow_absent = false
 
 [sub_resource type="Resource" id="Resource_l48mo"]
+resource_local_to_scene = true
 script = ExtResource("3_hr3vg")
 expression = "x.position"
 x = SubResource("Resource_h0sap")
@@ -85,6 +91,7 @@ script = ExtResource("5_ob26k")
 what = 0
 
 [sub_resource type="Resource" id="Resource_7po6w"]
+resource_local_to_scene = true
 script = ExtResource("3_hr3vg")
 expression = "(x - y).normalized()"
 x = SubResource("Resource_fygb1")

@@ -1,0 +1,90 @@
+[gd_scene load_steps=20 format=3 uid="uid://b1bdaxje0qmm8"]
+
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_6e6wh"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/FacePoint.gd" id="2_b8yu8"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="2_yndcs"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="3_n2wc2"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="4_a82k1"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="5_wea80"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="6_xj7wq"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="7_ylswt"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="9_5566f"]
+
+[sub_resource type="Resource" id="Resource_g1xhx"]
+script = ExtResource("4_a82k1")
+property = &"target_point"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_5chkj"]
+script = ExtResource("4_a82k1")
+property = &"target_point"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_5ihoh"]
+script = ExtResource("5_wea80")
+what = 0
+
+[sub_resource type="Resource" id="Resource_4o1ae"]
+resource_local_to_scene = true
+script = ExtResource("3_n2wc2")
+expression = "(x-y).normalized()"
+x = SubResource("Resource_5chkj")
+y = SubResource("Resource_5ihoh")
+
+[sub_resource type="Resource" id="Resource_lefne"]
+script = ExtResource("5_wea80")
+what = 0
+
+[sub_resource type="Resource" id="Resource_3kjgr"]
+script = ExtResource("4_a82k1")
+property = &"target_point"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_0q6cx"]
+resource_local_to_scene = true
+script = ExtResource("3_n2wc2")
+expression = "x.distance_squared_to(y) >= 10"
+x = SubResource("Resource_lefne")
+y = SubResource("Resource_3kjgr")
+
+[sub_resource type="Resource" id="Resource_i2mgi"]
+script = ExtResource("4_a82k1")
+property = &"direction"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_74gy8"]
+resource_local_to_scene = true
+script = ExtResource("3_n2wc2")
+expression = "96*4"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4lnmg"]
+size = Vector2(20, 10)
+
+[node name="ASwordToPoint" type="Node"]
+script = ExtResource("1_6e6wh")
+
+[node name="FacePoint" type="Node" parent="."]
+script = ExtResource("2_b8yu8")
+point = SubResource("Resource_g1xhx")
+
+[node name="direction" type="Node" parent="."]
+script = ExtResource("2_yndcs")
+property = &"direction"
+source = SubResource("Resource_4o1ae")
+
+[node name="Conditional" type="Node" parent="."]
+script = ExtResource("6_xj7wq")
+continuous = true
+condition = SubResource("Resource_0q6cx")
+
+[node name="MoveCharacter" type="Node" parent="Conditional"]
+script = ExtResource("7_ylswt")
+direction = SubResource("Resource_i2mgi")
+factor = SubResource("Resource_74gy8")
+
+[node name="ShapeCast" type="Node" parent="Conditional"]
+script = ExtResource("9_5566f")
+collision_mask = 2
+shape = SubResource("RectangleShape2D_4lnmg")
+continuous = true
+collider = &"hit_unit"

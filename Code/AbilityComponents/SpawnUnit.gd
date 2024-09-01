@@ -9,6 +9,8 @@ class_name SpawnUnit extends AbilityNode
 ## The unit (or missile) to spawn
 @export var unit: PackedScene
 
+@export var point: DataSource
+
 @export_group("Blackboard Output")
 
 ## Optional. Save the created unit to this blackboard property.
@@ -16,10 +18,26 @@ class_name SpawnUnit extends AbilityNode
 
 var spawned_path: NodePath
 
+func setup(a: AbilityRunner, b: Dictionary) -> void:
+	point = point.setup(a, b)
+	super(a, b)
+
+func save_state(buffer: Array) -> void:
+	point.save_state(buffer)
+	super(buffer)
+
+func load_state(buffer: Array, idx: int) -> int:
+	idx = point.load_state(buffer, idx)
+	return super(buffer, idx)
+
 func pre_first_process() -> void:
+	point.pre_first_data()
 	if multiplayer.is_server():
-		var spawned := runner.unit_spawner.spawn_unit(unit)
-		rpc_notify_spawned.rpc(spawned)
+		var spawn_point: Vector2 = point.get_data(0.0)
+		var spawned := runner.unit_spawner.spawn_unit(unit, spawn_point)
+		var path := spawned.get_path()
+		rpc_notify_spawned.rpc(path)
+		blackboard[unit_property] = path
 	else:
 		spawned_path = ^""
 

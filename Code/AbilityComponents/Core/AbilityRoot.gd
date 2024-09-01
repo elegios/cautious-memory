@@ -19,13 +19,26 @@ func setup(runner: AbilityRunner, initial_blackboard: Dictionary) -> void:
 	child.setup(runner, blackboard)
 
 func try_soft_interrupt() -> bool:
-	return AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Soft)
+	if done:
+		return true
+	done = AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Soft)
+	if done:
+		ability_done.emit(self)
+	return done
 
 func try_counter_interrupt() -> bool:
-	return AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Counter)
+	if done:
+		return true
+	done = AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Counter)
+	if done:
+		ability_done.emit(self)
+	return done
 
 func hard_interrupt() -> void:
+	if done:
+		return
 	var _ignore := child.interrupt(AbilityNode.AInterruptKind.Hard)
+	ability_done.emit(self)
 
 func _physics_process(delta: float) -> void:
 	if multiplayer.is_server():

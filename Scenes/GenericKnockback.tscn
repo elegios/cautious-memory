@@ -27,12 +27,14 @@ property = &"knockback_speed"
 allow_absent = false
 
 [sub_resource type="Resource" id="Resource_t73wv"]
+resource_local_to_scene = true
 script = ExtResource("4_y214b")
 expression = "x*y"
 x = SubResource("Resource_pephf")
 y = SubResource("Resource_wcj6s")
 
 [sub_resource type="Resource" id="Resource_o45ba"]
+resource_local_to_scene = true
 script = ExtResource("4_y214b")
 expression = "0.3"
 

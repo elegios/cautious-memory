@@ -36,8 +36,7 @@ var main_ability: AbilityRoot:
 func _ready() -> void:
 	var _connected := despawned.connect(_ability_despawned)
 	spawn_function = _spawn_ability
-	if auto_run:
-		var _success := try_run_ability(0)
+	maybe_autorun.call_deferred()
 	unit_spawner = get_tree().get_first_node_in_group(&"spawners")
 	if not unit_spawner:
 		push_warning("No spawner found, abilities cannot spawn things")
@@ -60,8 +59,9 @@ func try_run_ability(id: int) -> bool:
 
 func try_run_custom_ability(config: Dictionary) -> bool:
 	var is_main: bool = config.get(&"is_main", true)
-	if main_ability and not main_ability.done and is_main and not main_ability.try_counter_interrupt():
-		return false
+	if main_ability and not main_ability.done and is_main:
+		if not main_ability.try_counter_interrupt():
+			return false
 
 	var _ignore := spawn(config)
 	return true
@@ -95,6 +95,11 @@ func _ability_done(abi: AbilityRoot) -> void:
 		abi.queue_free()
 	if abi == main_ability:
 		main_ability = null
+	maybe_autorun.call_deferred()
+
+func maybe_autorun() -> void:
+	if not main_ability and auto_run:
+		var _success := try_run_ability(0)
 
 ## NOTE(vipa, 2024-08-23): Called on clients (not the server) when an
 ## ability has been despawned, i.e., when the server thinks it's

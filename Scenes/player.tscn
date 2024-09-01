@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=9 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_2bwdi"]
 [ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
-[ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://Scenes/KickOff.tscn" id="3_ftytm"]
+[ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://PCs/SwordDancer/AKickOff.tscn" id="3_ftytm"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
+[ext_resource type="PackedScene" uid="uid://60nh8fm0my6x" path="res://PCs/SwordDancer/AThrowSword.tscn" id="6_7sdyg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
 radius = 14.0
@@ -61,7 +62,7 @@ replication_config = SubResource("SceneReplicationConfig_e08i6")
 unique_name_in_owner = true
 spawn_path = NodePath(".")
 script = ExtResource("4_aqo0i")
-abilities = Array[PackedScene]([ExtResource("3_ftytm")])
+abilities = Array[PackedScene]([ExtResource("3_ftytm"), ExtResource("6_7sdyg")])
 character = NodePath("..")
 nav_agent = NodePath("../NavAgent")
 player_input = NodePath("../PlayerInput")
