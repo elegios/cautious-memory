@@ -20,6 +20,7 @@ signal main_ability_ended
 @export var shape_cast: ShapeCast2D
 
 var unit_spawner: UnitSpawner
+var unit_local: Dictionary = {}
 
 ## The currently running main ability, if any. Trying to run a new
 ## main ability will soft-interrupt the current main ability, then
@@ -46,7 +47,7 @@ func _ready() -> void:
 ## - Not called on the server
 ## - The main ability did not acknowledge the interrupt
 func try_run_ability(id: int) -> bool:
-	if not multiplayer.is_server():
+	if not multiplayer or not multiplayer.is_server():
 		return false
 
 	if main_ability and main_ability.try_soft_interrupt():
@@ -78,6 +79,7 @@ func _spawn_ability(config: Dictionary) -> Node:
 	var path: String = config[&"path"]
 	var is_main: bool = config.get(&"is_main", true)
 	var initial_blackboard: Dictionary = config.get(&"blackboard", {})
+	initial_blackboard.merge(unit_local)
 	var ps: PackedScene = ResourceLoader.load(path)
 	var abi := ps.instantiate() as AbilityNode
 	var root := AbilityRoot.new()
@@ -92,6 +94,9 @@ func _spawn_ability(config: Dictionary) -> Node:
 ## finishes executing.
 func _ability_done(abi: AbilityRoot) -> void:
 	if multiplayer.is_server():
+		for k: StringName in abi.blackboard:
+			if k.begins_with("m_"):
+				unit_local[k] = abi.blackboard[k]
 		abi.queue_free()
 	if abi == main_ability:
 		main_ability = null

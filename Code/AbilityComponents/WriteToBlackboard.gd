@@ -1,7 +1,16 @@
 ## Write a value (computed via a [DataSource]) to the blackboard.
 class_name WriteToBlackboard extends AbilityNode
 
-## The property to be overwritten
+## The property to be overwritten. If the property is prefixed by
+## [code]m_[/code], then it will be persisted on the unit between
+## ability runs. Note that [code]m_[/code] properties are snapshotted
+## when an ability starts, and whatever values are set when the
+## ability finishes are copied back to the unit.
+##
+## Notably this means that clearing a [code]m_[/code] property will
+## not remove it from persisted storage, and it's very much possible
+## to get data races with multiple abilities reading and writing such
+## properties.
 @export var property: StringName
 
 ## The value to write. Will clear the property if absent.

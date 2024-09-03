@@ -13,7 +13,8 @@ class_name RunAbility extends AbilityNode
 @export var main_ability: bool = true
 
 ## Start the new ability with a copy of the blackboard for the current
-## ability. This can be used to pass information.
+## ability. This can be used to pass information. Does [i]not[/i] pass
+## unit-persisted data (with prefix [code]m_[/code]).
 @export var copy_blackboard: bool = false
 
 ## Optional. Let the new ability reference the current unit (that runs
@@ -63,10 +64,16 @@ func physics_process_ability(delta: float) -> ARunResult:
 			blackboard[success_property] = false
 		return ARunResult.Done
 
+	var new_blackboard := blackboard.duplicate() if copy_blackboard else {}
+	if copy_blackboard:
+		for k: StringName in blackboard:
+			if k.begins_with("m_"):
+				var _ignore := new_blackboard.erase(k)
+
 	var config := {
 		&"path": ability.resource_path,
 		&"is_main": main_ability,
-		&"blackboard": blackboard.duplicate() if copy_blackboard else {}
+		&"blackboard": new_blackboard,
 	}
 	if source_unit_property:
 		config[&"blackboard"][source_unit_property] = runner.get_parent().get_path()

@@ -13,9 +13,7 @@ func get_data(_delta: float) -> Variant:
 	var ret: Variant = blackboard.get(property, null)
 	if ret is NodePath:
 		var path: NodePath = ret
-		var node := runner.get_node(path)
-		if not node:
-			push_error("Bad nodepath: " + str(path))
+		var node := runner.get_node_or_null(path)
 		return node
 	elif ret is Array[NodePath]:
 		var paths: Array[NodePath] = ret
