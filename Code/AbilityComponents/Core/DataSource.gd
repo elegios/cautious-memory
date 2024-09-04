@@ -3,12 +3,12 @@
 class_name DataSource extends Resource
 
 var runner: AbilityRunner
-var blackboard: Dictionary
+var blackboard: Blackboard
 
 func _init() -> void:
 	resource_local_to_scene = true
 
-func setup(r: AbilityRunner, b: Dictionary) -> DataSource:
+func setup(r: AbilityRunner, b: Blackboard) -> DataSource:
 	var ret: DataSource = duplicate()
 	ret.runner = r
 	ret.blackboard = b

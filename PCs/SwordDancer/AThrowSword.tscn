@@ -23,16 +23,16 @@ script = ExtResource("9_oyqgf")
 property = &"m_sword"
 allow_absent = false
 
-[sub_resource type="Resource" id="Resource_ywi6w"]
+[sub_resource type="Resource" id="Resource_3c613"]
 script = ExtResource("9_oyqgf")
 property = &"m_sword"
-allow_absent = true
+allow_absent = false
 
 [sub_resource type="Resource" id="Resource_4c0cu"]
 resource_local_to_scene = true
 script = ExtResource("3_mfljy")
 expression = "not x"
-x = SubResource("Resource_ywi6w")
+x = SubResource("Resource_3c613")
 
 [sub_resource type="Resource" id="Resource_0pslt"]
 script = ExtResource("4_1qfnd")

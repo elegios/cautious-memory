@@ -10,9 +10,9 @@ var started: bool = false
 var elapsed: float = 0.0
 @export var time_between_syncs: float = 0.1
 
-var blackboard: Dictionary
+var blackboard: Blackboard
 
-func setup(runner: AbilityRunner, initial_blackboard: Dictionary) -> void:
+func setup(runner: AbilityRunner, initial_blackboard: Blackboard) -> void:
 	blackboard = initial_blackboard
 	child = get_child(0) as AbilityNode
 	assert(child != null, "AbilityRoot child should be a sub-class of AbilityNode")
@@ -60,16 +60,15 @@ func _physics_process(delta: float) -> void:
 
 func init_sync() -> void:
 	var state: Array = [done, started]
+	blackboard.save_state(state)
 	child.save_state(state)
-	rpc_load_state.rpc(state, blackboard)
+	rpc_load_state.rpc(state)
 
 @rpc("unreliable_ordered", "authority", "call_remote", 1)
-func rpc_load_state(state: Array, new_blackboard: Dictionary) -> void:
-	blackboard.clear()
-	for k: StringName in new_blackboard:
-		blackboard[k] = new_blackboard[k]
+func rpc_load_state(state: Array) -> void:
 	done = state[0]
 	started = state[1]
-	var idx := child.load_state(state, 2)
+	var idx := blackboard.load_state(state, 2)
+	idx = child.load_state(state, idx)
 	if idx != state.size():
 		push_error("Failed to use up all state in ability synchronization")

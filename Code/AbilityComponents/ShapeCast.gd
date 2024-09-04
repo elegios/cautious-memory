@@ -27,10 +27,6 @@ class_name ShapeCast extends AbilityTriggered
 ## property is empty.
 @export var collider: StringName
 
-## Save the position(s) of the collider(s) to this blackboard
-## property. Not saved if the property is empty.
-@export var collider_position: StringName
-
 ## Save the point where the collision(s) happened to this blackboard
 ## property. Not saved if the property is empty.
 @export var collision_point: StringName
@@ -39,7 +35,7 @@ class_name ShapeCast extends AbilityTriggered
 ## if the property is empty.
 @export var collision_normal: StringName
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	if relative_target:
 		relative_target = relative_target.setup(a, b)
 	super(a, b)
@@ -81,16 +77,13 @@ func physics_process_ability(delta: float) -> ARunResult:
 
 	for i in sc.get_collision_count():
 		if collider:
-			blackboard[collider] = (sc.get_collider(i) as Node2D).get_path()
-
-		if collider_position:
-			blackboard[collider_position] = (sc.get_collider(i) as Node2D).position
+			blackboard.bset(collider, sc.get_collider(i))
 
 		if collision_point:
-			blackboard[collision_point] = sc.get_collision_point(i)
+			blackboard.bset(collision_point, sc.get_collision_point(i))
 
 		if collision_normal:
-			blackboard[collision_normal] = sc.get_collision_normal(i)
+			blackboard.bset(collision_normal, sc.get_collision_normal(i))
 
 		trigger()
 

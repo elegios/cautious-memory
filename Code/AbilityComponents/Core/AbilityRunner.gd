@@ -20,7 +20,7 @@ signal main_ability_ended
 @export var shape_cast: ShapeCast2D
 
 var unit_spawner: UnitSpawner
-var unit_local: Dictionary = {}
+var unit_local: Blackboard
 
 ## The currently running main ability, if any. Trying to run a new
 ## main ability will soft-interrupt the current main ability, then
@@ -41,6 +41,7 @@ func _ready() -> void:
 	unit_spawner = get_tree().get_first_node_in_group(&"spawners")
 	if not unit_spawner:
 		push_warning("No spawner found, abilities cannot spawn things")
+	unit_local = Blackboard.new(unit_spawner)
 
 ## Try to run an ability, sending a soft interrupt to the currently
 ## running main ability, if one exists. Fails if:
@@ -78,13 +79,20 @@ func try_soft_interrupt() -> bool:
 func _spawn_ability(config: Dictionary) -> Node:
 	var path: String = config[&"path"]
 	var is_main: bool = config.get(&"is_main", true)
-	var initial_blackboard: Dictionary = config.get(&"blackboard", {})
-	initial_blackboard.merge(unit_local)
+	var initial_blackboard_state: Array = config.get(&"blackboard", [])
+
+	var bb: Blackboard = Blackboard.new(unit_spawner)
+	if initial_blackboard_state:
+		var _ignore := bb.load_state(initial_blackboard_state, 0)
+	bb.merge(unit_local)
+
 	var ps: PackedScene = ResourceLoader.load(path)
 	var abi := ps.instantiate() as AbilityNode
+
 	var root := AbilityRoot.new()
 	root.add_child(abi)
-	root.setup(self, initial_blackboard)
+	root.setup(self, bb)
+
 	var _connected := root.ability_done.connect(_ability_done)
 	if is_main:
 		main_ability = root
@@ -94,9 +102,7 @@ func _spawn_ability(config: Dictionary) -> Node:
 ## finishes executing.
 func _ability_done(abi: AbilityRoot) -> void:
 	if multiplayer.is_server():
-		for k: StringName in abi.blackboard:
-			if k.begins_with("m_"):
-				unit_local[k] = abi.blackboard[k]
+		unit_local.merge_m(abi.blackboard)
 		abi.queue_free()
 	if abi == main_ability:
 		main_ability = null

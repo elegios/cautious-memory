@@ -16,7 +16,7 @@ enum What { Direction, Point }
 ## '1' if absent.
 @export var speed: DataSource
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	target = target.setup(a, b)
 	if speed:
 		speed = speed.setup(a, b)

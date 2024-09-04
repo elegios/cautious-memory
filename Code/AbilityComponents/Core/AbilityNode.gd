@@ -17,9 +17,9 @@ enum AInterruptResult {
 }
 
 var runner: AbilityRunner
-var blackboard: Dictionary
+var blackboard: Blackboard
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	runner = a
 	blackboard = b
 	for i in get_child_count():

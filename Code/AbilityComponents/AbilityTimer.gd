@@ -5,7 +5,7 @@ class_name AbilityTimer extends AbilityNode
 @export var duration: DataSource
 var elapsed: float = 0.0
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	duration = duration.setup(a, b)
 	super(a, b)
 

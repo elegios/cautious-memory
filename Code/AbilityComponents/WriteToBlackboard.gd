@@ -16,7 +16,7 @@ class_name WriteToBlackboard extends AbilityNode
 ## The value to write. Will clear the property if absent.
 @export var source: DataSource
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	if source:
 		source = source.setup(a, b)
 	super(a, b)
@@ -36,7 +36,7 @@ func pre_first_process() -> void:
 
 func physics_process_ability(delta: float) -> ARunResult:
 	if source:
-		blackboard[property] = source.get_data(delta)
+		blackboard.bset(property, source.get_data(delta))
 	else:
-		var _existed := blackboard.erase(property)
+		blackboard.bclear(property)
 	return ARunResult.Done

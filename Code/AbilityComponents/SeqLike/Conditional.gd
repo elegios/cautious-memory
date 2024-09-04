@@ -11,7 +11,7 @@ class_name Conditional extends AbilitySeq
 
 var checked: bool = false
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	condition = condition.setup(a, b)
 	super(a, b)
 

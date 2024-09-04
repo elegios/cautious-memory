@@ -31,7 +31,7 @@ func _validate_property(property: Dictionary) -> void:
 	if property.name == "expression":
 		property.hint = PROPERTY_HINT_EXPRESSION
 
-func setup(r: AbilityRunner, b: Dictionary) -> DataSource:
+func setup(r: AbilityRunner, b: Blackboard) -> DataSource:
 	var ret: ExpressionSource = super(r, b)
 	if ret.x:
 		ret.x = x.setup(r, b)

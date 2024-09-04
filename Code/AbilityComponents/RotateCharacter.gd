@@ -7,7 +7,7 @@ class_name RotateCharacter extends AbilityNode
 ## radians)
 @export var target: DataSource
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	target = target.setup(a, b)
 	super(a, b)
 

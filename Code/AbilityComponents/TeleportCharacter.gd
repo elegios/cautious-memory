@@ -10,7 +10,7 @@ class_name TeleportCharacter extends AbilityNode
 ## Position to set the character to.
 @export var position: DataSource
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	position = position.setup(a, b)
 	super(a, b)
 

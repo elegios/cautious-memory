@@ -13,12 +13,12 @@ class_name SpawnUnit extends AbilityNode
 
 @export_group("Blackboard Output")
 
-## Optional. Save the created unit to this blackboard property.
+## Optional. Save the created unit to this blackboard property. Client
+## will wait for sync from server if set, otherwise completes
+## immediately.
 @export var unit_property: StringName
 
-var spawned_path: NodePath
-
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	point = point.setup(a, b)
 	super(a, b)
 
@@ -35,20 +35,10 @@ func pre_first_process() -> void:
 	if multiplayer.is_server():
 		var spawn_point: Vector2 = point.get_data(0.0)
 		var spawned := runner.unit_spawner.spawn_unit(unit, spawn_point)
-		var path := spawned.get_path()
-		rpc_notify_spawned.rpc(path)
-		blackboard[unit_property] = path
-	else:
-		spawned_path = ^""
+		if unit_property:
+			blackboard.bset(unit_property, spawned)
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	if multiplayer.is_server() or not unit_property:
 		return ARunResult.Done
-	if spawned_path:
-		blackboard[unit_property] = spawned_path
-		return ARunResult.Done
 	return ARunResult.Wait
-
-@rpc("reliable", "authority", "call_remote")
-func rpc_notify_spawned(path: NodePath) -> void:
-	spawned_path = path

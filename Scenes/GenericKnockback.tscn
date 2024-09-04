@@ -12,7 +12,7 @@ script = ExtResource("3_xuvtb")
 property = &"knockback_direction"
 allow_absent = false
 
-[sub_resource type="Resource" id="Resource_lhimu"]
+[sub_resource type="Resource" id="Resource_y2lcw"]
 script = ExtResource("3_xuvtb")
 property = &"knockback_speed"
 allow_absent = false
@@ -30,7 +30,7 @@ curve = SubResource("Curve_43j46")
 resource_local_to_scene = true
 script = ExtResource("4_y214b")
 expression = "x*y"
-x = SubResource("Resource_lhimu")
+x = SubResource("Resource_y2lcw")
 y = SubResource("Resource_arlib")
 
 [sub_resource type="Resource" id="Resource_o45ba"]

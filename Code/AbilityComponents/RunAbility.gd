@@ -30,7 +30,7 @@ class_name RunAbility extends AbilityNode
 ##    ability did not acknowledge the interrupt.
 @export var success_property: StringName
 
-func setup(a: AbilityRunner, b: Dictionary) -> void:
+func setup(a: AbilityRunner, b: Blackboard) -> void:
 	if target:
 		target = target.setup(a, b)
 	super(a, b)
@@ -61,25 +61,23 @@ func physics_process_ability(delta: float) -> ARunResult:
 
 	if not other_runner:
 		if success_property:
-			blackboard[success_property] = false
+			blackboard.bset(success_property, false)
 		return ARunResult.Done
 
-	var new_blackboard := blackboard.duplicate() if copy_blackboard else {}
-	if copy_blackboard:
-		for k: StringName in blackboard:
-			if k.begins_with("m_"):
-				var _ignore := new_blackboard.erase(k)
+	var new_blackboard := blackboard.duplicate_no_m() if copy_blackboard else Blackboard.new(runner.unit_spawner)
+	if source_unit_property:
+		new_blackboard.bset(source_unit_property, runner.get_parent())
 
+	var bdata: Array = []
+	new_blackboard.save_state(bdata)
 	var config := {
 		&"path": ability.resource_path,
 		&"is_main": main_ability,
-		&"blackboard": new_blackboard,
+		&"blackboard": bdata,
 	}
-	if source_unit_property:
-		config[&"blackboard"][source_unit_property] = runner.get_parent().get_path()
 
 	var success := other_runner.try_run_custom_ability(config)
 	if success_property:
-		blackboard[success_property] = success
+		blackboard.bset(success_property, success)
 
 	return ARunResult.Done

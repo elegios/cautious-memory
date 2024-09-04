@@ -14,6 +14,8 @@ var controller: int:
 	set(value):
 		if input:
 			input.controller = value
+		if camera and value == multiplayer.get_unique_id():
+			camera.enabled = true
 		controller = value
 
 var pathing: bool = false
