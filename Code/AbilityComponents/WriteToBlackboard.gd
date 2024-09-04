@@ -3,14 +3,17 @@ class_name WriteToBlackboard extends AbilityNode
 
 ## The property to be overwritten. If the property is prefixed by
 ## [code]m_[/code], then it will be persisted on the unit between
-## ability runs. Note that [code]m_[/code] properties are snapshotted
-## when an ability starts, and whatever values are set when the
-## ability finishes are copied back to the unit.
+## ability runs. There are three important points about such properties:
 ##
-## Notably this means that clearing a [code]m_[/code] property will
-## not remove it from persisted storage, and it's very much possible
-## to get data races with multiple abilities reading and writing such
-## properties.
+## 1. Previously stored [code]m_[/code] properties are snapshotted
+##    when an ability starts.
+## 2. Updated [code]m_[/code] properties are persisted when the
+##    ability ends, and no sooner.
+## 3. Only [i]modified[/i] [code]m_[/code] properties are persisted.
+##
+## The sum total of these things is that it's very much possible to
+## get data race-like behaviour when using [code]m_[/code] properties
+## in abilities that run in parallel.
 @export var property: StringName
 
 ## The value to write. Will clear the property if absent.

@@ -45,7 +45,7 @@ func _physics_process(_delta: float) -> void:
 		animation.animation = "walk-lu"
 	var _hit := move_and_slide()
 
-func _ability_started() -> void:
+func cancel_move() -> void:
 	pathing = false
 
 func _move_command_given(target: Vector2) -> void:

@@ -26,7 +26,7 @@ allow_absent = false
 [sub_resource type="Resource" id="Resource_3c613"]
 script = ExtResource("9_oyqgf")
 property = &"m_sword"
-allow_absent = false
+allow_absent = true
 
 [sub_resource type="Resource" id="Resource_4c0cu"]
 resource_local_to_scene = true

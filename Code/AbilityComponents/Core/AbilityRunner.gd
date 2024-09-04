@@ -4,12 +4,9 @@ class_name AbilityRunner extends MultiplayerSpawner
 signal main_ability_started
 signal main_ability_ended
 
-## Automatically run the first ability on _ready(). Useful for
-## projectiles and the like, less so for player characters.
-@export var auto_run: bool = false
-
-## The abilities that can be run
-@export var abilities: Array[PackedScene]
+## Ability to automatically run (as main ability) whenever no main
+## ability is running.
+@export var auto_run: PackedScene
 
 ## Various features that ability components may use. Unused features
 ## can be unset.
@@ -43,22 +40,6 @@ func _ready() -> void:
 		push_warning("No spawner found, abilities cannot spawn things")
 	unit_local = Blackboard.new(unit_spawner)
 
-## Try to run an ability, sending a soft interrupt to the currently
-## running main ability, if one exists. Fails if:
-## - Not called on the server
-## - The main ability did not acknowledge the interrupt
-func try_run_ability(id: int) -> bool:
-	if not multiplayer or not multiplayer.is_server():
-		return false
-
-	if main_ability and main_ability.try_soft_interrupt():
-		main_ability.queue_free()
-		main_ability = null
-	if not main_ability:
-		var _abi := spawn({&"path": abilities[id].resource_path})
-		return true
-	return false
-
 func try_run_custom_ability(config: Dictionary) -> bool:
 	var is_main: bool = config.get(&"is_main", true)
 	if main_ability and not main_ability.done and is_main:
@@ -73,7 +54,7 @@ func is_main_ability_running() -> bool:
 
 func try_soft_interrupt() -> bool:
 	if main_ability:
-		return not main_ability.done and main_ability.try_soft_interrupt()
+		return main_ability.done or main_ability.try_soft_interrupt()
 	return true
 
 func _spawn_ability(config: Dictionary) -> Node:
@@ -109,8 +90,10 @@ func _ability_done(abi: AbilityRoot) -> void:
 	maybe_autorun.call_deferred()
 
 func maybe_autorun() -> void:
+	if not multiplayer or not multiplayer.is_server():
+		return
 	if not main_ability and auto_run:
-		var _success := try_run_ability(0)
+		var _success := try_run_custom_ability({&"path": auto_run.resource_path})
 
 ## NOTE(vipa, 2024-08-23): Called on clients (not the server) when an
 ## ability has been despawned, i.e., when the server thinks it's

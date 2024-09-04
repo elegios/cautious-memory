@@ -2,6 +2,7 @@ class_name Blackboard extends RefCounted
 
 var dict: Dictionary = {}
 var is_special: Dictionary = {}
+var updated_m: Dictionary = {}
 
 enum Kind {
 	Normal,
@@ -26,6 +27,9 @@ func bget(property: StringName, allow_empty: bool = false) -> Variant:
 
 
 func bset(property: StringName, value: Variant) -> void:
+	if property.begins_with("m_"):
+		updated_m[property] = true
+
 	if value is Node:
 		var n: Node = value
 		dict[property] = spawner.unit_to_id[n]
@@ -36,6 +40,9 @@ func bset(property: StringName, value: Variant) -> void:
 	var _ignore := is_special.erase(property)
 
 func bclear(property: StringName) -> void:
+	if property.begins_with("m_"):
+		updated_m[property] = true
+
 	var _ignore := dict.erase(property)
 	_ignore = is_special.erase(property)
 
@@ -69,12 +76,13 @@ func merge(other: Blackboard) -> void:
 
 ## Copy [code]m_[/code] properties from [param other] to self.
 func merge_m(other: Blackboard) -> void:
-	for k: StringName in other.dict:
-		if not k.begins_with("m_"):
-			continue
-
-		dict[k] = other.dict[k]
-		if other.is_special.has(k):
-			is_special[k] = other.is_special[k]
+	for k: StringName in other.updated_m:
+		if other.dict.has(k):
+			dict[k] = other.dict[k]
+			if other.is_special.has(k):
+				is_special[k] = other.is_special[k]
+			else:
+				var _ignore := is_special.erase(k)
 		else:
-			var _ignore := is_special.erase(k)
+			var _ignore := dict.erase(k)
+			_ignore = is_special.erase(k)
