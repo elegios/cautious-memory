@@ -9,6 +9,7 @@
 vertices = PackedVector2Array(-48, 24.2813, 673.898, -401.82, 631.063, 405.492, -71.7188, 48, -48, -24.2813, -71.7188, -48, -76, -48, -76, -52, -80, -52, -80, -88.2813, -208, -88.2813, -208, -84, -212, -84, -527.094, -392.156, -212, -80, -216.281, -80, -216.281, 48, -212, 48, -212, 52, -492.844, 375.5, -208, 52, -208, 56.2813, -80, 56.2813, -80, 52, -76, 52, -76, 48, -103.719, 80, -184.281, 80, -240, 24.2813, -240, -56.2813, -184.281, -112, -103.719, -112)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(1, 0, 4), PackedInt32Array(5, 6, 7), PackedInt32Array(7, 8, 9), PackedInt32Array(10, 11, 12, 13), PackedInt32Array(12, 14, 15, 13), PackedInt32Array(16, 17, 18, 19), PackedInt32Array(18, 20, 21, 19), PackedInt32Array(22, 23, 24, 2), PackedInt32Array(24, 25, 3, 2), PackedInt32Array(1, 4, 5, 9), PackedInt32Array(26, 22, 2), PackedInt32Array(26, 2, 19, 27), PackedInt32Array(21, 27, 19), PackedInt32Array(28, 16, 19), PackedInt32Array(28, 19, 13, 29), PackedInt32Array(15, 29, 13), PackedInt32Array(30, 10, 13), PackedInt32Array(30, 13, 1, 31), PackedInt32Array(9, 31, 1), PackedInt32Array(9, 5, 7)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-548, -412, 695, -422, 650, 426, -512, 395)])
+parsed_collision_mask = 4294967236
 agent_radius = 20.0
 
 [node name="Root" type="Node2D"]

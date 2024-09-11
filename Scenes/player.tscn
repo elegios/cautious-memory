@@ -42,12 +42,11 @@ properties/4/spawn = true
 properties/4/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D"]
-collision_layer = 3
+collision_layer = 19
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_2bwdi")
 movement_speed = 96.0
-abilities = Array[PackedScene]([ExtResource("3_ftytm")])
 
 [node name="PlayerInput" type="Node2D" parent="."]
 unique_name_in_owner = true

@@ -2,8 +2,6 @@ class_name Player extends CharacterBody2D
 
 @export var movement_speed: float = 50.0
 
-@export var abilities: Array[PackedScene]
-
 @onready var agent: NavigationAgent2D = %NavAgent
 @onready var animation: AnimatedSprite2D = %Animation
 @onready var camera: Camera2D = %Camera
