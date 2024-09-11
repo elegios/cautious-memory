@@ -33,10 +33,10 @@ spawner = NodePath("../UnitSpawner")
 spawn_path = NodePath("..")
 
 [node name="Mob" parent="." instance=ExtResource("5_ysfdn")]
-position = Vector2(294, -78)
+position = Vector2(152, -428)
 
 [node name="Mob2" parent="." instance=ExtResource("5_ysfdn")]
-position = Vector2(325, -96)
+position = Vector2(298, -432)
 
 [node name="Mob3" parent="." instance=ExtResource("5_ysfdn")]
-position = Vector2(542, -217)
+position = Vector2(454, -432)

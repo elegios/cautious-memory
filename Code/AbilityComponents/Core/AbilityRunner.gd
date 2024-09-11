@@ -37,13 +37,17 @@ func _ready() -> void:
 	maybe_autorun.call_deferred()
 	unit_spawner = get_tree().get_first_node_in_group(&"spawners")
 	if not unit_spawner:
-		push_warning("No spawner found, abilities cannot spawn things")
+		push_warning("No spawner found, abilities cannot spawn things or refer to other units")
 	unit_local = Blackboard.new(unit_spawner)
 
-func try_run_custom_ability(config: Dictionary) -> bool:
+## Attempt to run an arbitrary ability. Note that [param interrupt] is
+## only relevant when the ability is a main ability, and that if it is
+## it will only start if the current main ability acknowledges that
+## interrupt.
+func try_run_custom_ability(config: Dictionary, interrupt: AbilityNode.AInterruptKind = AbilityNode.AInterruptKind.Counter) -> bool:
 	var is_main: bool = config.get(&"is_main", true)
 	if main_ability and not main_ability.done and is_main:
-		if not main_ability.try_counter_interrupt():
+		if not main_ability.try_interrupt(interrupt):
 			return false
 
 	var _ignore := spawn(config)

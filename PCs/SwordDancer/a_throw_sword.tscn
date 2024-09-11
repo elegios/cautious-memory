@@ -1,0 +1,93 @@
+[gd_scene load_steps=22 format=3 uid="uid://60nh8fm0my6x"]
+
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_du0m8"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="2_o7avq"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="3_462tf"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/RunAbility.gd" id="4_wvaqr"]
+[ext_resource type="PackedScene" uid="uid://ybebosfbcswr" path="res://PCs/SwordDancer/a_sword_return.tscn" id="5_cdn4m"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="6_25t7k"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="7_tpacx"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/InputSource.gd" id="8_c5f5i"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="9_15q22"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SpawnUnit.gd" id="10_nlbw3"]
+[ext_resource type="PackedScene" uid="uid://bh2crvskwyow3" path="res://PCs/SwordDancer/m_sword.tscn" id="11_fc3af"]
+[ext_resource type="PackedScene" uid="uid://b1bdaxje0qmm8" path="res://PCs/SwordDancer/a_sword_to_point.tscn" id="12_gq5v1"]
+
+[sub_resource type="Resource" id="Resource_ucbmr"]
+script = ExtResource("3_462tf")
+property = &"m_sword"
+allow_absent = true
+
+[sub_resource type="Resource" id="Resource_ysfta"]
+script = ExtResource("3_462tf")
+property = &"m_sword"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_3c613"]
+script = ExtResource("3_462tf")
+property = &"m_sword"
+allow_absent = true
+
+[sub_resource type="Resource" id="Resource_4c0cu"]
+resource_local_to_scene = true
+script = ExtResource("6_25t7k")
+expression = "not x"
+x = SubResource("Resource_3c613")
+
+[sub_resource type="Resource" id="Resource_0pslt"]
+script = ExtResource("8_c5f5i")
+what = 0
+
+[sub_resource type="Resource" id="Resource_1gunn"]
+script = ExtResource("9_15q22")
+what = 0
+
+[sub_resource type="Resource" id="Resource_aagyg"]
+resource_local_to_scene = true
+script = ExtResource("6_25t7k")
+expression = "y + (x-y).limit_length(280)"
+x = SubResource("Resource_0pslt")
+y = SubResource("Resource_1gunn")
+
+[sub_resource type="Resource" id="Resource_lykny"]
+script = ExtResource("9_15q22")
+what = 0
+
+[sub_resource type="Resource" id="Resource_nsnyv"]
+script = ExtResource("3_462tf")
+property = &"m_sword"
+allow_absent = false
+
+[node name="ThrowSword" type="Node"]
+script = ExtResource("1_du0m8")
+
+[node name="Already Thrown" type="Node" parent="."]
+script = ExtResource("2_o7avq")
+condition = SubResource("Resource_ucbmr")
+
+[node name="RunAbility" type="Node" parent="Already Thrown"]
+script = ExtResource("4_wvaqr")
+ability = ExtResource("5_cdn4m")
+target = SubResource("Resource_ysfta")
+source_unit_property = &"target_unit"
+
+[node name="Not Thrown" type="Node" parent="."]
+script = ExtResource("2_o7avq")
+condition = SubResource("Resource_4c0cu")
+
+[node name="WriteToBlackboard" type="Node" parent="Not Thrown"]
+script = ExtResource("7_tpacx")
+property = &"target_point"
+source = SubResource("Resource_aagyg")
+
+[node name="SpawnUnit" type="Node" parent="Not Thrown"]
+script = ExtResource("10_nlbw3")
+unit = ExtResource("11_fc3af")
+point = SubResource("Resource_lykny")
+unit_property = &"m_sword"
+
+[node name="RunAbility" type="Node" parent="Not Thrown"]
+script = ExtResource("4_wvaqr")
+ability = ExtResource("12_gq5v1")
+target = SubResource("Resource_nsnyv")
+copy_blackboard = true

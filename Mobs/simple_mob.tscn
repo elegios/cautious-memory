@@ -1,13 +1,48 @@
-[gd_scene load_steps=9 format=3 uid="uid://chjadf2wp68nl"]
+[gd_scene load_steps=21 format=3 uid="uid://chjadf2wp68nl"]
 
 [ext_resource type="Script" path="res://Code/Components/SimpleMob.gd" id="1_47x0m"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="1_tgesp"]
 [ext_resource type="Script" path="res://Code/Components/Aggro.gd" id="2_20otg"]
 [ext_resource type="Script" path="res://Code/Components/MobMovement.gd" id="3_unp7m"]
+[ext_resource type="Script" path="res://Code/Components/MobAbilities.gd" id="4_dfoif"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/MobAbility.gd" id="5_e4e7w"]
+[ext_resource type="PackedScene" uid="uid://cg4iheqtjngax" path="res://Mobs/Archer/a_fire_arrow.tscn" id="6_ketma"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="7_hlqvu"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/DataSource.gd" id="7_uhku7"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="8_07l8a"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="9_gth7o"]
 
 [sub_resource type="Curve" id="Curve_qgu2a"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="Resource" id="Resource_8rt3m"]
+script = ExtResource("9_gth7o")
+property = &"m_target"
+allow_absent = true
+
+[sub_resource type="Resource" id="Resource_4g8bh"]
+script = ExtResource("9_gth7o")
+property = &"m_target"
+allow_absent = false
+
+[sub_resource type="Resource" id="Resource_634lm"]
+script = ExtResource("8_07l8a")
+what = 0
+
+[sub_resource type="Resource" id="Resource_p4rfo"]
+resource_local_to_scene = true
+script = ExtResource("7_hlqvu")
+expression = "y.distance_squared_to(x.position) < 150*150"
+x = SubResource("Resource_4g8bh")
+y = SubResource("Resource_634lm")
+
+[sub_resource type="Resource" id="Resource_2s2m1"]
+script = ExtResource("5_e4e7w")
+is_main = true
+cooldown = 2.0
+conditions = Array[ExtResource("7_uhku7")]([SubResource("Resource_8rt3m"), SubResource("Resource_p4rfo")])
+ability = ExtResource("6_ketma")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i8vk3"]
 radius = 14.0
@@ -31,16 +66,18 @@ collision_layer = 35
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_47x0m")
-movement_speed = 80.0
+movement_speed = 100.0
 
-[node name="Aggro" type="Node" parent="." node_paths=PackedStringArray("vision")]
+[node name="Aggro" type="Node" parent="." node_paths=PackedStringArray("vision", "runner")]
 script = ExtResource("2_20otg")
 vision = NodePath("../Vision Range")
+runner = NodePath("../AbilityRunner")
 
-[node name="Movement" type="Node" parent="." node_paths=PackedStringArray("vision", "aggro")]
+[node name="Movement" type="Node" parent="." node_paths=PackedStringArray("vision", "runner", "aggro")]
 unique_name_in_owner = true
 script = ExtResource("3_unp7m")
 vision = NodePath("../Vision Range")
+runner = NodePath("../AbilityRunner")
 movement_threshold = 0.1
 aggro = NodePath("../Aggro")
 target_min_distance = 28.0
@@ -48,6 +85,11 @@ target_max_distance = 150.0
 target_inside_strength = 0.0
 mob_avoidance_max_range = 50.0
 mob_avoidance_strength = SubResource("Curve_qgu2a")
+
+[node name="MobAbilities" type="Node" parent="." node_paths=PackedStringArray("runner")]
+script = ExtResource("4_dfoif")
+runner = NodePath("../AbilityRunner")
+abilities = Array[ExtResource("5_e4e7w")]([SubResource("Resource_2s2m1")])
 
 [node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character")]
 spawn_path = NodePath(".")

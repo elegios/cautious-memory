@@ -18,21 +18,19 @@ func setup(runner: AbilityRunner, initial_blackboard: Blackboard) -> void:
 	assert(child != null, "AbilityRoot child should be a sub-class of AbilityNode")
 	child.setup(runner, blackboard)
 
-func try_soft_interrupt() -> bool:
+func try_interrupt(kind: AbilityNode.AInterruptKind) -> bool:
 	if done:
 		return true
-	done = AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Soft)
+	done = AbilityNode.AInterruptResult.Interrupted == child.interrupt(kind)
 	if done:
 		ability_done.emit(self)
 	return done
 
+func try_soft_interrupt() -> bool:
+	return try_interrupt(AbilityNode.AInterruptKind.Soft)
+
 func try_counter_interrupt() -> bool:
-	if done:
-		return true
-	done = AbilityNode.AInterruptResult.Interrupted == child.interrupt(AbilityNode.AInterruptKind.Counter)
-	if done:
-		ability_done.emit(self)
-	return done
+	return try_interrupt(AbilityNode.AInterruptKind.Counter)
 
 func hard_interrupt() -> void:
 	if done:

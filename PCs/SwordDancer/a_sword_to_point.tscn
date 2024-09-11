@@ -15,12 +15,12 @@ script = ExtResource("4_a82k1")
 property = &"target_point"
 allow_absent = false
 
-[sub_resource type="Resource" id="Resource_j6tmp"]
+[sub_resource type="Resource" id="Resource_xed8j"]
 script = ExtResource("4_a82k1")
 property = &"target_point"
 allow_absent = false
 
-[sub_resource type="Resource" id="Resource_5ihoh"]
+[sub_resource type="Resource" id="Resource_xgjlb"]
 script = ExtResource("5_wea80")
 what = 0
 
@@ -28,8 +28,8 @@ what = 0
 resource_local_to_scene = true
 script = ExtResource("3_n2wc2")
 expression = "(x-y).normalized()"
-x = SubResource("Resource_j6tmp")
-y = SubResource("Resource_5ihoh")
+x = SubResource("Resource_xed8j")
+y = SubResource("Resource_xgjlb")
 
 [sub_resource type="Resource" id="Resource_xjyfb"]
 script = ExtResource("4_a82k1")

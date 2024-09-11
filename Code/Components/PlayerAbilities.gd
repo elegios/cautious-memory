@@ -16,15 +16,14 @@ func try_run_ability(id: int) -> bool:
 
 	var abi := abilities[id]
 
-	if abi.is_main and not runner.try_soft_interrupt():
-		return false
-
 	var config := {
 		&"path": abi.ability.resource_path,
 		&"is_main": abi.is_main,
 	}
 
-	if abi.cancel_move:
+	var success := runner.try_run_custom_ability(config, AbilityNode.AInterruptKind.Soft)
+
+	if success and abi.cancel_move:
 		move_cancelled.emit()
 
-	return runner.try_run_custom_ability(config)
+	return success

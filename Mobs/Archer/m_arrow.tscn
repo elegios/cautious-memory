@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cysdemfryj8u8"]
+
+[ext_resource type="PackedScene" uid="uid://c2l4v3ki8kndj" path="res://Scenes/basic_missile.tscn" id="1_vxrr5"]
+
+[node name="Arrow" instance=ExtResource("1_vxrr5")]

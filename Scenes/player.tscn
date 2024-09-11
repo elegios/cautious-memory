@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_2bwdi"]
 [ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
-[ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://PCs/SwordDancer/AKickOff.tscn" id="3_ftytm"]
+[ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://PCs/SwordDancer/a_kick_off.tscn" id="3_ftytm"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
 [ext_resource type="Script" path="res://Code/Components/PlayerAbilities.gd" id="4_bgt3b"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbility.gd" id="5_c8qdb"]
-[ext_resource type="PackedScene" uid="uid://60nh8fm0my6x" path="res://PCs/SwordDancer/AThrowSword.tscn" id="6_7sdyg"]
+[ext_resource type="PackedScene" uid="uid://60nh8fm0my6x" path="res://PCs/SwordDancer/a_throw_sword.tscn" id="6_7sdyg"]
 
 [sub_resource type="Resource" id="Resource_ludiy"]
 script = ExtResource("5_c8qdb")

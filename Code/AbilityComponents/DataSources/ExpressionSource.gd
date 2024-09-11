@@ -70,7 +70,7 @@ func get_data(delta: float) -> Variant:
 	var xval: Variant = x.get_data(delta) if x else null
 	var yval: Variant = y.get_data(delta) if y else null
 	var zval: Variant = z.get_data(delta) if z else null
-	var res: Variant = parsed.execute([xval, yval, zval])
+	var res: Variant = parsed.execute([xval, yval, zval], null, false)
 	if parsed.has_execute_failed():
-		push_error("Error: %s\nx: %s\ny: %s\nz %s\ndebug_server: %s" % [parsed.get_error_text(), xval, yval, zval, OS.has_feature("debug_server")])
+		push_error("Error(%s): %s\nexpr: %s\nx: %s\ny: %s\nz %s\ndebug_server: %s" % [runner.get_path(), parsed.get_error_text(), expression, xval, yval, zval, OS.has_feature("debug_server")])
 	return res
