@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=4 uid="uid://c47mssn3wi6mr"]
+[gd_scene load_steps=7 format=4 uid="uid://c47mssn3wi6mr"]
 
 [ext_resource type="PackedScene" uid="uid://gcgee3glc6vc" path="res://Scenes/player.tscn" id="2_rwihv"]
 [ext_resource type="Script" path="res://Scenes/debug_spawner.gd" id="2_wrr86"]
 [ext_resource type="TileSet" uid="uid://d1hccsh7sacbc" path="res://Tilesets/minifantasy.tres" id="3_ut87n"]
 [ext_resource type="PackedScene" uid="uid://c02ld2u1ay4d3" path="res://Scenes/UnitSpawner.tscn" id="4_gxve7"]
+[ext_resource type="PackedScene" uid="uid://chjadf2wp68nl" path="res://Mobs/simple_mob.tscn" id="5_ysfdn"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_exeqb"]
 vertices = PackedVector2Array(-48, 24.2813, 673.898, -401.82, 631.063, 405.492, -71.7188, 48, -48, -24.2813, -71.7188, -48, -76, -48, -76, -52, -80, -52, -80, -88.2813, -208, -88.2813, -208, -84, -212, -84, -527.094, -392.156, -212, -80, -216.281, -80, -216.281, 48, -212, 48, -212, 52, -492.844, 375.5, -208, 52, -208, 56.2813, -80, 56.2813, -80, 52, -76, 52, -76, 48, -103.719, 80, -184.281, 80, -240, 24.2813, -240, -56.2813, -184.281, -112, -103.719, -112)
@@ -30,3 +31,12 @@ spawner = NodePath("../UnitSpawner")
 
 [node name="UnitSpawner" parent="." instance=ExtResource("4_gxve7")]
 spawn_path = NodePath("..")
+
+[node name="Mob" parent="." instance=ExtResource("5_ysfdn")]
+position = Vector2(294, -78)
+
+[node name="Mob2" parent="." instance=ExtResource("5_ysfdn")]
+position = Vector2(325, -96)
+
+[node name="Mob3" parent="." instance=ExtResource("5_ysfdn")]
+position = Vector2(542, -217)
