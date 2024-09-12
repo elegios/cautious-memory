@@ -1,3 +1,4 @@
+@tool
 ## Move a character in a given direction.
 class_name MoveCharacter extends AbilityNode
 
@@ -10,37 +11,22 @@ enum What { Direction, Point }
 
 ## A vector denoting the movement target. Either a direction to move
 ## in, in pixels per second, or a point to move to.
-@export var target: DataSource
+@export var target: String
+@onready var target_e: Expression = parse_expr(target)
 
 ## A scaling factor/speed to be applied to the movement. Defaults to
 ## '1' if absent.
-@export var speed: DataSource
+@export var speed: String
+@onready var speed_e: Expression = parse_expr(speed) if speed else null
 
-func setup(a: AbilityRunner, b: Blackboard) -> void:
-	target = target.setup(a, b)
-	if speed:
-		speed = speed.setup(a, b)
-	super(a, b)
-
-func save_state(buffer: Array) -> void:
-	target.save_state(buffer)
-	if speed:
-		speed.save_state(buffer)
-
-func load_state(buffer: Array, idx: int) -> int:
-	idx = target.load_state(buffer, idx)
-	if speed:
-		idx = speed.load_state(buffer, idx)
-	return idx
-
-func pre_first_process() -> void:
-	target.pre_first_data()
-	if speed:
-		speed.pre_first_data()
+func _validate_property(property: Dictionary) -> void:
+	match property.name:
+		"target", "speed":
+			property.hint = PROPERTY_HINT_EXPRESSION
 
 func physics_process_ability(delta: float) -> ARunResult:
-	var vec: Vector2 = target.get_data(delta)
-	var scale: float = speed.get_data(delta) if speed else 1.0
+	var vec: Vector2 = run_expr(target, target_e)
+	var scale: float = run_expr(speed, speed_e) if speed_e else 1.0
 	match what:
 		What.Direction:
 			runner.character.velocity = scale * vec

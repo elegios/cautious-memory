@@ -1,10 +1,17 @@
+@tool
 ## Wait for a [ShapeCast2D] to hit something, save data to the
 ## blackboard, then finish
 class_name ShapeCast extends AbilityTriggered
 
 ## A [Vector2] describing where to cast to, relative to the position
 ## of the [ShapeCast2D]. Defaults to Vector2(0, 0).
-@export var relative_target: DataSource
+@export var relative_target: String
+@onready var relative_target_e: Expression = parse_expr(relative_target) if relative_target else null
+
+func _validate_property(property: Dictionary) -> void:
+	match property.name:
+		"relative_target":
+			property.hint = PROPERTY_HINT_EXPRESSION
 
 ## Change whether the cast can find the unit itself.
 @export var ignore_self: bool = true
@@ -35,20 +42,6 @@ class_name ShapeCast extends AbilityTriggered
 ## if the property is empty.
 @export var collision_normal: StringName
 
-func setup(a: AbilityRunner, b: Blackboard) -> void:
-	if relative_target:
-		relative_target = relative_target.setup(a, b)
-	super(a, b)
-
-func save_state(buffer: Array) -> void:
-	if relative_target:
-		relative_target.save_state(buffer)
-
-func load_state(buffer: Array, idx: int) -> int:
-	if relative_target:
-		idx = relative_target.load_state(buffer, idx)
-	return idx
-
 func pre_first_process() -> void:
 	runner.shape_cast.clear_exceptions()
 	# NOTE(vipa, 2024-08-29): This seems like a bug in Godot, since
@@ -56,12 +49,10 @@ func pre_first_process() -> void:
 	# to be excluded
 	if ignore_self:
 		runner.shape_cast.add_exception(runner.shape_cast.get_parent() as CollisionObject2D)
-	if relative_target:
-		relative_target.pre_first_data()
 
-func physics_process_ability(delta: float) -> ARunResult:
+func physics_process_ability(_delta: float) -> ARunResult:
 	var sc := runner.shape_cast
-	var relative: Vector2 = relative_target.get_data(delta) if relative_target else Vector2.ZERO
+	var relative: Vector2 = run_expr(relative_target, relative_target_e) if relative_target_e else Vector2.ZERO
 	var new_shape := shape if shape else sc.shape
 	var changed := sc.target_position != relative or sc.collision_mask != collision_mask or sc.shape != new_shape or sc.exclude_parent != ignore_self
 

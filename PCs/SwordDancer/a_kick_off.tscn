@@ -1,122 +1,16 @@
-[gd_scene load_steps=36 format=3 uid="uid://bpdq3av7p7qu4"]
+[gd_scene load_steps=12 format=3 uid="uid://bpdq3av7p7qu4"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_78rpn"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="2_wtnov"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="3_acvri"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/InputSource.gd" id="4_5h42l"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="5_0eod8"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/StateChange.gd" id="6_h2fv2"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="7_uiwfq"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="8_m8xi7"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="9_86yuo"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="10_svte1"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="11_4dmmj"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="12_1gs33"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/RunAbility.gd" id="13_wxynl"]
-[ext_resource type="PackedScene" uid="uid://de7yjo0qe63et" path="res://Scenes/GenericKnockback.tscn" id="14_civuk"]
+[ext_resource type="PackedScene" uid="uid://de7yjo0qe63et" path="res://Scenes/a_generic_knockback.tscn" id="14_civuk"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/TeleportCharacter.gd" id="15_k57he"]
-
-[sub_resource type="Resource" id="Resource_svlls"]
-script = ExtResource("4_5h42l")
-what = 0
-
-[sub_resource type="Resource" id="Resource_tbp2u"]
-script = ExtResource("5_0eod8")
-what = 0
-
-[sub_resource type="Resource" id="Resource_36er5"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "(x - y).normalized()"
-x = SubResource("Resource_svlls")
-y = SubResource("Resource_tbp2u")
-
-[sub_resource type="Resource" id="Resource_130ni"]
-script = ExtResource("9_86yuo")
-property = &"direction"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_ffgc3"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "96*4"
-
-[sub_resource type="Resource" id="Resource_3xhjt"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "0.3"
-
-[sub_resource type="Resource" id="Resource_kjd15"]
-script = ExtResource("9_86yuo")
-property = &"hit_unit"
-allow_absent = true
-
-[sub_resource type="Resource" id="Resource_etvny"]
-script = ExtResource("9_86yuo")
-property = &"direction"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_h3ds0"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "96*4"
-
-[sub_resource type="Resource" id="Resource_1bcyj"]
-script = ExtResource("9_86yuo")
-property = &"hit_unit"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_x3ihw"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "0.3"
-
-[sub_resource type="Resource" id="Resource_sy8c2"]
-script = ExtResource("9_86yuo")
-property = &"hit_unit"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_l48mo"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "x.position"
-x = SubResource("Resource_sy8c2")
-
-[sub_resource type="Resource" id="Resource_fygb1"]
-script = ExtResource("4_5h42l")
-what = 0
-
-[sub_resource type="Resource" id="Resource_1g8dk"]
-script = ExtResource("5_0eod8")
-what = 0
-
-[sub_resource type="Resource" id="Resource_7po6w"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "(x - y).normalized()"
-x = SubResource("Resource_fygb1")
-y = SubResource("Resource_1g8dk")
-
-[sub_resource type="Resource" id="Resource_vohe3"]
-script = ExtResource("9_86yuo")
-property = &"direction"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_hvphj"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "-x"
-x = SubResource("Resource_vohe3")
-
-[sub_resource type="Resource" id="Resource_ejafp"]
-script = ExtResource("9_86yuo")
-property = &"direction"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_84s27"]
-resource_local_to_scene = true
-script = ExtResource("3_acvri")
-expression = "96*4"
 
 [node name="KickOff" type="Node"]
 script = ExtResource("1_78rpn")
@@ -124,7 +18,7 @@ script = ExtResource("1_78rpn")
 [node name="FirstAim" type="Node" parent="."]
 script = ExtResource("2_wtnov")
 property = &"direction"
-source = SubResource("Resource_36er5")
+source = "character.position.direction_to(mouse)"
 
 [node name="Phasing" type="Node" parent="."]
 script = ExtResource("6_h2fv2")
@@ -135,12 +29,12 @@ script = ExtResource("7_uiwfq")
 
 [node name="MovePlayer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("8_m8xi7")
-target = SubResource("Resource_130ni")
-speed = SubResource("Resource_ffgc3")
+target = "bb.direction"
+speed = "96*4"
 
 [node name="AbilityTimer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("10_svte1")
-duration = SubResource("Resource_3xhjt")
+duration = "0.3"
 
 [node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("11_4dmmj")
@@ -148,22 +42,22 @@ collider = &"hit_unit"
 
 [node name="If Hit" type="Node" parent="Phasing"]
 script = ExtResource("12_1gs33")
-condition = SubResource("Resource_kjd15")
+condition = "bb.hit_unit"
 
 [node name="knockback_direction" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("2_wtnov")
 property = &"knockback_direction"
-source = SubResource("Resource_etvny")
+source = "bb.direction"
 
 [node name="knockback_speed" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("2_wtnov")
 property = &"knockback_speed"
-source = SubResource("Resource_h3ds0")
+source = "96*4"
 
 [node name="RunAbility" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("13_wxynl")
 ability = ExtResource("14_civuk")
-target = SubResource("Resource_1bcyj")
+target = "bb.hit_unit"
 copy_blackboard = true
 
 [node name="Stick To Target" type="Node" parent="Phasing/If Hit"]
@@ -171,27 +65,27 @@ script = ExtResource("7_uiwfq")
 
 [node name="AbilityTimer" type="Node" parent="Phasing/If Hit/Stick To Target"]
 script = ExtResource("10_svte1")
-duration = SubResource("Resource_x3ihw")
+duration = "0.3"
 
 [node name="TeleportCharacter" type="Node" parent="Phasing/If Hit/Stick To Target"]
 script = ExtResource("15_k57he")
 continuous = true
-position = SubResource("Resource_l48mo")
+position = "bb.hit_unit.position"
 
 [node name="SecondAim" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("2_wtnov")
 property = &"direction"
-source = SubResource("Resource_7po6w")
+source = "character.position.direction_to(mouse)"
 
 [node name="knockback_direction2" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("2_wtnov")
 property = &"knockback_direction"
-source = SubResource("Resource_hvphj")
+source = "-bb.direction"
 
 [node name="RunAbility2" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("13_wxynl")
 ability = ExtResource("14_civuk")
-target = SubResource("Resource_1bcyj")
+target = "bb.hit_unit"
 copy_blackboard = true
 
 [node name="AbilityParAny" type="Node" parent="Phasing/If Hit"]
@@ -199,9 +93,9 @@ script = ExtResource("7_uiwfq")
 
 [node name="MovePlayer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
 script = ExtResource("8_m8xi7")
-target = SubResource("Resource_ejafp")
-speed = SubResource("Resource_84s27")
+target = "bb.direction"
+speed = "96*4"
 
 [node name="AbilityTimer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
 script = ExtResource("10_svte1")
-duration = SubResource("Resource_3xhjt")
+duration = "0.3"

@@ -1,3 +1,4 @@
+@tool
 ## Like [AbilitySeq], but finish immediately if condition does not
 ## hold.
 class_name Conditional extends AbilitySeq
@@ -7,29 +8,19 @@ class_name Conditional extends AbilitySeq
 ## executing the first child.
 @export var continuous: bool = false
 ## The condition to check.
-@export var condition: DataSource
+@export var condition: String
+@onready var condition_e: Expression = parse_expr(condition)
+
+func _validate_property(property: Dictionary) -> void:
+	match property.name:
+		"condition":
+			property.hint = PROPERTY_HINT_EXPRESSION
 
 var checked: bool = false
 
-func setup(a: AbilityRunner, b: Blackboard) -> void:
-	condition = condition.setup(a, b)
-	super(a, b)
-
-func save_state(buffer: Array) -> void:
-	condition.save_state(buffer)
-	super(buffer)
-
-func load_state(buffer: Array, idx: int) -> int:
-	idx = condition.load_state(buffer, idx)
-	return super(buffer, idx)
-
-func pre_first_process() -> void:
-	condition.pre_first_data()
-	super()
-
 func physics_process_ability(delta: float) -> ARunResult:
 	if not checked:
-		if condition.get_data(delta):
+		if run_expr(condition, condition_e):
 			checked = not continuous
 		else:
 			var c := current_child

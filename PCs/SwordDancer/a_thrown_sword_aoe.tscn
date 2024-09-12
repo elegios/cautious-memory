@@ -1,23 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://ctauqs2eq1gsr"]
+[gd_scene load_steps=6 format=3 uid="uid://ctauqs2eq1gsr"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_vy2gx"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="2_5mps5"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="3_s6sce"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="4_21ksq"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="5_h7us2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w5hby"]
 radius = 20.0
-
-[sub_resource type="Resource" id="Resource_4b52q"]
-resource_local_to_scene = true
-script = ExtResource("5_h7us2")
-expression = "0.1"
-
-[sub_resource type="Resource" id="Resource_j0807"]
-resource_local_to_scene = true
-script = ExtResource("5_h7us2")
-expression = "1.5"
 
 [node name="ThrownSwordAoe" type="Node"]
 script = ExtResource("1_vy2gx")
@@ -34,8 +23,8 @@ collider = &"hit_unit"
 
 [node name="AbilityTimer" type="Node" parent="AbilityParAny"]
 script = ExtResource("4_21ksq")
-duration = SubResource("Resource_4b52q")
+duration = "0.1"
 
 [node name="AbilityTimer" type="Node" parent="."]
 script = ExtResource("4_21ksq")
-duration = SubResource("Resource_j0807")
+duration = "1.5"

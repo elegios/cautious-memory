@@ -1,3 +1,4 @@
+@tool
 ## Spawn a unit. NOTE: spawning only happens on the server. This means
 ## that for the client, one of two things will happen: 1. If the unit
 ## is saved to the blackboard, then this node will wait for
@@ -9,7 +10,14 @@ class_name SpawnUnit extends AbilityNode
 ## The unit (or missile) to spawn
 @export var unit: PackedScene
 
-@export var point: DataSource
+## Where to spawn the unit
+@export var point: String
+@onready var point_e: Expression = parse_expr(point)
+
+func _validate_property(property: Dictionary) -> void:
+	match property.name:
+		"point":
+			property.hint = PROPERTY_HINT_EXPRESSION
 
 @export_group("Blackboard Output")
 
@@ -18,22 +26,9 @@ class_name SpawnUnit extends AbilityNode
 ## immediately.
 @export var unit_property: StringName
 
-func setup(a: AbilityRunner, b: Blackboard) -> void:
-	point = point.setup(a, b)
-	super(a, b)
-
-func save_state(buffer: Array) -> void:
-	point.save_state(buffer)
-	super(buffer)
-
-func load_state(buffer: Array, idx: int) -> int:
-	idx = point.load_state(buffer, idx)
-	return super(buffer, idx)
-
 func pre_first_process() -> void:
-	point.pre_first_data()
 	if multiplayer.is_server():
-		var spawn_point: Vector2 = point.get_data(0.0)
+		var spawn_point: Vector2 = run_expr(point, point_e)
 		var spawned := runner.unit_spawner.spawn_unit(unit, spawn_point)
 		if unit_property:
 			blackboard.bset(unit_property, spawned)

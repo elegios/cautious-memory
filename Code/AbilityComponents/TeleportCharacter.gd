@@ -1,3 +1,4 @@
+@tool
 ## Instantly change the position of a character, possibly
 ## continuously.
 class_name TeleportCharacter extends AbilityNode
@@ -8,21 +9,14 @@ class_name TeleportCharacter extends AbilityNode
 @export var continuous: bool = false
 
 ## Position to set the character to.
-@export var position: DataSource
+@export var position: String
+@onready var position_e: Expression = parse_expr(position)
 
-func setup(a: AbilityRunner, b: Blackboard) -> void:
-	position = position.setup(a, b)
-	super(a, b)
+func _validate_property(property: Dictionary) -> void:
+	match property.name:
+		"position":
+			property.hint = PROPERTY_HINT_EXPRESSION
 
-func save_state(buffer: Array) -> void:
-	position.save_state(buffer)
-
-func load_state(buffer: Array, idx: int) -> int:
-	return position.load_state(buffer, idx)
-
-func pre_first_process() -> void:
-	position.pre_first_data()
-
-func physics_process_ability(delta: float) -> ARunResult:
-	runner.character.position = position.get_data(delta)
+func physics_process_ability(_delta: float) -> ARunResult:
+	runner.character.position = run_expr(position, position_e)
 	return ARunResult.Wait if continuous else ARunResult.Done

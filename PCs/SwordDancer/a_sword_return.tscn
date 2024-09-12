@@ -1,40 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://ybebosfbcswr"]
+[gd_scene load_steps=8 format=3 uid="uid://ybebosfbcswr"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_5psss"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="2_tlv1a"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/RotateCharacter.gd" id="3_owyr2"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="4_xf0au"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="5_1c318"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="6_npgr0"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="7_jgkcr"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/DestroySelf.gd" id="10_yp0yd"]
-
-[sub_resource type="Resource" id="Resource_gwlxw"]
-script = ExtResource("5_1c318")
-property = &"target_unit"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_f4w4k"]
-resource_local_to_scene = true
-script = ExtResource("4_xf0au")
-expression = "x.position"
-x = SubResource("Resource_gwlxw")
-
-[sub_resource type="Resource" id="Resource_rwrjs"]
-script = ExtResource("5_1c318")
-property = &"target_unit"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_ikgsd"]
-resource_local_to_scene = true
-script = ExtResource("4_xf0au")
-expression = "x.position"
-x = SubResource("Resource_rwrjs")
-
-[sub_resource type="Resource" id="Resource_lscuj"]
-resource_local_to_scene = true
-script = ExtResource("4_xf0au")
-expression = "96*4"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0bxqp"]
 size = Vector2(20, 10)
@@ -48,13 +19,13 @@ script = ExtResource("2_tlv1a")
 [node name="RotateCharacter" type="Node" parent="AbilityParAny"]
 script = ExtResource("3_owyr2")
 continuous = true
-target = SubResource("Resource_f4w4k")
+target = "bb.target_unit.position"
 
 [node name="MoveCharacter" type="Node" parent="AbilityParAny"]
 script = ExtResource("6_npgr0")
 what = 1
-target = SubResource("Resource_ikgsd")
-speed = SubResource("Resource_lscuj")
+target = "bb.target_unit.position"
+speed = "96*4"
 
 [node name="ShapeCast" type="Node" parent="AbilityParAny"]
 script = ExtResource("7_jgkcr")

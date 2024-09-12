@@ -1,51 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://cg4iheqtjngax"]
+[gd_scene load_steps=8 format=3 uid="uid://cg4iheqtjngax"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_4r5c3"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="2_ymp6y"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="3_igjfm"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="4_teujp"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="5_4j6lb"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="6_wp2xn"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SpawnUnit.gd" id="7_5h2l8"]
 [ext_resource type="PackedScene" uid="uid://cysdemfryj8u8" path="res://Mobs/Archer/m_arrow.tscn" id="8_s2phh"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/RunAbility.gd" id="9_jaq7u"]
 [ext_resource type="PackedScene" uid="uid://dr8otj0a00fec" path="res://Mobs/Archer/a_arrow_movement.tscn" id="10_lpcmg"]
-
-[sub_resource type="Resource" id="Resource_xkisv"]
-script = ExtResource("4_teujp")
-what = 0
-
-[sub_resource type="Resource" id="Resource_56vth"]
-script = ExtResource("5_4j6lb")
-property = &"m_target"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_pu5x4"]
-resource_local_to_scene = true
-script = ExtResource("3_igjfm")
-expression = "x.direction_to(y.position)"
-x = SubResource("Resource_xkisv")
-y = SubResource("Resource_56vth")
-
-[sub_resource type="Resource" id="Resource_bmugw"]
-resource_local_to_scene = true
-script = ExtResource("3_igjfm")
-expression = "0.2"
-
-[sub_resource type="Resource" id="Resource_6bouj"]
-script = ExtResource("4_teujp")
-what = 0
-
-[sub_resource type="Resource" id="Resource_34jud"]
-script = ExtResource("5_4j6lb")
-property = &"arrow"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_si4k8"]
-resource_local_to_scene = true
-script = ExtResource("3_igjfm")
-expression = "1.0
-"
 
 [node name="FireArrow" type="Node"]
 script = ExtResource("1_4r5c3")
@@ -53,24 +14,24 @@ script = ExtResource("1_4r5c3")
 [node name="direction" type="Node" parent="."]
 script = ExtResource("2_ymp6y")
 property = &"direction"
-source = SubResource("Resource_pu5x4")
+source = "character.position.direction_to(bb.m_target.position)"
 
 [node name="pre-shoot delay" type="Node" parent="."]
 script = ExtResource("6_wp2xn")
-duration = SubResource("Resource_bmugw")
+duration = "0.2"
 
 [node name="SpawnUnit" type="Node" parent="."]
 script = ExtResource("7_5h2l8")
 unit = ExtResource("8_s2phh")
-point = SubResource("Resource_6bouj")
+point = "character.position"
 unit_property = &"arrow"
 
 [node name="RunAbility" type="Node" parent="."]
 script = ExtResource("9_jaq7u")
 ability = ExtResource("10_lpcmg")
-target = SubResource("Resource_34jud")
+target = "bb.arrow"
 copy_blackboard = true
 
 [node name="post-shoot delay" type="Node" parent="."]
 script = ExtResource("6_wp2xn")
-duration = SubResource("Resource_si4k8")
+duration = "1.0"

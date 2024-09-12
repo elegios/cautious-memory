@@ -11,9 +11,7 @@ func _ready() -> void:
 
 func setup() -> void:
 	abi_cd = []
-	for i in abilities.size():
-		abilities = abilities.duplicate()
-		abilities[i] = abilities[i].setup(runner)
+	for _i in abilities.size():
 		abi_cd.push_back(0.0)
 
 func _physics_process(delta: float) -> void:
@@ -25,12 +23,7 @@ func _physics_process(delta: float) -> void:
 		abi_cd[i] = maxf(abi_cd[i] - delta, 0.0)
 
 		if abi_cd[i] <= 0:
-			var condition_holds := true
-			for c in abi.conditions:
-				if not c.get_data(delta):
-					condition_holds = false
-					break
-			if not condition_holds:
+			if not abi.check_condition(runner):
 				continue
 			var config := {
 				&"path": abi.ability.resource_path,

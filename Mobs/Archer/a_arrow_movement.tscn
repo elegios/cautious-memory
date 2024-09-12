@@ -1,55 +1,27 @@
-[gd_scene load_steps=15 format=3 uid="uid://dr8otj0a00fec"]
+[gd_scene load_steps=8 format=3 uid="uid://dr8otj0a00fec"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_kkt62"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/RotateCharacter.gd" id="2_bkyia"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="3_2tb83"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="4_o4g57"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="5_kw3q4"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="6_cxror"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="7_7sifs"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="8_xvrcc"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/DestroySelf.gd" id="9_mis0t"]
 
-[sub_resource type="Resource" id="Resource_ojtwh"]
-script = ExtResource("4_o4g57")
-property = &"direction"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_6jjb1"]
-resource_local_to_scene = true
-script = ExtResource("3_2tb83")
-expression = "x.angle()"
-x = SubResource("Resource_ojtwh")
-
-[sub_resource type="Resource" id="Resource_imoh2"]
-script = ExtResource("4_o4g57")
-property = &"direction"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_bkwjt"]
-resource_local_to_scene = true
-script = ExtResource("3_2tb83")
-expression = "96*4"
-
-[sub_resource type="Resource" id="Resource_rwf5c"]
-resource_local_to_scene = true
-script = ExtResource("3_2tb83")
-expression = "0.5"
-
 [node name="AArrowMovement" type="Node"]
 script = ExtResource("1_kkt62")
 
 [node name="FacePoint" type="Node" parent="."]
 script = ExtResource("2_bkyia")
-target = SubResource("Resource_6jjb1")
+target = "bb.direction.angle()"
 
 [node name="ParAny" type="Node" parent="."]
 script = ExtResource("5_kw3q4")
 
 [node name="MoveCharacter" type="Node" parent="ParAny"]
 script = ExtResource("6_cxror")
-target = SubResource("Resource_imoh2")
-speed = SubResource("Resource_bkwjt")
+target = "bb.direction"
+speed = "94*4"
 
 [node name="ShapeCast" type="Node" parent="ParAny"]
 script = ExtResource("7_7sifs")
@@ -58,7 +30,7 @@ collider = &"hit_unit"
 
 [node name="AbilityTimer" type="Node" parent="ParAny"]
 script = ExtResource("8_xvrcc")
-duration = SubResource("Resource_rwf5c")
+duration = "0.5"
 
 [node name="DestroySelf" type="Node" parent="."]
 script = ExtResource("9_mis0t")

@@ -1,3 +1,6 @@
+@tool
+## Rotate the character. Note that this is different from setting the
+## direction to face on sprites with multiple directions.
 class_name RotateCharacter extends AbilityNode
 
 ## Keep rotating forever (or until interrupted)
@@ -5,23 +8,16 @@ class_name RotateCharacter extends AbilityNode
 
 ## Target to face. Can be a target (Vector2) or an angle (float, in
 ## radians)
-@export var target: DataSource
+@export var target: String
+@onready var target_e: Expression = parse_expr(target)
 
-func setup(a: AbilityRunner, b: Blackboard) -> void:
-	target = target.setup(a, b)
-	super(a, b)
+func _validate_property(property: Dictionary) -> void:
+	match property.name:
+		"target":
+			property.hint = PROPERTY_HINT_EXPRESSION
 
-func save_state(buffer: Array) -> void:
-	target.save_state(buffer)
-
-func load_state(buffer: Array, idx: int) -> int:
-	return target.load_state(buffer, idx)
-
-func pre_first_process() -> void:
-	target.pre_first_data()
-
-func physics_process_ability(delta: float) -> ARunResult:
-	var variant: Variant = target.get_data(delta)
+func physics_process_ability(_delta: float) -> ARunResult:
+	var variant: Variant = run_expr(target, target_e)
 	if variant is Vector2:
 		var v_target: Vector2 = variant
 		runner.character.rotation = runner.character.position.angle_to_point(v_target)

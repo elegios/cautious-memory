@@ -1,3 +1,5 @@
+@tool
+## Run an ability on a unit.
 class_name RunAbility extends AbilityNode
 
 ## The ability to run. The root node in the scene must be a subclass
@@ -6,7 +8,13 @@ class_name RunAbility extends AbilityNode
 
 ## Target on which to try to run an ability. Defaults to self if
 ## absent.
-@export var target: DataSource
+@export var target: String
+@onready var target_e: Expression = parse_expr(target) if target else null
+
+func _validate_property(property: Dictionary) -> void:
+	match property.name:
+		"target":
+			property.hint = PROPERTY_HINT_EXPRESSION
 
 ## Run the new ability as a main ability, i.e., attempt to interrupt a
 ## previous main ability. Runs as a background ability if false.
@@ -30,28 +38,14 @@ class_name RunAbility extends AbilityNode
 ##    ability did not acknowledge the interrupt.
 @export var success_property: StringName
 
-func setup(a: AbilityRunner, b: Blackboard) -> void:
-	if target:
-		target = target.setup(a, b)
-	super(a, b)
-
-func save_state(buffer: Array) -> void:
-	target.save_state(buffer)
-
-func load_state(buffer: Array, idx: int) -> int:
-	return target.load_state(buffer, idx)
-
-func pre_first_process() -> void:
-	target.pre_first_data()
-
-func physics_process_ability(delta: float) -> ARunResult:
+func physics_process_ability(_delta: float) -> ARunResult:
 	if not multiplayer.is_server():
 		return ARunResult.Done
 
 	var other_runner: AbilityRunner = null
 
 	if target:
-		var other: Node2D = target.get_data(delta)
+		var other: Node2D = run_expr(target, target_e)
 		for i in other.get_child_count():
 			other_runner = other.get_child(i) as AbilityRunner
 			if other_runner:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://chjadf2wp68nl"]
+[gd_scene load_steps=13 format=3 uid="uid://chjadf2wp68nl"]
 
 [ext_resource type="Script" path="res://Code/Components/SimpleMob.gd" id="1_47x0m"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="1_tgesp"]
@@ -7,41 +7,16 @@
 [ext_resource type="Script" path="res://Code/Components/MobAbilities.gd" id="4_dfoif"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/MobAbility.gd" id="5_e4e7w"]
 [ext_resource type="PackedScene" uid="uid://cg4iheqtjngax" path="res://Mobs/Archer/a_fire_arrow.tscn" id="6_ketma"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/ExpressionSource.gd" id="7_hlqvu"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/Core/DataSource.gd" id="7_uhku7"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/CharacterSource.gd" id="8_07l8a"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DataSources/BlackboardSource.gd" id="9_gth7o"]
 
 [sub_resource type="Curve" id="Curve_qgu2a"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Resource" id="Resource_8rt3m"]
-script = ExtResource("9_gth7o")
-property = &"m_target"
-allow_absent = true
-
-[sub_resource type="Resource" id="Resource_4g8bh"]
-script = ExtResource("9_gth7o")
-property = &"m_target"
-allow_absent = false
-
-[sub_resource type="Resource" id="Resource_634lm"]
-script = ExtResource("8_07l8a")
-what = 0
-
-[sub_resource type="Resource" id="Resource_p4rfo"]
-resource_local_to_scene = true
-script = ExtResource("7_hlqvu")
-expression = "y.distance_squared_to(x.position) < 150*150"
-x = SubResource("Resource_4g8bh")
-y = SubResource("Resource_634lm")
-
 [sub_resource type="Resource" id="Resource_2s2m1"]
 script = ExtResource("5_e4e7w")
 is_main = true
 cooldown = 2.0
-conditions = Array[ExtResource("7_uhku7")]([SubResource("Resource_8rt3m"), SubResource("Resource_p4rfo")])
+conditions = Array[String](["bb.m_target", "character.position.distance_squared_to(bb.m_target.position) < 150*150"])
 ability = ExtResource("6_ketma")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i8vk3"]
@@ -54,10 +29,10 @@ radius = 343.91
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath("AbilityRunner:unit_local:dict")
+properties/1/path = NodePath("AbilityRunner:unit_local:_is_special")
 properties/1/spawn = true
 properties/1/replication_mode = 2
-properties/2/path = NodePath("AbilityRunner:unit_local:is_special")
+properties/2/path = NodePath("AbilityRunner:unit_local:_dict")
 properties/2/spawn = true
 properties/2/replication_mode = 2
 

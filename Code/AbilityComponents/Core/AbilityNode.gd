@@ -70,3 +70,23 @@ func interrupt(kind: AInterruptKind) -> AInterruptResult:
 		_:
 			assert(false, "Impossible")
 			return AInterruptResult.Interrupted
+
+# NOTE(vipa, 2024-09-12): This function and the next are very similar
+# to corresponding ones in MobAbility. They should either be kept in
+# sync or extracted somewhere.
+func parse_expr(text: String) -> Expression:
+	var e := Expression.new()
+	var res := e.parse(text, ["character", "mouse", "bb"])
+	if res != OK:
+		print(error_string(res))
+		push_error("Error: %s\npath: %s\nexpr: %s" % [e.get_error_text(), get_path(), text])
+	return e
+
+func run_expr(text: String, e: Expression) -> Variant:
+	var pi := runner.player_input
+	var res: Variant = e.execute([runner.character, pi.mouse_position if pi else Vector2.ZERO, blackboard], null, false, true)
+
+	if e.has_execute_failed():
+		push_error("Error: %s\npath: %s\nexpr: %s\nblackboard: %s" % [e.get_error_text(), get_path(), text, blackboard])
+
+	return res
