@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://b1bdaxje0qmm8"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_6e6wh"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/RotateCharacter.gd" id="2_b8yu8"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="2_yndcs"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RotateCharacter.gd" id="2_b8yu8"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/WriteToBlackboard.gd" id="2_yndcs"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="7_67hk1"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="7_ylswt"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="9_5566f"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="7_ylswt"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="9_5566f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4lnmg"]
 size = Vector2(20, 10)

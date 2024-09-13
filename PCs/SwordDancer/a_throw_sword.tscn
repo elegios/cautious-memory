@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_du0m8"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="2_o7avq"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/RunAbility.gd" id="4_wvaqr"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RunAbility.gd" id="4_wvaqr"]
 [ext_resource type="PackedScene" uid="uid://ybebosfbcswr" path="res://PCs/SwordDancer/a_sword_return.tscn" id="5_cdn4m"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="7_tpacx"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/SpawnUnit.gd" id="10_nlbw3"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/WriteToBlackboard.gd" id="7_tpacx"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/SpawnUnit.gd" id="10_nlbw3"]
 [ext_resource type="PackedScene" uid="uid://bh2crvskwyow3" path="res://PCs/SwordDancer/m_sword.tscn" id="11_fc3af"]
 [ext_resource type="PackedScene" uid="uid://b1bdaxje0qmm8" path="res://PCs/SwordDancer/a_sword_to_point.tscn" id="12_gq5v1"]
 

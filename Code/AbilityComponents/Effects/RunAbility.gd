@@ -1,3 +1,4 @@
+@icon("../Icons/RunAbility.svg")
 @tool
 ## Run an ability on a unit.
 class_name RunAbility extends AbilityNode

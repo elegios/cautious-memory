@@ -1,3 +1,4 @@
+@icon("../Icons/Character.svg")
 @tool
 ## Rotate the character. Note that this is different from setting the
 ## direction to face on sprites with multiple directions.

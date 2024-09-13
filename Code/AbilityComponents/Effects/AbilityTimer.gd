@@ -1,3 +1,4 @@
+@icon("../Icons/Timer.svg")
 @tool
 ## Wait for an amount of time, then finish
 class_name AbilityTimer extends AbilityNode

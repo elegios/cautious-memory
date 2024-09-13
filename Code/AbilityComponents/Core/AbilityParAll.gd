@@ -1,3 +1,4 @@
+@icon("../Icons/ParAll.svg")
 ## Run a number of actions in parallel, waiting until all have
 ## finished. Interrupts are propagated to running children,
 ## potentially interrupting them. This node gets interrupted if no

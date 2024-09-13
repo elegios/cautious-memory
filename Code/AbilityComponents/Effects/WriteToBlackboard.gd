@@ -1,3 +1,4 @@
+@icon("../Icons/Edit.svg")
 @tool
 ## Write a value (computed via a [DataSource]) to the blackboard.
 class_name WriteToBlackboard extends AbilityNode

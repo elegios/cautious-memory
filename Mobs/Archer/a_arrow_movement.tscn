@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://dr8otj0a00fec"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_kkt62"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/RotateCharacter.gd" id="2_bkyia"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RotateCharacter.gd" id="2_bkyia"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="5_kw3q4"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="6_cxror"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="7_7sifs"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="8_xvrcc"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DestroySelf.gd" id="9_mis0t"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="6_cxror"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="7_7sifs"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="8_xvrcc"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/DestroySelf.gd" id="9_mis0t"]
 
 [node name="AArrowMovement" type="Node"]
 script = ExtResource("1_kkt62")

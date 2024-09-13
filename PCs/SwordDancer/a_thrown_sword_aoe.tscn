@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_vy2gx"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="2_5mps5"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="3_s6sce"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="4_21ksq"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="3_s6sce"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="4_21ksq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w5hby"]
 radius = 20.0

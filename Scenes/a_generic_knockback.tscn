@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://de7yjo0qe63et"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="1_ida6f"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="2_elyht"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="6_2ntn6"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="2_elyht"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="6_2ntn6"]
 
 [sub_resource type="Curve" id="Curve_h1i7k"]
 _data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]

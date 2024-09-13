@@ -1,16 +1,16 @@
 [gd_scene load_steps=12 format=3 uid="uid://bpdq3av7p7qu4"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_78rpn"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/WriteToBlackboard.gd" id="2_wtnov"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/WriteToBlackboard.gd" id="2_wtnov"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/StateChange.gd" id="6_h2fv2"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="7_uiwfq"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="8_m8xi7"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/AbilityTimer.gd" id="10_svte1"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="11_4dmmj"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="8_m8xi7"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="10_svte1"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="11_4dmmj"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="12_1gs33"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/RunAbility.gd" id="13_wxynl"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RunAbility.gd" id="13_wxynl"]
 [ext_resource type="PackedScene" uid="uid://de7yjo0qe63et" path="res://Scenes/a_generic_knockback.tscn" id="14_civuk"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/TeleportCharacter.gd" id="15_k57he"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/TeleportCharacter.gd" id="15_k57he"]
 
 [node name="KickOff" type="Node"]
 script = ExtResource("1_78rpn")
@@ -32,7 +32,7 @@ script = ExtResource("8_m8xi7")
 target = "bb.direction"
 speed = "96*4"
 
-[node name="AbilityTimer" type="Node" parent="Phasing/AbilityParAny"]
+[node name="Timer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("10_svte1")
 duration = "0.3"
 

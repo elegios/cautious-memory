@@ -1,3 +1,4 @@
+@icon("../Icons/Character.svg")
 ## Destroy the Character attached to the AbilityRunner. Should be the
 ## last action to run; it will only complete on the server.
 class_name DestroySelf extends AbilityNode

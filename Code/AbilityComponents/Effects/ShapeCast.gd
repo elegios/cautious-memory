@@ -1,3 +1,4 @@
+@icon("res://Code/AbilityComponents/Icons/ShapeCast.svg")
 @tool
 ## Wait for a [ShapeCast2D] to hit something, save data to the
 ## blackboard, then finish

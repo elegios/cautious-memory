@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bx2xg8av7jb2h"]
+
+[ext_resource type="Theme" uid="uid://bdfhmi7he1hym" path="res://addons/abilityeditor/ability_editor_theme.tres" id="1_stiwd"]
+[ext_resource type="PackedScene" uid="uid://1bnkv5me41ck" path="res://addons/abilityeditor/ability_node_proxy.tscn" id="2_kqj7d"]
+
+[node name="MainPanel" type="ScrollContainer"]
+clip_children = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_stiwd")
+
+[node name="Background" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Root Node" parent="Background" instance=ExtResource("2_kqj7d")]
+unique_name_in_owner = true
+layout_mode = 2

@@ -2,15 +2,16 @@
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_5psss"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="2_tlv1a"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/RotateCharacter.gd" id="3_owyr2"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/MoveCharacter.gd" id="6_npgr0"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/ShapeCast.gd" id="7_jgkcr"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/DestroySelf.gd" id="10_yp0yd"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RotateCharacter.gd" id="3_owyr2"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="6_npgr0"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="7_jgkcr"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/DestroySelf.gd" id="10_yp0yd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0bxqp"]
 size = Vector2(20, 10)
 
 [node name="ASwordReturn" type="Node"]
+editor_description = "Return the sword to target_unit, hitting things along the way"
 script = ExtResource("1_5psss")
 
 [node name="AbilityParAny" type="Node" parent="."]

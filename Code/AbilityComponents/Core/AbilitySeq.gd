@@ -1,3 +1,4 @@
+@icon("../Icons/Seq.svg")
 ## Run ability actions in sequence, one after the other, top to
 ## bottom. Interrupts only affect the currently executing child; if it
 ## gets interrupted this node also gets interrupted.

@@ -1,3 +1,4 @@
+@icon("res://Code/AbilityComponents/Icons/CharacterBody2D.svg")
 @tool
 ## Instantly change the position of a character, possibly
 ## continuously.

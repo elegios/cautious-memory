@@ -32,6 +32,10 @@ gdscript/warnings/return_value_discarded=1
 
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/abilityeditor/plugin.cfg")
+
 [global_group]
 
 spawners="Unit spawners in one scene or another"

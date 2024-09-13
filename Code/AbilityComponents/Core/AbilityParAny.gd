@@ -1,3 +1,4 @@
+@icon("../Icons/ParOne.svg")
 ## Run a number of actions in parallel until one finishes, then
 ## interrupt the others. Interrupts are propagated to running
 ## children, potentially interrupting them. This node gets interrupted

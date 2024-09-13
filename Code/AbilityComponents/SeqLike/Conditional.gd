@@ -1,3 +1,4 @@
+@icon("../Icons/Condition.svg")
 @tool
 ## Like [AbilitySeq], but finish immediately if condition does not
 ## hold.
