@@ -5,9 +5,13 @@ var id_to_unit: Dictionary = {}
 var unit_to_id: Dictionary = {}
 
 func _ready() -> void:
-	spawn_function = do_spawn
+	spawn_function = _do_spawn
 	var _connected := get_node(spawn_path).child_exiting_tree.connect(cleanup_node)
 
+## Spawn a unit by instantiating the given scene and moving it to the
+## given point. Will also spawn the unit for all clients, assuming the
+## resource_path of the [PackedScene] is the same and present in all
+## clients.
 func spawn_unit(scene: PackedScene, point: Vector2) -> Node:
 	if not multiplayer.is_server():
 		push_error("Called spawn_unit on non-server")
@@ -21,7 +25,7 @@ func spawn_unit(scene: PackedScene, point: Vector2) -> Node:
 	next_id += 1
 	return spawn(config)
 
-func do_spawn(config: Dictionary) -> Node:
+func _do_spawn(config: Dictionary) -> Node:
 	var path: String = config[&"path"]
 	var point: Vector2 = config[&"point"]
 	var id: int = config[&"id"]
