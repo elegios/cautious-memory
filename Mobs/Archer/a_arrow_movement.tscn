@@ -30,7 +30,7 @@ collider = &"hit_unit"
 
 [node name="AbilityTimer" type="Node" parent="ParAny"]
 script = ExtResource("8_xvrcc")
-duration = "0.5"
+duration = "1"
 
 [node name="DestroySelf" type="Node" parent="."]
 script = ExtResource("9_mis0t")

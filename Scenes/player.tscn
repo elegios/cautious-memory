@@ -1,25 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=8 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
 [ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
-[ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://PCs/SwordDancer/a_kick_off.tscn" id="3_ftytm"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
 [ext_resource type="Script" path="res://Code/Components/PlayerAbilities.gd" id="4_bgt3b"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbility.gd" id="5_c8qdb"]
-[ext_resource type="PackedScene" uid="uid://60nh8fm0my6x" path="res://PCs/SwordDancer/a_throw_sword.tscn" id="6_7sdyg"]
-
-[sub_resource type="Resource" id="Resource_ludiy"]
-script = ExtResource("5_c8qdb")
-is_main = false
-cancel_move = false
-ability = ExtResource("6_7sdyg")
-
-[sub_resource type="Resource" id="Resource_8ah4o"]
-script = ExtResource("5_c8qdb")
-is_main = true
-cancel_move = true
-ability = ExtResource("3_ftytm")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
 radius = 14.0
@@ -46,7 +31,7 @@ collision_layer = 19
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_2bwdi")
-movement_speed = 96.0
+movement_speed = 120.0
 
 [node name="PlayerInput" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -55,7 +40,6 @@ script = ExtResource("3_6juq4")
 [node name="PlayerAbilities" type="Node" parent="." node_paths=PackedStringArray("runner")]
 script = ExtResource("4_bgt3b")
 runner = NodePath("../AbilityRunner")
-abilities = Array[ExtResource("5_c8qdb")]([SubResource("Resource_ludiy"), SubResource("Resource_8ah4o")])
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 unique_name_in_owner = true

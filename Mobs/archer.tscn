@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://8fg6jk7nc0qw"]
+
+[ext_resource type="PackedScene" uid="uid://chjadf2wp68nl" path="res://Scenes/simple_mob.tscn" id="1_h1afo"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/MobAbility.gd" id="2_w5xvq"]
+[ext_resource type="PackedScene" uid="uid://cg4iheqtjngax" path="res://Mobs/Archer/a_fire_arrow.tscn" id="3_sali5"]
+[ext_resource type="Texture2D" uid="uid://derflbsgms3yv" path="res://icon.svg" id="4_lvayj"]
+
+[sub_resource type="Resource" id="Resource_jmttu"]
+script = ExtResource("2_w5xvq")
+is_main = true
+cooldown = 2.0
+conditions = Array[String](["bb.m_target", "character.position.distance_squared_to(bb.m_target.position) < 200*200"])
+ability = ExtResource("3_sali5")
+
+[node name="Simple Mob" instance=ExtResource("1_h1afo")]
+
+[node name="Movement" parent="." index="1"]
+target_max_distance = 200.0
+
+[node name="MobAbilities" parent="." index="2"]
+abilities = Array[ExtResource("2_w5xvq")]([SubResource("Resource_jmttu")])
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="7"]
+scale = Vector2(0.1875, 0.203125)
+texture = ExtResource("4_lvayj")

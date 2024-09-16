@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://60nh8fm0my6x"]
+[gd_scene load_steps=8 format=3 uid="uid://60nh8fm0my6x"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_du0m8"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="2_o7avq"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RunAbility.gd" id="4_wvaqr"]
-[ext_resource type="PackedScene" uid="uid://ybebosfbcswr" path="res://PCs/SwordDancer/a_sword_return.tscn" id="5_cdn4m"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/WriteToBlackboard.gd" id="7_tpacx"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/SpawnUnit.gd" id="10_nlbw3"]
 [ext_resource type="PackedScene" uid="uid://bh2crvskwyow3" path="res://PCs/SwordDancer/m_sword.tscn" id="11_fc3af"]
@@ -16,28 +15,27 @@ script = ExtResource("1_du0m8")
 script = ExtResource("2_o7avq")
 condition = "bb.m_sword"
 
-[node name="RunAbility" type="Node" parent="Already Thrown"]
-script = ExtResource("4_wvaqr")
-ability = ExtResource("5_cdn4m")
-target = "bb.m_sword"
-source_unit_property = &"target_unit"
+[node name="Target From Sword" type="Node" parent="Already Thrown"]
+script = ExtResource("7_tpacx")
+property = &"target_point"
+source = "bb.m_sword.position + (mouse-bb.m_sword.position).limit_length(380)"
 
 [node name="Not Thrown" type="Node" parent="."]
 script = ExtResource("2_o7avq")
 condition = "not bb.m_sword"
 
-[node name="WriteToBlackboard" type="Node" parent="Not Thrown"]
+[node name="Target From Character" type="Node" parent="Not Thrown"]
 script = ExtResource("7_tpacx")
 property = &"target_point"
-source = "character.position + (mouse-character.position).limit_length(280)"
+source = "character.position + (mouse-character.position).limit_length(380)"
 
-[node name="SpawnUnit" type="Node" parent="Not Thrown"]
+[node name="Spawn Sword" type="Node" parent="Not Thrown"]
 script = ExtResource("10_nlbw3")
 unit = ExtResource("11_fc3af")
 point = "character.position"
 unit_property = &"m_sword"
 
-[node name="RunAbility" type="Node" parent="Not Thrown"]
+[node name="Move Sword" type="Node" parent="."]
 script = ExtResource("4_wvaqr")
 ability = ExtResource("12_gq5v1")
 target = "bb.m_sword"

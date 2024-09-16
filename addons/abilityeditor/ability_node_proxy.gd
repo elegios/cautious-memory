@@ -11,10 +11,12 @@ const ANPScene = preload("res://addons/abilityeditor/ability_node_proxy.tscn")
 var undo: EditorUndoRedoManager
 
 var target: AbilityNode
+var icons: Dictionary
 
 enum Kind { Leaf, Seq, Par, Trigger }
 
-func set_proxy_target(n: AbilityNode, icons: Dictionary) -> void:
+func set_proxy_target(n: AbilityNode, i: Dictionary) -> void:
+	icons = i
 	if target:
 		cleanup()
 	target = n
@@ -23,6 +25,8 @@ func set_proxy_target(n: AbilityNode, icons: Dictionary) -> void:
 	var script: Script = n.get_script()
 	shown_icon.texture = icons[script.get_global_name()]
 	target.renamed.connect(update_name)
+	target.tree_exiting.connect(update_parent)
+	target.child_order_changed.connect(update_self)
 
 	var k: Kind
 	if target is AbilitySeq:
@@ -67,6 +71,8 @@ func cleanup() -> void:
 	shown_name.text = "<None>"
 	if is_instance_valid(target):
 		target.renamed.disconnect(update_name)
+		target.tree_exiting.disconnect(update_parent)
+		target.child_order_changed.disconnect(update_self)
 
 	theme_type_variation = &"LeafNode"
 
@@ -138,3 +144,14 @@ func update_property(value: Variant, prop: StringName) -> void:
 	undo.add_do_property(target, prop, value)
 	undo.commit_action()
 	pass
+
+func update_self() -> void:
+	if is_instance_valid(target):
+		set_proxy_target(target, icons)
+	else:
+		cleanup()
+
+func update_parent() -> void:
+	var p := get_parent() as AbilityNodeProxy
+	if p:
+		p.update_self()

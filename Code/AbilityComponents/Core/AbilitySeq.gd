@@ -8,7 +8,7 @@ var executing_idx: int = -1
 
 var current_child: AbilityNode:
 	get:
-		if executing_idx < get_child_count():
+		if 0 <= executing_idx and executing_idx < get_child_count():
 			return get_child(executing_idx) as AbilityNode
 		return null
 
@@ -36,7 +36,8 @@ func sync_lost() -> void:
 
 func pre_first_process() -> void:
 	executing_idx = 0
-	current_child.pre_first_process()
+	if current_child:
+		current_child.pre_first_process()
 
 func physics_process_ability(delta: float) -> ARunResult:
 	var first := false

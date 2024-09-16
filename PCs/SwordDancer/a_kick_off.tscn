@@ -30,11 +30,11 @@ script = ExtResource("7_uiwfq")
 [node name="MovePlayer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("8_m8xi7")
 target = "bb.direction"
-speed = "96*4"
+speed = "120*4"
 
 [node name="Timer" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("10_svte1")
-duration = "0.3"
+duration = "0.25"
 
 [node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("11_4dmmj")
@@ -52,7 +52,7 @@ source = "bb.direction"
 [node name="knockback_speed" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("2_wtnov")
 property = &"knockback_speed"
-source = "96*4"
+source = "120*4"
 
 [node name="RunAbility" type="Node" parent="Phasing/If Hit"]
 script = ExtResource("13_wxynl")
@@ -65,7 +65,7 @@ script = ExtResource("7_uiwfq")
 
 [node name="AbilityTimer" type="Node" parent="Phasing/If Hit/Stick To Target"]
 script = ExtResource("10_svte1")
-duration = "0.3"
+duration = "0.25"
 
 [node name="TeleportCharacter" type="Node" parent="Phasing/If Hit/Stick To Target"]
 script = ExtResource("15_k57he")
@@ -94,8 +94,8 @@ script = ExtResource("7_uiwfq")
 [node name="MovePlayer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
 script = ExtResource("8_m8xi7")
 target = "bb.direction"
-speed = "96*4"
+speed = "120*5"
 
 [node name="AbilityTimer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
 script = ExtResource("10_svte1")
-duration = "0.3"
+duration = "0.25"

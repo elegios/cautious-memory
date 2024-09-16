@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgniiahsb81y2"]
+
+[ext_resource type="Script" path="res://Code/MobSpawner.gd" id="1_1yn7m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ffcrf"]
+radius = 150.0
+
+[node name="MobSpawner" type="Node2D"]
+position = Vector2(-243, 300)
+script = ExtResource("1_1yn7m")
+count = 5
+respawn_time = 30.0
+spawn_area = SubResource("CircleShape2D_ffcrf")

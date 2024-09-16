@@ -22,6 +22,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("Action 2"):
 		rpc_action.rpc_id(1, 1, mouse_position)
 
+	if event.is_action_pressed("Action 3"):
+		rpc_action.rpc_id(1, 2, mouse_position)
+
 	if event.is_action_pressed("Move"):
 		rpc_move_command.rpc(mouse_position)
 

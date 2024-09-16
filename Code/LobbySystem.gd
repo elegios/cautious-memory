@@ -6,7 +6,7 @@ func _ready() -> void:
 	const port = 12345
 	var peer := ENetMultiplayerPeer.new()
 
-	if OS.has_feature("debug_server"):
+	if OS.has_feature("server"):
 		DisplayServer.window_set_title("(SERVER)")
 		var screen_rect := DisplayServer.screen_get_usable_rect(1)
 		var window_size := DisplayServer.window_get_size_with_decorations()
@@ -18,7 +18,7 @@ func _ready() -> void:
 		else:
 			push_error("Couldn't create a server: " + error_string(err))
 
-	if OS.has_feature("debug_client"):
+	if OS.has_feature("client"):
 		DisplayServer.window_set_title("(CLIENT)")
 		var screen_rect := DisplayServer.screen_get_usable_rect(0)
 		var window_size := DisplayServer.window_get_size_with_decorations()
