@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://gcgee3glc6vc"]
 
-[ext_resource type="Script" path="res://Scenes/Player.gd" id="1_2bwdi"]
+[ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
 [ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
 [ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://PCs/SwordDancer/a_kick_off.tscn" id="3_ftytm"]

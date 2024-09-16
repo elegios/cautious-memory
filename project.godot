@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-LobbySystem="*res://Scenes/LobbySystem.gd"
+LobbySystem="*res://Code/LobbySystem.gd"
 
 [debug]
 
@@ -30,6 +30,8 @@ gdscript/warnings/return_value_discarded=1
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/aspect="expand"
 
 [editor_plugins]
