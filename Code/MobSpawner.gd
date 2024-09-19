@@ -64,4 +64,9 @@ func _spawn_one() -> void:
 		var _ignore := unit.tree_exited.connect(_queue_respawn)
 
 func _queue_respawn() -> void:
-	var _ignore := get_tree().create_timer(respawn_time, false).timeout.connect(_spawn_one)
+	var tree := get_tree()
+	# NOTE(vipa, 2024-09-19): Guard on this in case we're in the
+	# process of destroying everything, in which case we don't want to
+	# respawn things
+	if tree:
+		var _ignore := tree.create_timer(respawn_time, false).timeout.connect(_spawn_one)

@@ -11,13 +11,9 @@ config_version=5
 [application]
 
 config/name="Godot-test"
-run/main_scene="res://Scenes/Levels/Test.tscn"
+run/main_scene="res://Scenes/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
-
-[autoload]
-
-LobbySystem="*res://Code/LobbySystem.gd"
 
 [debug]
 

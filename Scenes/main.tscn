@@ -1,0 +1,83 @@
+[gd_scene load_steps=3 format=3 uid="uid://6nmkjjcp622t"]
+
+[ext_resource type="Script" path="res://Code/main.gd" id="1_nehcl"]
+[ext_resource type="PackedScene" uid="uid://c47mssn3wi6mr" path="res://Scenes/Levels/Test.tscn" id="2_e7kpx"]
+
+[node name="Main" type="MultiplayerSpawner"]
+spawn_path = NodePath(".")
+script = ExtResource("1_nehcl")
+initial_level = ExtResource("2_e7kpx")
+
+[node name="ConnectInterface" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ConnectInterface"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConnectInterface/PanelContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="ConnectInterface/PanelContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="ConnectInterface/PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Adress"
+
+[node name="LineEdit" type="LineEdit" parent="ConnectInterface/PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "localhost"
+expand_to_text_length = true
+
+[node name="Label2" type="Label" parent="ConnectInterface/PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Port
+"
+
+[node name="LineEdit2" type="LineEdit" parent="ConnectInterface/PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "12345"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConnectInterface/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="ConnectInterface/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Host"
+
+[node name="Connect" type="Button" parent="ConnectInterface/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Connect"
+
+[node name="Status" type="Label" parent="ConnectInterface/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Press 'Host' or 'Connect'"
+horizontal_alignment = 1
+
+[connection signal="text_changed" from="ConnectInterface/PanelContainer/VBoxContainer/GridContainer/LineEdit" to="." method="_update_adress"]
+[connection signal="text_changed" from="ConnectInterface/PanelContainer/VBoxContainer/GridContainer/LineEdit2" to="." method="_update_port"]
+[connection signal="pressed" from="ConnectInterface/PanelContainer/VBoxContainer/HBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="ConnectInterface/PanelContainer/VBoxContainer/HBoxContainer/Connect" to="." method="_on_connect_pressed"]
