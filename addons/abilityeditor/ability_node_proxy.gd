@@ -23,7 +23,7 @@ func set_proxy_target(n: AbilityNode, i: Dictionary) -> void:
 
 	update_name()
 	var script: Script = n.get_script()
-	shown_icon.texture = icons[script.get_global_name()]
+	shown_icon.texture = icons.get(script.get_global_name(), EditorInterface.get_editor_theme().get_icon("Node", "EditorIcons"))
 	target.renamed.connect(update_name)
 	target.tree_exiting.connect(update_parent)
 	target.child_order_changed.connect(update_self)
