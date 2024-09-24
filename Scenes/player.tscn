@@ -1,13 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=9 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
 [ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
 [ext_resource type="Script" path="res://Code/Components/PlayerAbilities.gd" id="4_bgt3b"]
+[ext_resource type="PackedScene" uid="uid://b8q3nchmonjde" path="res://Scenes/Components/player_health.tscn" id="6_cjdk0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
-radius = 14.0
+radius = 11.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e08i6"]
 properties/0/path = NodePath(".:position")
@@ -25,6 +26,12 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath("AbilityRunner:unit_local:_is_special")
 properties/4/spawn = true
 properties/4/replication_mode = 2
+properties/5/path = NodePath("PlayerHealth:current_health_diff")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("PlayerHealth:current_chip_diff")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 19
@@ -78,6 +85,9 @@ shape_cast = NodePath("../ShapeCast2D")
 [node name="ShapeCast2D" type="ShapeCast2D" parent="."]
 shape = SubResource("CircleShape2D_rf6ld")
 target_position = Vector2(0, 0)
+
+[node name="PlayerHealth" parent="." instance=ExtResource("6_cjdk0")]
+position = Vector2(0, -28)
 
 [connection signal="action_pressed" from="PlayerInput" to="PlayerAbilities" method="try_run_ability"]
 [connection signal="move_command" from="PlayerInput" to="." method="_move_command_given"]

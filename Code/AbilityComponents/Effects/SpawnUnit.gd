@@ -7,7 +7,9 @@
 ## won't be spawned until the server says so.
 class_name SpawnUnit extends AbilityNode
 
-## The unit (or missile) to spawn
+## The unit (or missile) to spawn. Will set the [code]m_spawner[/code]
+## blackboard property to the current unit in the spawned unit, if the
+## latter has an [AbilityRunner].
 @export var unit: PackedScene
 
 ## Where to spawn the unit
@@ -32,6 +34,12 @@ func pre_first_process() -> void:
 		var spawned := runner.unit_spawner.spawn_unit(unit, spawn_point)
 		if unit_property:
 			blackboard.bset(unit_property, spawned)
+		if runner.character:
+			for i in spawned.get_child_count():
+				var other := spawned.get_child(i) as AbilityRunner
+				if other:
+					other.unit_local.bset(&"m_spawner", runner.character)
+					continue
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	if multiplayer.is_server() or not unit_property:

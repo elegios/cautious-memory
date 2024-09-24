@@ -38,6 +38,7 @@ duration = "0.25"
 
 [node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("11_4dmmj")
+additional_ignore = null
 collider = &"hit_unit"
 
 [node name="If Hit" type="Node" parent="Phasing"]

@@ -1,0 +1,68 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8q3nchmonjde"]
+
+[ext_resource type="Script" path="res://Code/Components/PlayerHealth.gd" id="1_3l02x"]
+
+[node name="PlayerHealth" type="Node2D"]
+script = ExtResource("1_3l02x")
+regen_start_time = 10.0
+
+[node name="RegenTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+process_callback = 0
+
+[node name="ChipTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="TempLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -37.0
+offset_top = -33.0
+offset_right = 39.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "H: 6 C: 0.0"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HPContainer" type="HBoxContainer" parent="PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HitPoint" type="Control" parent="PanelContainer/HPContainer"]
+custom_minimum_size = Vector2(5, 3)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Health" type="ColorRect" parent="PanelContainer/HPContainer/HitPoint"]
+custom_minimum_size = Vector2(5, 3)
+layout_mode = 0
+offset_right = 5.0
+offset_bottom = 3.0
+color = Color(0.98, 0.261333, 0, 1)
+
+[node name="OverHealth" type="ColorRect" parent="PanelContainer/HPContainer/HitPoint"]
+custom_minimum_size = Vector2(5, 3)
+layout_mode = 0
+offset_top = -10.0
+offset_right = 5.0
+offset_bottom = -9.0
+color = Color(0.98, 0.637, 0, 0)
+
+[connection signal="timeout" from="RegenTimer" to="." method="_on_regen_timer_timeout"]
+[connection signal="timeout" from="ChipTimer" to="." method="_on_chip_timer_timeout"]

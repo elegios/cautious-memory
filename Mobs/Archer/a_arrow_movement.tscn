@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dr8otj0a00fec"]
+[gd_scene load_steps=9 format=3 uid="uid://dr8otj0a00fec"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_kkt62"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RotateCharacter.gd" id="2_bkyia"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="5_kw3q4"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="6_cxror"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AlterHealth.gd" id="6_j8g0y"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="7_7sifs"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="8_xvrcc"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/DestroySelf.gd" id="9_mis0t"]
@@ -25,8 +26,14 @@ speed = "94*4"
 
 [node name="ShapeCast" type="Node" parent="ParAny"]
 script = ExtResource("7_7sifs")
+additional_ignore = "bb.m_spawner"
 collision_mask = 16
 collider = &"hit_unit"
+
+[node name="AlterHealth" type="Node" parent="ParAny/ShapeCast"]
+script = ExtResource("6_j8g0y")
+target = "bb.hit_unit"
+amount = "-1"
 
 [node name="AbilityTimer" type="Node" parent="ParAny"]
 script = ExtResource("8_xvrcc")

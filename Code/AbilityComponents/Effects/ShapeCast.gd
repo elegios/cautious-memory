@@ -11,11 +11,15 @@ class_name ShapeCast extends AbilityTriggered
 
 func _validate_property(property: Dictionary) -> void:
 	match property.name:
-		"relative_target":
+		"relative_target", "additional_ignore":
 			property.hint = PROPERTY_HINT_EXPRESSION
 
 ## Change whether the cast can find the unit itself.
 @export var ignore_self: bool = true
+
+## Optional. Ignore this unit as well.
+@export var additional_ignore: String
+@onready var additional_ignore_e := parse_expr(additional_ignore) if additional_ignore else null
 
 ## The collision layers to look through.
 @export_flags_2d_physics var collision_mask: int = 1
@@ -50,6 +54,9 @@ func pre_first_process() -> void:
 	# to be excluded
 	if ignore_self:
 		runner.shape_cast.add_exception(runner.shape_cast.get_parent() as CollisionObject2D)
+	if additional_ignore_e:
+		var extra : CollisionObject2D = run_expr(additional_ignore, additional_ignore_e)
+		runner.shape_cast.add_exception(extra)
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	var sc := runner.shape_cast
