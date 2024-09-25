@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwuioqeuukxnk"]
+[gd_scene load_steps=6 format=3 uid="uid://bwuioqeuukxnk"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_xcdd0"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="2_2ipkl"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RunAbility.gd" id="3_nfh7k"]
 [ext_resource type="PackedScene" uid="uid://ybebosfbcswr" path="res://PCs/SwordDancer/a_sword_return.tscn" id="4_8otd5"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/OnAlteredHealth.gd" id="5_rrc0e"]
 
 [node name="AParryReturn" type="Node"]
 script = ExtResource("1_xcdd0")
@@ -21,3 +22,7 @@ source_unit_property = &"target_unit"
 [node name="Sword Not Thrown" type="Node" parent="."]
 script = ExtResource("2_2ipkl")
 condition = "not bb.m_sword"
+
+[node name="OnAlteredHealth" type="Node" parent="Sword Not Thrown"]
+script = ExtResource("5_rrc0e")
+new_delta = "-delta"

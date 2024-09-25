@@ -12,6 +12,7 @@ signal main_ability_ended
 ## can be unset.
 @export_group("Ability Features")
 @export var character: CharacterBody2D
+@export var health: Health
 @export var nav_agent: NavigationAgent2D
 @export var player_input: PlayerInput
 @export var shape_cast: ShapeCast2D

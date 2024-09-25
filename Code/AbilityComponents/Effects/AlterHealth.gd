@@ -19,7 +19,7 @@ class_name AlterHealth extends AbilityNode
 
 func _validate_property(property: Dictionary) -> void:
 	match property.name:
-		"target":
+		"target", "amount":
 			property.hint = PROPERTY_HINT_EXPRESSION
 
 func physics_process_ability(_delta: float) -> ARunResult:

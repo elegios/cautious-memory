@@ -47,6 +47,7 @@ func cancel_move() -> void:
 	pathing = false
 
 func _move_command_given(target: Vector2) -> void:
+	agent.target_position = target
+
 	if runner.try_soft_interrupt():
 		pathing = true
-		agent.target_position = target

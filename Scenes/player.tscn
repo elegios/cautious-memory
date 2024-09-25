@@ -73,11 +73,12 @@ offset = Vector2(-16, -16)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_e08i6")
 
-[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "nav_agent", "player_input", "shape_cast")]
+[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "health", "nav_agent", "player_input", "shape_cast")]
 unique_name_in_owner = true
 spawn_path = NodePath(".")
 script = ExtResource("4_aqo0i")
 character = NodePath("..")
+health = NodePath("../PlayerHealth")
 nav_agent = NodePath("../NavAgent")
 player_input = NodePath("../PlayerInput")
 shape_cast = NodePath("../ShapeCast2D")

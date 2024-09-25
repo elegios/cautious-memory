@@ -20,7 +20,7 @@ ability = ExtResource("4_0b85u")
 
 [sub_resource type="Resource" id="Resource_4i5x0"]
 script = ExtResource("2_vc2fc")
-is_main = false
+is_main = true
 cancel_move = false
 ability = ExtResource("5_a7twy")
 
