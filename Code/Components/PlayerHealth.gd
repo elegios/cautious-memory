@@ -100,7 +100,7 @@ func _on_regen_timer_timeout() -> void:
 		# NOTE(vipa, 2024-09-24): Start regen/degen
 		regen_timer.one_shot = false
 		if de_re():
-			regen_timer.start(regen_interval)
+			regen_timer.start(regen_interval if current_health_diff < 0 else degen_interval)
 	else:
 		# NOTE(vipa, 2024-09-24): Tick during regen/degen
 		if not de_re():
