@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwuioqeuukxnk"]
+[gd_scene load_steps=8 format=3 uid="uid://bwuioqeuukxnk"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_xcdd0"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="2_2ipkl"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RunAbility.gd" id="3_nfh7k"]
 [ext_resource type="PackedScene" uid="uid://ybebosfbcswr" path="res://PCs/SwordDancer/a_sword_return.tscn" id="4_8otd5"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/OnAlteredHealth.gd" id="5_rrc0e"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/CreateEffect.gd" id="6_5kpp7"]
+[ext_resource type="PackedScene" uid="uid://cwn1c5040s2ct" path="res://PCs/SwordDancer/parry_effect.tscn" id="7_k0k1l"]
 
 [node name="AParryReturn" type="Node"]
 script = ExtResource("1_xcdd0")
@@ -26,3 +28,8 @@ condition = "not bb.m_sword"
 [node name="OnAlteredHealth" type="Node" parent="Sword Not Thrown"]
 script = ExtResource("5_rrc0e")
 new_delta = "-delta"
+
+[node name="CreateEffect" type="Node" parent="Sword Not Thrown/OnAlteredHealth"]
+script = ExtResource("6_5kpp7")
+effect = ExtResource("7_k0k1l")
+target = "character.position"
