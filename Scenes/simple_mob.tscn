@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://chjadf2wp68nl"]
+[gd_scene load_steps=11 format=3 uid="uid://chjadf2wp68nl"]
 
 [ext_resource type="Script" path="res://Code/Components/SimpleMob.gd" id="1_ovq62"]
 [ext_resource type="Script" path="res://Code/Components/Aggro.gd" id="2_gpd8e"]
 [ext_resource type="Script" path="res://Code/Components/MobMovement.gd" id="3_2mxmv"]
 [ext_resource type="Script" path="res://Code/Components/MobAbilities.gd" id="4_7h1ok"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="5_71wu2"]
+[ext_resource type="PackedScene" uid="uid://b6g10et2otcpu" path="res://Scenes/Components/mob_health.tscn" id="6_g017y"]
 
 [sub_resource type="Curve" id="Curve_qgu2a"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -75,3 +76,5 @@ debug_color = Color(0, 0.647059, 0.254902, 0.0509804)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_g53wp")
+
+[node name="MobHealth" parent="." instance=ExtResource("6_g017y")]

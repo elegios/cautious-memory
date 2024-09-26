@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6g10et2otcpu"]
+
+[ext_resource type="Script" path="res://Code/Components/MobHealth.gd" id="1_lgwos"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qx0fm"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u5nqr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nctow"]
+bg_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="MobHealth" type="Node2D"]
+script = ExtResource("1_lgwos")
+
+[node name="DelayedHealth" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -4.0
+offset_right = 15.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/fill = SubResource("StyleBoxFlat_qx0fm")
+value = 100.0
+show_percentage = false
+
+[node name="CorrectHealth" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -4.0
+offset_right = 15.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxEmpty_u5nqr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_nctow")
+value = 100.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -23,3 +23,8 @@ abilities = Array[ExtResource("2_w5xvq")]([SubResource("Resource_jmttu")])
 [node name="Sprite2D" type="Sprite2D" parent="." index="7"]
 scale = Vector2(0.1875, 0.203125)
 texture = ExtResource("4_lvayj")
+
+[node name="MobHealth" parent="." index="8"]
+position = Vector2(0, -14)
+
+[connection signal="health_depleted" from="MobHealth" to="." method="queue_free"]
