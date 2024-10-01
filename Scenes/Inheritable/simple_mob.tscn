@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://chjadf2wp68nl"]
 
-[ext_resource type="Script" path="res://Code/Components/SimpleMob.gd" id="1_ovq62"]
-[ext_resource type="Script" path="res://Code/Components/Aggro.gd" id="2_gpd8e"]
-[ext_resource type="Script" path="res://Code/Components/MobMovement.gd" id="3_2mxmv"]
-[ext_resource type="Script" path="res://Code/Components/MobAbilities.gd" id="4_7h1ok"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="5_71wu2"]
-[ext_resource type="PackedScene" uid="uid://b6g10et2otcpu" path="res://Scenes/Components/mob_health.tscn" id="6_g017y"]
+[ext_resource type="Script" path="res://Code/Components/SimpleMob.gd" id="1_5x801"]
+[ext_resource type="Script" path="res://Code/Components/Aggro.gd" id="2_hbkp2"]
+[ext_resource type="Script" path="res://Code/Components/MobMovement.gd" id="3_x6253"]
+[ext_resource type="Script" path="res://Code/Components/MobAbilities.gd" id="4_hrisj"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="5_8uhus"]
+[ext_resource type="PackedScene" uid="uid://b6g10et2otcpu" path="res://Scenes/Components/mob_health.tscn" id="6_6ccxx"]
 
 [sub_resource type="Curve" id="Curve_qgu2a"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -35,17 +35,17 @@ properties/3/replication_mode = 1
 collision_layer = 35
 collision_mask = 5
 motion_mode = 1
-script = ExtResource("1_ovq62")
+script = ExtResource("1_5x801")
 movement_speed = 100.0
 
 [node name="Aggro" type="Node" parent="." node_paths=PackedStringArray("vision", "runner")]
-script = ExtResource("2_gpd8e")
+script = ExtResource("2_hbkp2")
 vision = NodePath("../Vision Range")
 runner = NodePath("../AbilityRunner")
 
 [node name="Movement" type="Node" parent="." node_paths=PackedStringArray("vision", "runner", "aggro")]
 unique_name_in_owner = true
-script = ExtResource("3_2mxmv")
+script = ExtResource("3_x6253")
 vision = NodePath("../Vision Range")
 runner = NodePath("../AbilityRunner")
 movement_threshold = 0.1
@@ -57,12 +57,12 @@ mob_avoidance_max_range = 50.0
 mob_avoidance_strength = SubResource("Curve_qgu2a")
 
 [node name="MobAbilities" type="Node" parent="." node_paths=PackedStringArray("runner")]
-script = ExtResource("4_7h1ok")
+script = ExtResource("4_hrisj")
 runner = NodePath("../AbilityRunner")
 
 [node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character")]
 spawn_path = NodePath(".")
-script = ExtResource("5_71wu2")
+script = ExtResource("5_8uhus")
 character = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -80,4 +80,5 @@ debug_color = Color(0, 0.647059, 0.254902, 0.0509804)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_g53wp")
 
-[node name="MobHealth" parent="." instance=ExtResource("6_g017y")]
+[node name="MobHealth" parent="." instance=ExtResource("6_6ccxx")]
+max_health = 16.0

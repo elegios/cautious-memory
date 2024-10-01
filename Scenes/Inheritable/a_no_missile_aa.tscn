@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://hgk5armc01xa"]
+
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Cancellable.gd" id="1_fk2g5"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="2_0uwpc"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="3_l4m23"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="4_c331r"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="5_8qj31"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="6_gkjro"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AlterHealth.gd" id="7_t3vrb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_od2jr"]
+radius = 150.0
+
+[node name="ANoMissileAa" type="Node"]
+script = ExtResource("1_fk2g5")
+
+[node name="AquireTarget" type="Node" parent="."]
+script = ExtResource("2_0uwpc")
+
+[node name="attack_target" type="Node" parent="AquireTarget"]
+script = ExtResource("3_l4m23")
+relative_target = "mouse - character.position"
+shape = SubResource("CircleShape2D_od2jr")
+prioritization_mode = 1
+collider = &"attack_target"
+
+[node name="AbilityTimer" type="Node" parent="AquireTarget"]
+script = ExtResource("4_c331r")
+duration = "0"
+
+[node name="IfTarget" type="Node" parent="."]
+script = ExtResource("5_8qj31")
+continuous = true
+condition = "bb.attack_target"
+
+[node name="GetInRange" type="Node" parent="IfTarget"]
+script = ExtResource("5_8qj31")
+continuous = true
+condition = "character.position.distance_squared_to(bb.attack_target.position) > 100*100"
+
+[node name="MoveCharacter" type="Node" parent="IfTarget/GetInRange"]
+script = ExtResource("6_gkjro")
+what = 1
+target = "bb.attack_target.position"
+speed = "character.movement_speed"
+
+[node name="windup" type="Node" parent="IfTarget"]
+script = ExtResource("4_c331r")
+duration = "0.1"
+
+[node name="AlterHealth" type="Node" parent="IfTarget"]
+script = ExtResource("7_t3vrb")
+target = "bb.attack_target"
+amount = "-4"
+
+[node name="winddown" type="Node" parent="IfTarget"]
+script = ExtResource("4_c331r")
+duration = "0.1"

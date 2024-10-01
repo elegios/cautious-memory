@@ -4,6 +4,8 @@ signal move_cancelled
 
 @export var runner : AbilityRunner
 
+## The abilities directly usable by this player character. Index 0 is
+## the auto-attack.
 @export var abilities : Array[PlayerAbility]
 
 ## Try to run an ability, sending a soft interrupt to the currently

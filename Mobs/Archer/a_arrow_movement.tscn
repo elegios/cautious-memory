@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dr8otj0a00fec"]
+[gd_scene load_steps=10 format=3 uid="uid://dr8otj0a00fec"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_kkt62"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RotateCharacter.gd" id="2_bkyia"]
@@ -8,6 +8,9 @@
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="7_7sifs"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="8_xvrcc"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/DestroySelf.gd" id="9_mis0t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8u01r"]
+size = Vector2(20, 5)
 
 [node name="AArrowMovement" type="Node"]
 script = ExtResource("1_kkt62")
@@ -28,6 +31,7 @@ speed = "94*4"
 script = ExtResource("7_7sifs")
 additional_ignore = "bb.m_spawner"
 collision_mask = 16
+shape = SubResource("RectangleShape2D_8u01r")
 collider = &"hit_unit"
 
 [node name="AlterHealth" type="Node" parent="ParAny/ShapeCast"]

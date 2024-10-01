@@ -84,6 +84,7 @@ player_input = NodePath("../PlayerInput")
 shape_cast = NodePath("../ShapeCast2D")
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="."]
+enabled = false
 shape = SubResource("CircleShape2D_rf6ld")
 target_position = Vector2(0, 0)
 

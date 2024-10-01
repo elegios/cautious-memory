@@ -1,3 +1,4 @@
+@icon("../Icons/Cancellable.svg")
 ## Like [AbilitySeq], but transform a soft interrupt to a hard
 ## interrupt. This means that a player can interrupt the ability by
 ## giving a new command.

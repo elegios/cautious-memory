@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bpdq3av7p7qu4"]
+[gd_scene load_steps=13 format=3 uid="uid://bpdq3av7p7qu4"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_78rpn"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/WriteToBlackboard.gd" id="2_wtnov"]
@@ -11,6 +11,9 @@
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RunAbility.gd" id="13_wxynl"]
 [ext_resource type="PackedScene" uid="uid://de7yjo0qe63et" path="res://Scenes/a_generic_knockback.tscn" id="14_civuk"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/TeleportCharacter.gd" id="15_k57he"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aarkw"]
+radius = 11.0
 
 [node name="KickOff" type="Node"]
 script = ExtResource("1_78rpn")
@@ -38,7 +41,7 @@ duration = "0.25"
 
 [node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("11_4dmmj")
-additional_ignore = null
+shape = SubResource("CircleShape2D_aarkw")
 collider = &"hit_unit"
 
 [node name="If Hit" type="Node" parent="Phasing"]

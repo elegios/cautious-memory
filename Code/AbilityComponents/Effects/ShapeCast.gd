@@ -24,7 +24,7 @@ func _validate_property(property: Dictionary) -> void:
 ## The collision layers to look through.
 @export_flags_2d_physics var collision_mask: int = 1
 
-## Optionally change the shape from the default
+## The shape to cast with. Mandatory.
 @export var shape: Shape2D
 
 ## Whether to finish after the first collision detected or keep
@@ -32,6 +32,11 @@ func _validate_property(property: Dictionary) -> void:
 ## the blackboard properties below before each. Note that each
 ## collider is only reported once.
 @export var continuous: bool = false
+
+enum PMode { Arbitrary, Center }
+
+## Which target to prioritize when [i]not[/i] continuous.
+@export var prioritization_mode := PMode.Arbitrary
 
 @export_group("Blackboard Output")
 
@@ -61,34 +66,54 @@ func pre_first_process() -> void:
 func physics_process_ability(_delta: float) -> ARunResult:
 	var sc := runner.shape_cast
 	var relative: Vector2 = run_expr(relative_target, relative_target_e) if relative_target_e else Vector2.ZERO
-	var new_shape := shape if shape else sc.shape
-	var changed := sc.target_position != relative or sc.collision_mask != collision_mask or sc.shape != new_shape or sc.exclude_parent != ignore_self
 
-	if changed:
-		sc.exclude_parent = ignore_self
-		sc.target_position = relative
-		sc.collision_mask = collision_mask
-		sc.shape = new_shape
-		sc.force_shapecast_update()
+	sc.exclude_parent = ignore_self
+	sc.target_position = relative
+	sc.collision_mask = collision_mask
+	sc.shape = shape
+	sc.force_shapecast_update()
 
 	if not sc.is_colliding():
 		return ARunResult.Wait
 
-	for i in sc.get_collision_count():
+	if continuous:
+		for i in sc.get_collision_count():
+			if collider:
+				blackboard.bset(collider, sc.get_collider(i))
+
+			if collision_point:
+				blackboard.bset(collision_point, sc.get_collision_point(i))
+
+			if collision_normal:
+				blackboard.bset(collision_normal, sc.get_collision_normal(i))
+
+			trigger()
+
+			sc.add_exception(sc.get_collider(i) as CollisionObject2D)
+	else:
+		var collider_idx := 0
+		match prioritization_mode:
+			PMode.Arbitrary:
+				pass
+			PMode.Center:
+				var pos := sc.global_position + sc.target_position
+				var prev := (sc.get_collider(collider_idx) as Node2D).position.distance_squared_to(pos)
+				for i in sc.get_collision_count():
+					var next := (sc.get_collider(i) as Node2D).position.distance_squared_to(pos)
+					if next < prev:
+						prev = next
+						collider_idx = i
 		if collider:
-			blackboard.bset(collider, sc.get_collider(i))
+			blackboard.bset(collider, sc.get_collider(collider_idx))
 
 		if collision_point:
-			blackboard.bset(collision_point, sc.get_collision_point(i))
+			blackboard.bset(collision_point, sc.get_collision_point(collider_idx))
 
 		if collision_normal:
-			blackboard.bset(collision_normal, sc.get_collision_normal(i))
+			blackboard.bset(collision_normal, sc.get_collision_normal(collider_idx))
 
 		trigger()
 
-		if not continuous:
-			return ARunResult.Done
-
-		sc.add_exception(sc.get_collider(i) as CollisionObject2D)
+		return ARunResult.Done
 
 	return ARunResult.Wait

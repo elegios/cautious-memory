@@ -1,9 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cysdemfryj8u8"]
+[gd_scene load_steps=4 format=3 uid="uid://cysdemfryj8u8"]
 
-[ext_resource type="PackedScene" uid="uid://c2l4v3ki8kndj" path="res://Scenes/basic_missile.tscn" id="1_vxrr5"]
+[ext_resource type="PackedScene" uid="uid://c2l4v3ki8kndj" path="res://Scenes/Inheritable/basic_missile.tscn" id="1_vxrr5"]
 [ext_resource type="Texture2D" uid="uid://derflbsgms3yv" path="res://icon.svg" id="2_85yyu"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ekpw"]
+size = Vector2(20, 5)
+
 [node name="Arrow" instance=ExtResource("1_vxrr5")]
+
+[node name="ShapeCast2D" parent="." index="3"]
+shape = SubResource("RectangleShape2D_0ekpw")
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="4"]
 scale = Vector2(0.15625, 0.046875)

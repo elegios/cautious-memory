@@ -7,7 +7,7 @@ extends Health
 ## Damage below this size is considered chip damage, which can
 ## compound to be real damage, but might just as easily be reset
 ## relatively quickly.
-@export var chip_size := 1.0
+@export var chip_size := 10.0
 
 ## Time from last health alteration at which to reset chip-damage in
 ## seconds. Should be less than the *_start_time values for

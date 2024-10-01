@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://8fg6jk7nc0qw"]
 
-[ext_resource type="PackedScene" uid="uid://chjadf2wp68nl" path="res://Scenes/simple_mob.tscn" id="1_h1afo"]
+[ext_resource type="PackedScene" uid="uid://chjadf2wp68nl" path="res://Scenes/Inheritable/simple_mob.tscn" id="1_h1afo"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/MobAbility.gd" id="2_w5xvq"]
 [ext_resource type="PackedScene" uid="uid://cg4iheqtjngax" path="res://Mobs/Archer/a_fire_arrow.tscn" id="3_sali5"]
 [ext_resource type="Texture2D" uid="uid://derflbsgms3yv" path="res://icon.svg" id="4_lvayj"]
