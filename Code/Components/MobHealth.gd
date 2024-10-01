@@ -8,10 +8,13 @@ signal health_depleted
 ## Current health. Death happens at zero.
 @onready var health := max_health:
 	set(value):
+		if value == health:
+			return
 		health = clampf(value, 0, max_health)
-		real_bar.value = health / max_health * delayed_bar.max_value
-		timer.stop()
-		timer.start()
+		if real_bar:
+			real_bar.value = health / max_health * delayed_bar.max_value
+			timer.stop()
+			timer.start()
 
 @onready var real_bar: ProgressBar = %"CorrectHealth"
 @onready var delayed_bar: ProgressBar = %"DelayedHealth"

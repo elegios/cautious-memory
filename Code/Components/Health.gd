@@ -1,6 +1,9 @@
 ## Interface for things with health.
 class_name Health extends Node
 
+signal health_increased(amount: float)
+signal health_decreased(amount: float)
+
 ## A set of Callables, each of which should take and return a health
 ## delta. Can be used to alter the amount of damage/healing done, as
 ## well as react to taking damage.
@@ -12,7 +15,12 @@ class_name Health extends Node
 func alter_health(delta: float) -> float:
 	for m in modifiers:
 		delta = m.call(delta)
-	return _alter_health(delta)
+	var res := _alter_health(delta)
+	if res < 0:
+		health_decreased.emit(-res)
+	if res > 0:
+		health_increased.emit(res)
+	return res
 
 ## Callback to actually make the change. Should return the actual
 ## delta after capping by min/max health.
