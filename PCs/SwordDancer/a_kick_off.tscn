@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://bpdq3av7p7qu4"]
+[gd_scene load_steps=14 format=3 uid="uid://bpdq3av7p7qu4"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_78rpn"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/WriteToBlackboard.gd" id="2_wtnov"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/StateChange.gd" id="6_h2fv2"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="7_uiwfq"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="8_m8xi7"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/PlayAnimation.gd" id="8_mni8h"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="10_svte1"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="11_4dmmj"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="12_1gs33"]
@@ -35,14 +36,16 @@ script = ExtResource("8_m8xi7")
 target = "bb.direction"
 speed = "120*4"
 
-[node name="Timer" type="Node" parent="Phasing/AbilityParAny"]
-script = ExtResource("10_svte1")
-duration = "0.25"
-
 [node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny"]
 script = ExtResource("11_4dmmj")
 shape = SubResource("CircleShape2D_aarkw")
 collider = &"hit_unit"
+
+[node name="PlayAnimation" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("8_mni8h")
+animation = 4
+direction = "bb.direction"
+duration = "0.25"
 
 [node name="If Hit" type="Node" parent="Phasing"]
 script = ExtResource("12_1gs33")
@@ -100,6 +103,8 @@ script = ExtResource("8_m8xi7")
 target = "bb.direction"
 speed = "120*5"
 
-[node name="AbilityTimer2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
-script = ExtResource("10_svte1")
+[node name="PlayAnimation2" type="Node" parent="Phasing/If Hit/AbilityParAny"]
+script = ExtResource("8_mni8h")
+animation = 4
+direction = "bb.direction"
 duration = "0.25"

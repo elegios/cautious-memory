@@ -1,12 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://hgk5armc01xa"]
+[gd_scene load_steps=12 format=3 uid="uid://hgk5armc01xa"]
 
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Cancellable.gd" id="1_fk2g5"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_xkdg3"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="2_0uwpc"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="3_l4m23"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="4_c331r"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/Conditional.gd" id="5_8qj31"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="6_gkjro"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAll.gd" id="7_g3m4t"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AlterHealth.gd" id="7_t3vrb"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/PlayAnimation.gd" id="8_xtr6q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_od2jr"]
 radius = 150.0
@@ -38,21 +41,37 @@ script = ExtResource("5_8qj31")
 continuous = true
 condition = "character.position.distance_squared_to(bb.attack_target.position) > 100*100"
 
-[node name="MoveCharacter" type="Node" parent="IfTarget/GetInRange"]
+[node name="AbilityParAll" type="Node" parent="IfTarget/GetInRange"]
+script = ExtResource("7_g3m4t")
+
+[node name="PlayAnimation" type="Node" parent="IfTarget/GetInRange/AbilityParAll"]
+script = ExtResource("8_xtr6q")
+animation = 2
+direction = "bb.attack_target.position - character.position"
+
+[node name="MoveCharacter" type="Node" parent="IfTarget/GetInRange/AbilityParAll"]
 script = ExtResource("6_gkjro")
 what = 1
 target = "bb.attack_target.position"
 speed = "character.movement_speed"
 
-[node name="windup" type="Node" parent="IfTarget"]
-script = ExtResource("4_c331r")
-duration = "0.1"
+[node name="AbilityParAll" type="Node" parent="IfTarget"]
+script = ExtResource("7_g3m4t")
 
-[node name="AlterHealth" type="Node" parent="IfTarget"]
+[node name="PlayAnimation" type="Node" parent="IfTarget/AbilityParAll"]
+script = ExtResource("8_xtr6q")
+animation = 3
+direction = "bb.attack_target.position - character.position"
+duration = "0.3"
+
+[node name="AbilitySeq" type="Node" parent="IfTarget/AbilityParAll"]
+script = ExtResource("1_xkdg3")
+
+[node name="windup" type="Node" parent="IfTarget/AbilityParAll/AbilitySeq"]
+script = ExtResource("4_c331r")
+duration = "0.2"
+
+[node name="AlterHealth" type="Node" parent="IfTarget/AbilityParAll/AbilitySeq"]
 script = ExtResource("7_t3vrb")
 target = "bb.attack_target"
 amount = "-4"
-
-[node name="winddown" type="Node" parent="IfTarget"]
-script = ExtResource("4_c331r")
-duration = "0.1"

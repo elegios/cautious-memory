@@ -15,6 +15,10 @@ func sync_lost() -> void:
 	active = false
 	super()
 
+func sync_gained() -> void:
+	active = true
+	super()
+
 func physics_process_ability(delta: float) -> ARunResult:
 	active = true
 	var res := super(delta)

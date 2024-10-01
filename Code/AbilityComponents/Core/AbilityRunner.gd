@@ -16,6 +16,7 @@ signal main_ability_ended
 @export var nav_agent: NavigationAgent2D
 @export var player_input: PlayerInput
 @export var shape_cast: ShapeCast2D
+@export var animator: AnimatedUnit
 
 var unit_spawner: UnitSpawner
 var unit_local: Blackboard

@@ -82,3 +82,5 @@ replication_config = SubResource("SceneReplicationConfig_g53wp")
 
 [node name="MobHealth" parent="." instance=ExtResource("6_6ccxx")]
 max_health = 16.0
+
+[connection signal="health_depleted" from="MobHealth" to="." method="queue_free"]
