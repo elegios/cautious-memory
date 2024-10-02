@@ -47,8 +47,8 @@ var current_chip_diff := 0.0:
 
 @onready var regen_timer: Timer = %"RegenTimer"
 @onready var chip_timer: Timer = %"ChipTimer"
-@onready var label: Label = %"TempLabel"
 @onready var hp_container: HBoxContainer = %"HPContainer"
+@onready var chip_particles: GPUParticles2D = %"ChipParticles"
 
 func _ready() -> void:
 	for _i in max_health - 1:
@@ -118,10 +118,8 @@ func _on_chip_timer_timeout() -> void:
 	current_chip_diff = 0.0
 
 func update_visualization(prev_hdiff: int, new_hdiff: int) -> void:
-	if not label or not hp_container:
+	if not hp_container:
 		return
-
-	label.text = "H: %d C: %.01f" % [max_health + new_hdiff, current_chip_diff]
 
 	var first := max_health + mini(prev_hdiff, new_hdiff)
 	var last := max_health + maxi(prev_hdiff, new_hdiff)
@@ -129,6 +127,15 @@ func update_visualization(prev_hdiff: int, new_hdiff: int) -> void:
 	var target_rel_pos := Vector2.ZERO if increase else Vector2(0, 10)
 	var target_alpha := 1.0 if increase else 0.0
 
+	# NOTE(vipa, 2024-10-02): Position chip particles
+	var hp_pos: Control = hp_container.get_child((new_hdiff + max_health - 1) % max_health)
+	chip_particles.global_position = hp_pos.global_position
+	if current_chip_diff < 0:
+		chip_particles.amount_ratio = - current_chip_diff / chip_size
+	elif current_chip_diff >= 0:
+		chip_particles.amount_ratio = 0
+
+	# NOTE(vipa, 2024-10-02): Change full health things
 	if last - first == 0:
 		return
 

@@ -1,6 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8q3nchmonjde"]
+[gd_scene load_steps=5 format=3 uid="uid://b8q3nchmonjde"]
 
 [ext_resource type="Script" path="res://Code/Components/PlayerHealth.gd" id="1_3l02x"]
+
+[sub_resource type="Curve" id="Curve_l3n17"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7stmv"]
+curve = SubResource("Curve_l3n17")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jktj8"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(2.5, 1.5, 0)
+emission_shape = 3
+emission_box_extents = Vector3(2, 1, 1)
+angle_min = -259.8
+angle_max = 204.2
+direction = Vector3(0, -1, 0)
+spread = 7.152
+initial_velocity_max = 49.37
+gravity = Vector3(0, 300, 0)
+scale_min = 4.0
+scale_max = 4.0
+color = Color(0.980392, 0.262745, 0, 1)
+alpha_curve = SubResource("CurveTexture_7stmv")
 
 [node name="PlayerHealth" type="Node2D"]
 script = ExtResource("1_3l02x")
@@ -13,22 +36,6 @@ process_callback = 0
 [node name="ChipTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 one_shot = true
-
-[node name="TempLabel" type="Label" parent="."]
-unique_name_in_owner = true
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -37.0
-offset_top = -33.0
-offset_right = 39.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "H: 6 C: 0.0"
-horizontal_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 7
@@ -63,6 +70,12 @@ offset_top = -10.0
 offset_right = 5.0
 offset_bottom = -9.0
 color = Color(0.98, 0.637, 0, 0)
+
+[node name="ChipParticles" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_jktj8")
+lifetime = 0.3
 
 [connection signal="timeout" from="RegenTimer" to="." method="_on_regen_timer_timeout"]
 [connection signal="timeout" from="ChipTimer" to="." method="_on_chip_timer_timeout"]
