@@ -74,6 +74,7 @@ color = Color(0.98, 0.637, 0, 0)
 [node name="ChipParticles" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
 amount = 16
+amount_ratio = 0.0
 process_material = SubResource("ParticleProcessMaterial_jktj8")
 lifetime = 0.3
 
