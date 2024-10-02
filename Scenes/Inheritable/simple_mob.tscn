@@ -33,7 +33,7 @@ properties/3/replication_mode = 1
 
 [node name="Simple Mob" type="CharacterBody2D"]
 collision_layer = 35
-collision_mask = 5
+collision_mask = 69
 motion_mode = 1
 script = ExtResource("1_5x801")
 movement_speed = 100.0

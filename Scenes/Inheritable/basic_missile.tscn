@@ -24,7 +24,7 @@ size = Vector2(20, 10)
 
 [node name="BasicMissile" type="CharacterBody2D"]
 collision_layer = 8
-collision_mask = 0
+collision_mask = 4
 
 [node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "shape_cast")]
 spawn_path = NodePath(".")
