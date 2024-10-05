@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://tadb01vw7pr6"]
+[gd_scene load_steps=12 format=3 uid="uid://tadb01vw7pr6"]
 
 [ext_resource type="PackedScene" uid="uid://gcgee3glc6vc" path="res://Scenes/Inheritable/player.tscn" id="1_cn20u"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbility.gd" id="2_vc2fc"]
@@ -31,7 +31,16 @@ is_main = true
 cancel_move = false
 ability = ExtResource("5_a7twy")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_k4r5m"]
+viewport_path = NodePath("SubViewport")
+
 [node name="Player" instance=ExtResource("1_cn20u")]
 
 [node name="PlayerAbilities" parent="." index="1"]
 abilities = Array[ExtResource("2_vc2fc")]([SubResource("Resource_tbdex"), SubResource("Resource_7o5fk"), SubResource("Resource_cimhx"), SubResource("Resource_4i5x0")])
+
+[node name="Mask" parent="." index="6"]
+texture = SubResource("ViewportTexture_k4r5m")
+
+[node name="Sprite" parent="." index="7"]
+texture = SubResource("ViewportTexture_k4r5m")
