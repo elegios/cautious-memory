@@ -27,14 +27,14 @@ script = ExtResource("6_cxror")
 target = "bb.direction"
 speed = "94*4"
 
-[node name="ShapeCast" type="Node" parent="ParAny"]
+[node name="HitPlayer" type="Node" parent="ParAny"]
 script = ExtResource("7_7sifs")
 additional_ignore = "bb.m_spawner"
 collision_mask = 16
 shape = SubResource("RectangleShape2D_8u01r")
 collider = &"hit_unit"
 
-[node name="AlterHealth" type="Node" parent="ParAny/ShapeCast"]
+[node name="AlterHealth" type="Node" parent="ParAny/HitPlayer"]
 script = ExtResource("6_j8g0y")
 target = "bb.hit_unit"
 amount = "-1"
@@ -42,6 +42,11 @@ amount = "-1"
 [node name="AbilityTimer" type="Node" parent="ParAny"]
 script = ExtResource("8_xvrcc")
 duration = "1"
+
+[node name="HitWall" type="Node" parent="ParAny"]
+script = ExtResource("7_7sifs")
+collision_mask = 4
+shape = SubResource("RectangleShape2D_8u01r")
 
 [node name="DestroySelf" type="Node" parent="."]
 script = ExtResource("9_mis0t")
