@@ -59,6 +59,8 @@ func _edit(object) -> void:
 		dock.tileset = new_tileset
 		dock.tiles_changed()
 
+	print(BetterTerrain._tile_cache)
+
 
 func _forward_canvas_draw_over_viewport(overlay: Control) -> void:
 	if dock.visible:

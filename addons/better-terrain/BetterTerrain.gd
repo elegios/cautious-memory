@@ -377,7 +377,10 @@ func _update_tile_tiles(tm: TileMapLayer, coord: Vector2i, types: Dictionary, ca
 		elif score == best_score:
 			best.append(t)
 
-	return _weighted_selection_seeded(best, coord, apply_empty_probability)
+	print(best)
+	var ret = _weighted_selection_seeded(best, coord, apply_empty_probability)
+	print(ret)
+	return ret
 
 
 func _probe(tm: TileMapLayer, coord: Vector2i, peering: int, type: int, types: Dictionary) -> int:
@@ -422,7 +425,7 @@ func _update_tile_immediate(tm: TileMapLayer, coord: Vector2i, ts_meta: Dictiona
 	var terrain = _get_cache_terrain(ts_meta, type)
 	if terrain[2] == TerrainType.MATCH_TILES:
 		placement = _update_tile_tiles(tm, coord, types, cache, false)
-	if terrain[2] == TerrainType.DECORATION and not deco_tm:
+	elif terrain[2] == TerrainType.DECORATION and not deco_tm:
 		placement = _update_tile_tiles(tm, coord, types, cache, true)
 	elif terrain[2] == TerrainType.MATCH_VERTICES:
 		placement = _update_tile_vertices(tm, coord, types, cache)
