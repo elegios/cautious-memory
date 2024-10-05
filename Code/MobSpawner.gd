@@ -55,10 +55,17 @@ func _spawn_one() -> void:
 	var point := position
 	if spawn_area:
 		var circle := spawn_area as CircleShape2D
+		var rectangle := spawn_area as RectangleShape2D
 		if circle:
 			var angle := randf_range(0, 2*PI)
 			var distance := randf_range(0, circle.radius)
 			point += Vector2.from_angle(angle) * distance
+		elif rectangle:
+			var x := (randf() - 0.5) * rectangle.size.x
+			var y := (randf() - 0.5) * rectangle.size.y
+			point += Vector2(x, y)
+		else:
+			push_error("Unsupported mob spawning shape: " + str(spawn_area))
 	var unit := unit_spawner.spawn_unit(mob, point)
 	if respawn_time > 0.0:
 		var _ignore := unit.tree_exited.connect(_queue_respawn)
