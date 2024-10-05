@@ -124,6 +124,17 @@ func next_default_dir(dir: Dir) -> Dir:
 			return Dir.SE
 	return Dir.None
 
+func vec_to_dir(v: Vector2) -> Dir:
+	if 0 <= v.x and 0 <= v.y:
+		return Dir.SE
+	elif v.x < 0 and 0 <= v.y:
+		return Dir.SW
+	elif 0 <= v.x and v.y < 0:
+		return Dir.NE
+	elif v.x < 0 and v.y < 0:
+		return Dir.NW
+	return Dir.None
+
 func _remove_overlay() -> void:
 	overlaid_animation = A.None
 	overlaid_animation_duration = 0

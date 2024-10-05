@@ -39,14 +39,7 @@ func _physics_process(_delta: float) -> void:
 		return
 
 	velocity = global_position.direction_to(agent.get_next_path_position()) * movement_speed
-	if 0 <= velocity.x and 0 <= velocity.y:
-		animation.unit_direction = AnimatedUnit.Dir.SE
-	elif velocity.x < 0 and 0 <= velocity.y:
-		animation.unit_direction = AnimatedUnit.Dir.SW
-	elif 0 <= velocity.x and velocity.y < 0:
-		animation.unit_direction = AnimatedUnit.Dir.NE
-	elif velocity.x < 0 and velocity.y < 0:
-		animation.unit_direction = AnimatedUnit.Dir.NW
+	animation.unit_direction = animation.vec_to_dir(velocity)
 	var _hit := move_and_slide()
 
 func cancel_move() -> void:
