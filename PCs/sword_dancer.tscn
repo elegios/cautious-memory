@@ -12,24 +12,41 @@ script = ExtResource("2_vc2fc")
 is_main = true
 cancel_move = true
 ability = ExtResource("3_rwmeo")
+description = ""
+cooldown = 0.5
+max_charges = 1
+charge_cooldown = 0.0
 
 [sub_resource type="Resource" id="Resource_7o5fk"]
 script = ExtResource("2_vc2fc")
 is_main = false
 cancel_move = false
 ability = ExtResource("3_3ek8l")
+description = "Throw your sword towards a point."
+cooldown = 1.0
+max_charges = 1
+charge_cooldown = 0.0
 
 [sub_resource type="Resource" id="Resource_cimhx"]
 script = ExtResource("2_vc2fc")
 is_main = true
 cancel_move = true
 ability = ExtResource("4_0b85u")
+description = "Jump onto an enemy, then kick off in a new direction based on aim. Two charges."
+cooldown = 2.0
+max_charges = 2
+charge_cooldown = 15.0
 
 [sub_resource type="Resource" id="Resource_4i5x0"]
 script = ExtResource("2_vc2fc")
 is_main = true
 cancel_move = false
 ability = ExtResource("5_a7twy")
+description = "If the sword is thrown: recall it.
+If not, parry an attack."
+cooldown = 10.0
+max_charges = 1
+charge_cooldown = 0.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k4r5m"]
 viewport_path = NodePath("SubViewport")

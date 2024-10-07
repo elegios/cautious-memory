@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
 [ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
+[ext_resource type="PackedScene" uid="uid://tmunigaslihv" path="res://Scenes/Components/player_abilities.tscn" id="3_7qped"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
-[ext_resource type="Script" path="res://Code/Components/PlayerAbilities.gd" id="4_bgt3b"]
 [ext_resource type="Script" path="res://Code/Components/AnimatedUnit.gd" id="5_0d8gt"]
 [ext_resource type="PackedScene" uid="uid://b8q3nchmonjde" path="res://Scenes/Components/player_health.tscn" id="6_cjdk0"]
 [ext_resource type="Shader" path="res://Code/Rendering/visible_mask.gdshader" id="6_hos8x"]
@@ -48,6 +48,15 @@ properties/6/replication_mode = 1
 properties/7/path = NodePath(".:pathing")
 properties/7/spawn = true
 properties/7/replication_mode = 1
+properties/8/path = NodePath("PlayerAbilities:cooldowns")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath("PlayerAbilities:charge_cooldowns")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath("PlayerAbilities:charges")
+properties/10/spawn = true
+properties/10/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 19
@@ -60,8 +69,7 @@ movement_speed = 120.0
 unique_name_in_owner = true
 script = ExtResource("3_6juq4")
 
-[node name="PlayerAbilities" type="Node" parent="." node_paths=PackedStringArray("runner")]
-script = ExtResource("4_bgt3b")
+[node name="PlayerAbilities" parent="." node_paths=PackedStringArray("runner") instance=ExtResource("3_7qped")]
 runner = NodePath("../AbilityRunner")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]

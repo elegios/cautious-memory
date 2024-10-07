@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://c47mssn3wi6mr"]
+[gd_scene load_steps=9 format=4 uid="uid://c47mssn3wi6mr"]
 
 [ext_resource type="TileSet" uid="uid://d1hccsh7sacbc" path="res://Tilesets/minifantasy_ground.tres" id="1_whlvk"]
 [ext_resource type="TileSet" uid="uid://b2hoptno1it56" path="res://Tilesets/minifantasy_walls.tres" id="2_2vp5b"]
@@ -16,9 +16,6 @@ parsed_collision_mask = 4294967236
 source_geometry_mode = 1
 source_geometry_group_name = &"terrain"
 agent_radius = 11.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hfrnh"]
-size = Vector2(20, 400)
 
 [node name="Root" type="Node2D"]
 y_sort_enabled = true
@@ -61,9 +58,3 @@ spawn_path = NodePath("..")
 
 [node name="MobSpawner" parent="." instance=ExtResource("5_eh0x2")]
 mob = ExtResource("6_csdjw")
-
-[node name="MobSpawner2" parent="." instance=ExtResource("5_eh0x2")]
-position = Vector2(987, 494)
-count = 10
-mob = ExtResource("6_csdjw")
-spawn_area = SubResource("RectangleShape2D_hfrnh")

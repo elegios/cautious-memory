@@ -13,3 +13,21 @@ class_name PlayerAbility extends Resource
 
 ## The ability to run.
 @export var ability : PackedScene
+
+## The description to be shown when hovering over the ability icon
+@export_multiline var description : String
+
+@export_group("Cooldown")
+
+## Cooldown to apply to this ability when used. Applied after a charge
+## is used and at least one still remains. Useful for preventing spam
+## and/or accidental double activations.
+@export var cooldown : float
+
+## Maximum number of charges.
+@export var max_charges := 1
+
+## Amount of time required to regain a charge. Typically higher than
+## [property PlayerAbility.cooldown]. Ticks in the foreground if no
+## charges remain, otherwise in the background.
+@export var charge_cooldown : float

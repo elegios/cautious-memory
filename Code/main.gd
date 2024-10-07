@@ -22,18 +22,14 @@ func _ready() -> void:
 func _setup() -> void:
 	if OS.has_feature("server"):
 		DisplayServer.window_set_title("(SERVER)")
-		var screen_rect := DisplayServer.screen_get_usable_rect(1)
-		var window_size := DisplayServer.window_get_size_with_decorations()
-		var pos := screen_rect.position + screen_rect.size/2 - window_size/2
-		DisplayServer.window_set_position(pos)
+		if DisplayServer.get_screen_count() >= 2:
+			DisplayServer.window_set_current_screen(1)
 		_on_host_pressed()
 
 	if OS.has_feature("client"):
 		DisplayServer.window_set_title("(CLIENT)")
-		var screen_rect := DisplayServer.screen_get_usable_rect(0)
-		var window_size := DisplayServer.window_get_size_with_decorations()
-		var pos := screen_rect.position + screen_rect.size/2 - window_size/2
-		DisplayServer.window_set_position(pos)
+		if DisplayServer.get_screen_count() >= 2:
+			DisplayServer.window_set_current_screen(0)
 		_on_connect_pressed()
 
 func _update_adress(new: String) -> void:

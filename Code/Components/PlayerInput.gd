@@ -1,6 +1,6 @@
 class_name PlayerInput extends Node2D
 
-## Zero-indexed id of the action pressed, only sent on the server
+## Zero-indexed id of the action pressed, sent everywhere
 signal action_pressed(id: int)
 
 ## Movement target, sent everywhere
@@ -17,16 +17,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	mouse_position = get_viewport_transform().inverse() * get_viewport().get_mouse_position()
 
 	if event.is_action_pressed("Attack"):
-		rpc_action.rpc_id(1, 0, mouse_position)
+		rpc_action.rpc(0, mouse_position)
 
 	if event.is_action_pressed("Action 1"):
-		rpc_action.rpc_id(1, 1, mouse_position)
+		rpc_action.rpc(1, mouse_position)
 
 	if event.is_action_pressed("Action 2"):
-		rpc_action.rpc_id(1, 2, mouse_position)
+		rpc_action.rpc(2, mouse_position)
 
 	if event.is_action_pressed("Action 3"):
-		rpc_action.rpc_id(1, 3, mouse_position)
+		rpc_action.rpc(3, mouse_position)
 
 	if event.is_action_pressed("Move"):
 		rpc_move_command.rpc(mouse_position)
