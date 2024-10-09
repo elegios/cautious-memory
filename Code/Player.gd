@@ -6,12 +6,15 @@ class_name Player extends CharacterBody2D
 @onready var animation: AnimatedUnit = %Animation
 @onready var camera: Camera2D = %Camera
 @onready var input: PlayerInput = %PlayerInput
+@onready var abilities: PlayerAbilities = %PlayerAbilities
 @onready var runner: AbilityRunner = %AbilityRunner
 
 var controller: int:
 	set(value):
 		if input:
 			input.controller = value
+		if abilities:
+			abilities.controller = value
 		if camera and value == multiplayer.get_unique_id():
 			camera.enabled = true
 		controller = value

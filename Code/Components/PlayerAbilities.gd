@@ -2,6 +2,13 @@ class_name PlayerAbilities extends Node
 
 signal move_cancelled
 
+var controller: int:
+	set(value):
+		controller = value
+		var abi_cont := %"AbilityContainer" as Control
+		if abi_cont:
+			abi_cont.visible = value == multiplayer.get_unique_id()
+
 @export var runner : AbilityRunner
 
 @export var ability_icon : PackedScene

@@ -70,6 +70,7 @@ unique_name_in_owner = true
 script = ExtResource("3_6juq4")
 
 [node name="PlayerAbilities" parent="." node_paths=PackedStringArray("runner") instance=ExtResource("3_7qped")]
+unique_name_in_owner = true
 runner = NodePath("../AbilityRunner")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
