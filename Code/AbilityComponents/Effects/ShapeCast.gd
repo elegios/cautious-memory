@@ -4,14 +4,14 @@
 ## blackboard, then finish
 class_name ShapeCast extends AbilityTriggered
 
-## A [Vector2] describing where to cast to, relative to the position
-## of the [ShapeCast2D]. Defaults to Vector2(0, 0).
-@export var relative_target: String
-@onready var relative_target_e: Expression = parse_expr(relative_target) if relative_target else null
+## A [Vector2] describing the point at which to put the shape
+## cast. Defaults to [code]character.position[/code].
+@export var cast_position: String
+@onready var cast_position_e: Expression = parse_expr(cast_position) if cast_position else null
 
 func _validate_property(property: Dictionary) -> void:
 	match property.name:
-		"relative_target", "additional_ignore":
+		"cast_position", "additional_ignore":
 			property.hint = PROPERTY_HINT_EXPRESSION
 
 ## Change whether the cast can find the unit itself.
@@ -65,10 +65,10 @@ func pre_first_process() -> void:
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	var sc := runner.shape_cast
-	var relative: Vector2 = run_expr(relative_target, relative_target_e) if relative_target_e else Vector2.ZERO
+	var cast_pos: Vector2 = run_expr(cast_position, cast_position_e) if cast_position_e else runner.character.global_position
 
 	sc.exclude_parent = ignore_self
-	sc.target_position = relative
+	sc.global_position = cast_pos
 	sc.collision_mask = collision_mask
 	sc.shape = shape
 	sc.force_shapecast_update()

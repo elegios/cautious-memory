@@ -24,11 +24,6 @@ source = "bb.m_sword.position + (mouse-bb.m_sword.position).limit_length(380)"
 script = ExtResource("2_o7avq")
 condition = "not bb.m_sword"
 
-[node name="Target From Character" type="Node" parent="Not Thrown"]
-script = ExtResource("7_tpacx")
-property = &"target_point"
-source = "character.position + (mouse-character.position).limit_length(380)"
-
 [node name="Spawn Sword" type="Node" parent="Not Thrown"]
 script = ExtResource("10_nlbw3")
 unit = ExtResource("11_fc3af")

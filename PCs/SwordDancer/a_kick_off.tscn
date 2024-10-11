@@ -22,7 +22,7 @@ script = ExtResource("1_78rpn")
 [node name="FirstAim" type="Node" parent="."]
 script = ExtResource("2_wtnov")
 property = &"direction"
-source = "character.position.direction_to(mouse)"
+source = "character.position.direction_to(bb.target_point)"
 
 [node name="Phasing" type="Node" parent="."]
 script = ExtResource("6_h2fv2")

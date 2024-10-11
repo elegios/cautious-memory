@@ -1,7 +1,7 @@
 class_name PlayerInput extends Node2D
 
 ## Zero-indexed id of the action pressed, sent everywhere
-signal action_pressed(id: int)
+signal action_pressed(id: int, pos: Vector2)
 
 ## Movement target, sent everywhere
 signal move_command(target: Vector2)
@@ -50,7 +50,7 @@ func rpc_action(id: int, target: Vector2) -> void:
 		return
 
 	mouse_position = target
-	action_pressed.emit(id)
+	action_pressed.emit(id, target)
 
 @rpc("unreliable_ordered", "any_peer", "call_local", 1)
 func rpc_move_command(target: Vector2) -> void:

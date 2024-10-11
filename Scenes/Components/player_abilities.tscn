@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://tmunigaslihv"]
+[gd_scene load_steps=4 format=3 uid="uid://tmunigaslihv"]
 
 [ext_resource type="Script" path="res://Code/Components/PlayerAbilities.gd" id="1_3o6s6"]
 [ext_resource type="PackedScene" uid="uid://bjxnp6yg6qucp" path="res://Scenes/Components/ability_icon.tscn" id="2_5iby8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0eijt"]
 
 [node name="PlayerAbilities" type="Node"]
 script = ExtResource("1_3o6s6")
@@ -22,3 +24,7 @@ offset_right = 20.0
 offset_bottom = -15.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="ShapeCast" type="ShapeCast2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_0eijt")
