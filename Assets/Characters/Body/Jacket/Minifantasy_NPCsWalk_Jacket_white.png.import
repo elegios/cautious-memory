@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckspj6m5dplsr"
-path="res://.godot/imported/HumanJump.png-e5085b04c69f2a45e8a774555f5c988d.ctex"
+uid="uid://d3rlu0xqduw8j"
+path="res://.godot/imported/Minifantasy_NPCsWalk_Jacket_white.png-27168274fc9041d79e9b1e69c8c1d9b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Human/HumanJump.png"
-dest_files=["res://.godot/imported/HumanJump.png-e5085b04c69f2a45e8a774555f5c988d.ctex"]
+source_file="res://Assets/Characters/Body/Jacket/Minifantasy_NPCsWalk_Jacket_white.png"
+dest_files=["res://.godot/imported/Minifantasy_NPCsWalk_Jacket_white.png-27168274fc9041d79e9b1e69c8c1d9b3.ctex"]
 
 [params]
 

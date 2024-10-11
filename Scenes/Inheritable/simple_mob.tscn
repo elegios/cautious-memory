@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Code/Components/MobAbilities.gd" id="4_hrisj"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="5_8uhus"]
 [ext_resource type="PackedScene" uid="uid://b6g10et2otcpu" path="res://Scenes/Components/mob_health.tscn" id="6_6ccxx"]
-[ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="7_m8b5k"]
+[ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Characters/Base/Human/human.tres" id="7_m8b5k"]
 [ext_resource type="Shader" path="res://Code/Rendering/visible_mask.gdshader" id="7_nw3jo"]
 [ext_resource type="Shader" path="res://Code/Rendering/outline.gdshader" id="8_6grr4"]
 [ext_resource type="Script" path="res://Code/Components/AnimatedUnit.gd" id="8_lbm4e"]

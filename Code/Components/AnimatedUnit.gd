@@ -41,6 +41,7 @@ var anim_update_deferred := false
 
 func _ready() -> void:
 	var _ignore := animation_finished.connect(_remove_overlay)
+	_ignore = frame_changed.connect(update_child_frames)
 
 func set_overlay(anim: A, dir: Dir = Dir.None, duration: float = -1.0, overlay_owner: Node = null) -> void:
 	if anim != A.None and not overlaid_owner:
@@ -140,3 +141,8 @@ func _remove_overlay() -> void:
 	overlaid_animation_duration = 0
 	overlaid_direction = Dir.None
 	overlaid_owner = null
+
+func update_child_frames() -> void:
+	for i in get_child_count():
+		var c := get_child(i) as AnimationLayer
+		c.copy_frame(self)

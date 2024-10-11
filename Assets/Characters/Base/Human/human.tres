@@ -1,9 +1,9 @@
 [gd_resource type="SpriteFrames" load_steps=117 format=3 uid="uid://lrukp3lrybk7"]
 
-[ext_resource type="Texture2D" uid="uid://dn40vuy7re08x" path="res://Assets/Human/HumanAttack.png" id="1_4e3yv"]
-[ext_resource type="Texture2D" uid="uid://klba50nlrkhr" path="res://Assets/Human/HumanWalk.png" id="1_blsb3"]
-[ext_resource type="Texture2D" uid="uid://bg5xljp5ci651" path="res://Assets/Human/HumanIdle.png" id="1_rvwtx"]
-[ext_resource type="Texture2D" uid="uid://ckspj6m5dplsr" path="res://Assets/Human/HumanJump.png" id="3_x68gc"]
+[ext_resource type="Texture2D" uid="uid://dn40vuy7re08x" path="res://Assets/Characters/Base/Human/HumanAttack.png" id="1_4e3yv"]
+[ext_resource type="Texture2D" uid="uid://klba50nlrkhr" path="res://Assets/Characters/Base/Human/HumanWalk.png" id="1_blsb3"]
+[ext_resource type="Texture2D" uid="uid://bg5xljp5ci651" path="res://Assets/Characters/Base/Human/HumanIdle.png" id="1_rvwtx"]
+[ext_resource type="Texture2D" uid="uid://ckspj6m5dplsr" path="res://Assets/Characters/Base/Human/HumanJump.png" id="3_x68gc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iw4v8"]
 atlas = ExtResource("1_4e3yv")

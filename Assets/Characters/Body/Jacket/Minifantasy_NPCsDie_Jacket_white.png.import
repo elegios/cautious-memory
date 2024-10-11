@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccuow21lixeap"
-path="res://.godot/imported/HumanSpinDie.png-89879fb15b6ccb034dfbe3d4ec60f05e.ctex"
+uid="uid://c61uxwmjlmag5"
+path="res://.godot/imported/Minifantasy_NPCsDie_Jacket_white.png-bb521b0c2084f5cd8be29b003c260c90.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Human/HumanSpinDie.png"
-dest_files=["res://.godot/imported/HumanSpinDie.png-89879fb15b6ccb034dfbe3d4ec60f05e.ctex"]
+source_file="res://Assets/Characters/Body/Jacket/Minifantasy_NPCsDie_Jacket_white.png"
+dest_files=["res://.godot/imported/Minifantasy_NPCsDie_Jacket_white.png-bb521b0c2084f5cd8be29b003c260c90.ctex"]
 
 [params]
 

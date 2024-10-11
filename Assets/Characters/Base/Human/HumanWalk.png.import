@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dn40vuy7re08x"
-path="res://.godot/imported/HumanAttack.png-b034c74ac938636a57f6ef4ecd023750.ctex"
+uid="uid://klba50nlrkhr"
+path="res://.godot/imported/HumanWalk.png-6473b6cef30e1d5f236a66b8e067dfea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Human/HumanAttack.png"
-dest_files=["res://.godot/imported/HumanAttack.png-b034c74ac938636a57f6ef4ecd023750.ctex"]
+source_file="res://Assets/Characters/Base/Human/HumanWalk.png"
+dest_files=["res://.godot/imported/HumanWalk.png-6473b6cef30e1d5f236a66b8e067dfea.ctex"]
 
 [params]
 

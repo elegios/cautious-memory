@@ -1,17 +1,30 @@
-[gd_scene load_steps=15 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=22 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
-[ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Human/human.tres" id="2_4r553"]
+[ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Characters/Base/Human/human.tres" id="2_4r553"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
 [ext_resource type="PackedScene" uid="uid://tmunigaslihv" path="res://Scenes/Components/player_abilities.tscn" id="3_7qped"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
 [ext_resource type="Script" path="res://Code/Components/AnimatedUnit.gd" id="5_0d8gt"]
 [ext_resource type="PackedScene" uid="uid://b8q3nchmonjde" path="res://Scenes/Components/player_health.tscn" id="6_cjdk0"]
 [ext_resource type="Shader" path="res://Code/Rendering/visible_mask.gdshader" id="6_hos8x"]
+[ext_resource type="Texture2D" uid="uid://dexwjykf60c1a" path="res://Assets/Characters/Head/CowboyHat/Minifantasy_NPCsIdle_Hat_CowboyHat_white.png" id="6_nkj0l"]
 [ext_resource type="Shader" path="res://Code/Rendering/outline.gdshader" id="7_hjc6o"]
+[ext_resource type="Script" path="res://Code/Components/AnimationLayer.gd" id="7_ovu43"]
+[ext_resource type="SpriteFrames" uid="uid://b1ipi01knsda6" path="res://Assets/Characters/Head/CowboyHat/cowboy_hat.tres" id="8_cyw6j"]
+[ext_resource type="Texture2D" uid="uid://goofox5edqmo" path="res://Assets/Characters/Body/Jacket/Minifantasy_NPCsIdle_Jacket_white.png" id="9_oc6il"]
+[ext_resource type="SpriteFrames" uid="uid://c82bnek7qm55q" path="res://Assets/Characters/Body/Jacket/jacket.tres" id="10_pv3xv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
 radius = 11.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mmr3"]
+atlas = ExtResource("6_nkj0l")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnorh"]
+atlas = ExtResource("9_oc6il")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cp2nl"]
 shader = ExtResource("6_hos8x")
@@ -103,6 +116,24 @@ autoplay = "idle-se"
 centered = false
 offset = Vector2(-16, -16)
 script = ExtResource("5_0d8gt")
+
+[node name="Hat" type="Sprite2D" parent="SubViewport/Animation"]
+modulate = Color(0.74, 0.246667, 0, 1)
+z_index = 1
+texture = SubResource("AtlasTexture_0mmr3")
+centered = false
+offset = Vector2(-16, -16)
+script = ExtResource("7_ovu43")
+layer = ExtResource("8_cyw6j")
+
+[node name="Jacket" type="Sprite2D" parent="SubViewport/Animation"]
+modulate = Color(0.74, 0.246667, 0, 1)
+z_index = 1
+texture = SubResource("AtlasTexture_rnorh")
+centered = false
+offset = Vector2(-16, -16)
+script = ExtResource("7_ovu43")
+layer = ExtResource("10_pv3xv")
 
 [node name="Mask" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_cp2nl")
