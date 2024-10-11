@@ -61,9 +61,12 @@ func physics_process_ability(_delta: float) -> ARunResult:
 		animation_started = true
 		# NOTE(vipa, 2024-10-01): Pick a direction
 		var dir := AnimatedUnit.Dir.None
-		var dir_res: Variant = run_expr(direction, direction_e) if direction_e else null
-		if dir_res is Vector2:
-			var dir_vec: Vector2 = dir_res
+		var dir_res := run_expr(direction, direction_e) if direction_e else ExprRes.new(null)
+		if dir_res.err == Err.ShouldBail or (dir_res.err == Err.MightBail and dir_res.value is not Vector2 and dir_res.value is not float):
+			sync_lost()
+			return ARunResult.Error
+		if dir_res.value is Vector2:
+			var dir_vec: Vector2 = dir_res.value
 			if dir_vec.x >= 0 and dir_vec.y >= 0:
 				dir = AnimatedUnit.Dir.SE
 			elif dir_vec.x >= 0 and dir_vec.y < 0:
@@ -72,8 +75,8 @@ func physics_process_ability(_delta: float) -> ARunResult:
 				dir = AnimatedUnit.Dir.SW
 			elif dir_vec.x < 0 and dir_vec.y < 0:
 				dir = AnimatedUnit.Dir.NW
-		elif dir_res is float:
-			var dir_ang: float = dir_res
+		elif dir_res.value is float:
+			var dir_ang: float = dir_res.value
 			if 0 < dir_ang and dir_ang <= PI/2:
 				dir = AnimatedUnit.Dir.SE
 			elif PI/2 < dir_ang and dir_ang < PI:
@@ -82,13 +85,17 @@ func physics_process_ability(_delta: float) -> ARunResult:
 				dir = AnimatedUnit.Dir.NE
 			elif 3*PI/4 <= dir_ang and (dir_ang == 0 or dir_ang <= 2*PI):
 				dir = AnimatedUnit.Dir.SE
-		elif dir_res == null:
+		elif dir_res.value == null :
 			pass
 		else:
-			push_error("bad result from expression: " + str(dir_res))
+			assert(false, mk_expr_error(direction, "result (%s) is neither Vector2 nor float" % dir_res.value))
 
-		var dur: float = run_expr(duration, duration_e) if duration_e else -1.0
-		runner.animator.set_overlay(animation, dir, dur, null if fire_and_forget else self)
+		var dur := run_expr(duration, duration_e) if duration_e else ExprRes.new(-1.0)
+		if dur.err == Err.ShouldBail or (dur.err == Err.MightBail and dur.value is not float):
+			sync_lost()
+			return ARunResult.Error
+		var dur_f : float = dur.value
+		runner.animator.set_overlay(animation, dir, dur_f, null if fire_and_forget else self)
 
 	if fire_and_forget or animation_finished:
 		sync_lost()

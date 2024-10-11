@@ -28,9 +28,12 @@ func _validate_property(property: Dictionary) -> void:
 ## immediately.
 @export var unit_property: StringName
 
-func pre_first_process() -> void:
+func physics_process_ability(_delta: float) -> ARunResult:
 	if multiplayer.is_server():
-		var spawn_point: Vector2 = run_expr(point, point_e)
+		var res := run_expr(point, point_e)
+		if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2):
+			return ARunResult.Error
+		var spawn_point: Vector2 = res.value
 		var spawned := runner.unit_spawner.spawn_unit(unit, spawn_point)
 		if unit_property:
 			blackboard.bset(unit_property, spawned)
@@ -39,9 +42,7 @@ func pre_first_process() -> void:
 				var other := spawned.get_child(i) as AbilityRunner
 				if other:
 					other.unit_local.bset(&"m_spawner", runner.character)
-					continue
-
-func physics_process_ability(_delta: float) -> ARunResult:
-	if multiplayer.is_server() or not unit_property:
+					break
 		return ARunResult.Done
-	return ARunResult.Wait
+
+	return ARunResult.Wait if unit_property else ARunResult.Done

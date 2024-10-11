@@ -46,7 +46,10 @@ func physics_process_ability(_delta: float) -> ARunResult:
 	var other_runner: AbilityRunner = null
 
 	if target:
-		var other: Node2D = run_expr(target, target_e)
+		var res := run_expr(target, target_e)
+		if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Node2D):
+			return ARunResult.Error
+		var other: Node2D = res.value
 		for i in other.get_child_count():
 			other_runner = other.get_child(i) as AbilityRunner
 			if other_runner:

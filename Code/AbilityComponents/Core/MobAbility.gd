@@ -30,7 +30,8 @@ func _validate_property(property: Dictionary) -> void:
 
 func check_condition(runner: AbilityRunner) -> bool:
 	for i in conditions_e.size():
-		if not run_expr(runner, conditions[i], conditions_e[i]):
+		var res := run_expr(runner, conditions[i], conditions_e[i])
+		if not res.value or res.err & AbilityNode.Err.ShouldBail:
 			return false
 	return true
 
@@ -45,10 +46,16 @@ func parse_expr(text: String) -> Expression:
 		push_error("Error: %s\npath: %s\nexpr: %s" % [e.get_error_text(), get_path(), text])
 	return e
 
-func run_expr(runner: AbilityRunner, text: String, e: Expression) -> Variant:
+func run_expr(runner: AbilityRunner, text: String, e: Expression) -> AbilityNode.ExprRes:
+	runner.unit_local.errs = Blackboard.Err.None
 	var res: Variant = e.execute([runner.character, runner.unit_local], null, false, true)
 
 	if e.has_execute_failed():
-		push_error("Error: %s\npath: %s\nexpr: %s\nunit_local: %s" % [e.get_error_text(), get_path(), text, runner.unit_local])
+		if runner.unit_local.errs & Blackboard.Err.MissingUnit:
+			return AbilityNode.ExprRes.new(res, AbilityNode.Err.ShouldBail)
+		assert(false, "Error: %s\npath: %s\nexpr: %s\nunit_local: %s" % [e.get_error_text(), get_path(), text, runner.unit_local])
 
-	return res
+	if runner.unit_local.errs & Blackboard.Err.MissingUnit:
+		return AbilityNode.ExprRes.new(res, AbilityNode.Err.MightBail)
+
+	return AbilityNode.ExprRes.new(res, AbilityNode.Err.None)

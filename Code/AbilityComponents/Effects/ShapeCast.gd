@@ -60,12 +60,21 @@ func pre_first_process() -> void:
 	if ignore_self:
 		runner.shape_cast.add_exception(runner.shape_cast.get_parent() as CollisionObject2D)
 	if additional_ignore_e:
-		var extra : CollisionObject2D = run_expr(additional_ignore, additional_ignore_e)
+		var res := run_expr(additional_ignore, additional_ignore_e)
+		if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not CollisionObject2D):
+			# NOTE(vipa, 2024-10-11): We silently swallow this thing
+			# since we can't return error here. Might be worth
+			# changing later.w
+			return
+		var extra : CollisionObject2D = res.value
 		runner.shape_cast.add_exception(extra)
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	var sc := runner.shape_cast
-	var cast_pos: Vector2 = run_expr(cast_position, cast_position_e) if cast_position_e else runner.character.global_position
+	var res := run_expr(cast_position, cast_position_e) if cast_position_e else ExprRes.new(runner.character.global_position)
+	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2):
+		return ARunResult.Error
+	var cast_pos: Vector2 = res.value
 
 	sc.exclude_parent = ignore_self
 	sc.global_position = cast_pos
@@ -87,7 +96,8 @@ func physics_process_ability(_delta: float) -> ARunResult:
 			if collision_normal:
 				blackboard.bset(collision_normal, sc.get_collision_normal(i))
 
-			trigger()
+			if trigger() == ARunResult.Error:
+				return ARunResult.Error
 
 			sc.add_exception(sc.get_collider(i) as CollisionObject2D)
 	else:
@@ -112,7 +122,8 @@ func physics_process_ability(_delta: float) -> ARunResult:
 		if collision_normal:
 			blackboard.bset(collision_normal, sc.get_collision_normal(collider_idx))
 
-		trigger()
+		if trigger() == ARunResult.Error:
+			return ARunResult.Error
 
 		return ARunResult.Done
 

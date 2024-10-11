@@ -24,6 +24,7 @@ class_name OnAlteredHealth extends AbilityTriggered
 @export var altered_delta: StringName
 
 var done := false
+var error := false
 
 func _validate_property(property: Dictionary) -> void:
 	match property.name:
@@ -36,6 +37,7 @@ func sync_lost() -> void:
 func pre_first_process() -> void:
 	runner.health.register_modifier(_on_health_event)
 	done = false
+	error = false
 
 func sync_gained() -> void:
 	pre_first_process()
@@ -47,22 +49,31 @@ func interrupt(kind: AInterruptKind) -> AInterruptResult:
 	return res
 
 func physics_process_ability(_delta: float) -> ARunResult:
+	if error:
+		return ARunResult.Error
 	if done:
-		runner.health.unregister_modifier(_on_health_event)
 		return ARunResult.Done
 
 	return ARunResult.Wait
 
 func _on_health_event(delta: float) -> float:
-	var altered_delta_value: float = run_expr(new_delta, new_delta_e, [delta])
+	var res := run_expr(new_delta, new_delta_e, [delta])
+	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not float):
+		sync_lost()
+		error = true
+		return delta
+	var altered_delta_value: float = res.value
 
 	if initial_delta:
 		blackboard.bset(initial_delta, delta)
 	if altered_delta:
 		blackboard.bset(altered_delta, altered_delta_value)
 
-	trigger()
+	if trigger() == ARunResult.Error:
+		error = true
 
 	done = not continuous
+	if done or error:
+		sync_lost()
 
 	return altered_delta_value

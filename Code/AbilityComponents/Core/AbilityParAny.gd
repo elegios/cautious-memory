@@ -71,6 +71,10 @@ func physics_process_ability(delta: float) -> ARunResult:
 				executing_idxes = executing_idxes & ~(1 << i)
 				send_interrupts()
 				return ARunResult.Done
+			ARunResult.Error:
+				executing_idxes = executing_idxes & ~(1 << i)
+				send_interrupts()
+				return ARunResult.Error
 			ARunResult.Wait:
 				continue
 	return ARunResult.Wait
@@ -90,6 +94,6 @@ func interrupt(kind: AInterruptKind) -> AInterruptResult:
 
 func send_interrupts() -> void:
 	for i in children.size():
-		if 0 == ((1 << i) & executing_idxes):
+		if not ((1 << i) & executing_idxes):
 			continue
 		var _ignore := children[i].interrupt(AInterruptKind.Hard)

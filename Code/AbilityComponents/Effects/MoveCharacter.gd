@@ -26,8 +26,14 @@ func _validate_property(property: Dictionary) -> void:
 			property.hint = PROPERTY_HINT_EXPRESSION
 
 func physics_process_ability(delta: float) -> ARunResult:
-	var vec: Vector2 = run_expr(target, target_e)
-	var scale: float = run_expr(speed, speed_e) if speed_e else 1.0
+	var vec_r := run_expr(target, target_e)
+	if vec_r.err == Err.ShouldBail or (vec_r.err == Err.MightBail and vec_r.value is not Vector2):
+		return ARunResult.Error
+	var vec: Vector2 = vec_r.value
+	var scale_r := run_expr(speed, speed_e) if speed_e else ExprRes.new(1.0)
+	if scale_r.err == Err.ShouldBail or (scale_r.err == Err.MightBail and scale_r.value is not float):
+		return ARunResult.Error
+	var scale: float = scale_r.value
 	match what:
 		What.Direction:
 			runner.character.velocity = scale * vec

@@ -21,7 +21,10 @@ var checked: bool = false
 
 func physics_process_ability(delta: float) -> ARunResult:
 	if not checked:
-		if run_expr(condition, condition_e):
+		var res := run_expr(condition, condition_e)
+		if res.err == Err.ShouldBail:
+			return ARunResult.Error
+		if res.value:
 			checked = not continuous
 		else:
 			var c := current_child

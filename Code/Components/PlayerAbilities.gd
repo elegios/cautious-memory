@@ -95,11 +95,9 @@ func try_run_ability(id: int, pos: Vector2) -> void:
 				issued_action = id
 				issued_bb = Blackboard.new(runner.unit_spawner)
 				if target_unit:
-					print("walking towards target unit")
 					issued_bb.bset(&"target_unit", target_unit)
 					move_to_unit_issued.emit(target_unit)
 				else:
-					print("walking towards target point")
 					issued_bb.bset(&"target_point", target_point)
 					move_issued.emit(target_point)
 			return
@@ -179,12 +177,10 @@ func _physics_process(delta: float) -> void:
 		if unit is Node2D:
 			var u: Node2D = unit
 			if u.position.distance_squared_to(runner.character.position) < max_range*max_range:
-				print("reached unit")
 				_actually_cast_ability(issued_action, issued_bb)
 		elif point is Vector2:
 			var p: Vector2 = point
 			if p.distance_squared_to(runner.character.position) < max_range*max_range:
-				print("reached point")
 				_actually_cast_ability(issued_action, issued_bb)
 		else:
 			# NOTE(vipa, 2024-10-10): target has disappeared, cancel

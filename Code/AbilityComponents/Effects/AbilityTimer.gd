@@ -34,7 +34,10 @@ func pre_first_process() -> void:
 
 func physics_process_ability(delta: float) -> ARunResult:
 	elapsed += delta
-	var limit: float = run_expr(duration, duration_e)
+	var res := run_expr(duration, duration_e)
+	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not float):
+		return ARunResult.Error
+	var limit: float = res.value
 
 	if property:
 		var fraction := clampf(elapsed / limit, 0.0, 1.0)

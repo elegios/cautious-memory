@@ -61,6 +61,10 @@ func physics_process_ability(delta: float) -> ARunResult:
 		match children[i].physics_process_ability(delta):
 			ARunResult.Done:
 				executing_idxes = executing_idxes & ~(1 << i)
+			ARunResult.Error:
+				executing_idxes = executing_idxes & ~(1 << i)
+				var _ignore := interrupt(AInterruptKind.Hard)
+				return ARunResult.Error
 			ARunResult.Wait:
 				continue
 	if executing_idxes:

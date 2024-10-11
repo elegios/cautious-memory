@@ -19,5 +19,8 @@ func _validate_property(property: Dictionary) -> void:
 			property.hint = PROPERTY_HINT_EXPRESSION
 
 func physics_process_ability(_delta: float) -> ARunResult:
-	runner.character.position = run_expr(position, position_e)
+	var res := run_expr(position, position_e)
+	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2):
+		return ARunResult.Error
+	runner.character.position = res.value
 	return ARunResult.Wait if continuous else ARunResult.Done

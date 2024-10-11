@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	match child.physics_process_ability(delta):
 		AbilityNode.ARunResult.Wait:
 			pass
-		AbilityNode.ARunResult.Done:
+		AbilityNode.ARunResult.Done, AbilityNode.ARunResult.Error:
 			done = true
 			ability_done.emit(self)
 

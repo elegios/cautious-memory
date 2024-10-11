@@ -39,14 +39,18 @@ func physics_process_ability(_delta: float) -> ARunResult:
 	var fx: Node2D = effect.instantiate()
 	runner.unit_spawner.get_parent().add_child(fx)
 
-	var target_value: Variant = run_expr(target, target_e) if target_e else runner.character
-	var direction_value: Variant = run_expr(rotation, rotation_e) if rotation_e else 0
+	var target_r := run_expr(target, target_e) if target_e else ExprRes.new(runner.character)
+	if target_r.err == Err.ShouldBail or (target_r.err == Err.MightBail and target_r.value is not Vector2 and target_r.value is not Node2D):
+		return ARunResult.Error
+	var direction_r := run_expr(rotation, rotation_e) if rotation_e else ExprRes.new(0)
+	if direction_r.err == Err.ShouldBail or (direction_r.err == Err.MightBail and direction_r.value is not Vector2 and direction_r.value is not Node2D and direction_r.value is not float):
+		return ARunResult.Error
 
-	if target_value is Vector2:
-		var pos: Vector2 = target_value
+	if target_r.value is Vector2:
+		var pos: Vector2 = target_r.value
 		fx.position = pos
-	elif target_value is Node2D:
-		var u: Node2D = target_value
+	elif target_r.value is Node2D:
+		var u: Node2D = target_r.value
 		var r := RemoteTransform2D.new()
 		r.update_position = true
 		r.update_rotation = false
@@ -55,17 +59,17 @@ func physics_process_ability(_delta: float) -> ARunResult:
 		r.remote_path = r.get_path_to(fx)
 		var _i := fx.tree_exiting.connect(r.queue_free)
 
-	if direction_value is float:
-		var r: float = direction_value
+	if direction_r.value is float:
+		var r: float = direction_r.value
 		fx.rotation = r
-	elif direction_value is Vector2:
-		var dir: Vector2 = direction_value
+	elif direction_r.value is Vector2:
+		var dir: Vector2 = direction_r.value
 		if what == What.Direction:
 			fx.rotation = dir.angle()
 		elif what == What.Position:
 			fx.rotation = fx.position.angle_to_point(dir)
-	elif direction_value is Node2D:
-		var u: Node2D = direction_value
+	elif direction_r.value is Node2D:
+		var u: Node2D = direction_r.value
 		if what == What.Direction:
 			var r := RemoteTransform2D.new()
 			r.update_position = false

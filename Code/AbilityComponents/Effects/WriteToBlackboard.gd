@@ -29,7 +29,10 @@ func _validate_property(prop: Dictionary) -> void:
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	if source_e:
-		blackboard.bset(property, run_expr(source, source_e))
+		var res := run_expr(source, source_e)
+		if res.err == Err.ShouldBail:
+			return ARunResult.Error
+		blackboard.bset(property, res.value)
 	else:
 		blackboard.bclear(property)
 	return ARunResult.Done
