@@ -1,0 +1,15 @@
+[remap]
+
+importer="2d-pixel-skins-animation-importer"
+type="AtlasTexture"
+uid="uid://oghgnowlh4ki"
+path="res://.godot/imported/slash.png-b80f27dc2bedf9cd19e6ef92c5569cee.res"
+
+[deps]
+
+source_file="res://Assets/Characters/Animations/slash.png"
+dest_files=["res://.godot/imported/slash.png-b80f27dc2bedf9cd19e6ef92c5569cee.res"]
+
+[params]
+
+skin_map=Resource("res://Assets/Characters/character.map.png")

@@ -1,0 +1,15 @@
+[remap]
+
+importer="2d-pixel-skins-animation-importer"
+type="AtlasTexture"
+uid="uid://df7gnjcg5s8ye"
+path="res://.godot/imported/idle.png-9b27d9f093dcc73aa0a1d9df44d32b24.res"
+
+[deps]
+
+source_file="res://Assets/Characters/Animations/idle.png"
+dest_files=["res://.godot/imported/idle.png-9b27d9f093dcc73aa0a1d9df44d32b24.res"]
+
+[params]
+
+skin_map=Resource("res://Assets/Characters/character.map.png")

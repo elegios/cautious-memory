@@ -1,11 +1,13 @@
-[gd_scene load_steps=22 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=25 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
-[ext_resource type="SpriteFrames" uid="uid://lrukp3lrybk7" path="res://Assets/Characters/Base/Human/human.tres" id="2_4r553"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
 [ext_resource type="PackedScene" uid="uid://tmunigaslihv" path="res://Scenes/Components/player_abilities.tscn" id="3_7qped"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
+[ext_resource type="Shader" path="res://addons/2d_pixel_skins/skinned.gdshader" id="4_rmm5g"]
 [ext_resource type="Script" path="res://Code/Components/AnimatedUnit.gd" id="5_0d8gt"]
+[ext_resource type="Texture2D" uid="uid://b6bsksq04e3c8" path="res://Assets/Characters/Base/human.skin.png" id="5_0kbc6"]
+[ext_resource type="SpriteFrames" uid="uid://dvogffjq1ryb3" path="res://Assets/Characters/Animations/minifantasy_human_sized.tres" id="6_1hmwf"]
 [ext_resource type="PackedScene" uid="uid://b8q3nchmonjde" path="res://Scenes/Components/player_health.tscn" id="6_cjdk0"]
 [ext_resource type="Shader" path="res://Code/Rendering/visible_mask.gdshader" id="6_hos8x"]
 [ext_resource type="Texture2D" uid="uid://dexwjykf60c1a" path="res://Assets/Characters/Head/CowboyHat/Minifantasy_NPCsIdle_Hat_CowboyHat_white.png" id="6_nkj0l"]
@@ -17,6 +19,11 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
 radius = 11.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fdnbg"]
+shader = ExtResource("4_rmm5g")
+shader_parameter/skin_dimension = Vector2(31, 19)
+shader_parameter/skin = ExtResource("5_0kbc6")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0mmr3"]
 atlas = ExtResource("6_nkj0l")
@@ -93,6 +100,7 @@ runner = NodePath("../AbilityRunner")
 unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_rf6ld")
 
 [node name="Camera" type="Camera2D" parent="."]
@@ -109,15 +117,16 @@ render_target_update_mode = 4
 
 [node name="Animation" type="AnimatedSprite2D" parent="SubViewport"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_fdnbg")
 position = Vector2(16, 16)
-sprite_frames = ExtResource("2_4r553")
-animation = &"idle-se"
-autoplay = "idle-se"
+sprite_frames = ExtResource("6_1hmwf")
+animation = &"slash-sw"
 centered = false
 offset = Vector2(-16, -16)
 script = ExtResource("5_0d8gt")
 
 [node name="Hat" type="Sprite2D" parent="SubViewport/Animation"]
+visible = false
 modulate = Color(0.74, 0.246667, 0, 1)
 z_index = 1
 texture = SubResource("AtlasTexture_0mmr3")
@@ -127,6 +136,7 @@ script = ExtResource("7_ovu43")
 layer = ExtResource("8_cyw6j")
 
 [node name="Jacket" type="Sprite2D" parent="SubViewport/Animation"]
+visible = false
 modulate = Color(0.74, 0.246667, 0, 1)
 z_index = 1
 texture = SubResource("AtlasTexture_rnorh")
@@ -167,6 +177,7 @@ shape_cast = NodePath("../ShapeCast2D")
 animator = NodePath("../SubViewport/Animation")
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="."]
+visible = false
 enabled = false
 shape = SubResource("CircleShape2D_rf6ld")
 target_position = Vector2(0, 0)

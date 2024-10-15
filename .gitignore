@@ -1,2 +1,6 @@
 # Godot 4+ specific ignores
 .godot/
+
+# Converted skin animation images
+*.conv.png
+*.conv.png.import

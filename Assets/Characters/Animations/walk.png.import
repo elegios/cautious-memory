@@ -1,0 +1,15 @@
+[remap]
+
+importer="2d-pixel-skins-animation-importer"
+type="AtlasTexture"
+uid="uid://iwv2chke6rxi"
+path="res://.godot/imported/walk.png-a54a641ee2d6646265f960f1a94435c9.res"
+
+[deps]
+
+source_file="res://Assets/Characters/Animations/walk.png"
+dest_files=["res://.godot/imported/walk.png-a54a641ee2d6646265f960f1a94435c9.res"]
+
+[params]
+
+skin_map=Resource("res://Assets/Characters/character.map.png")

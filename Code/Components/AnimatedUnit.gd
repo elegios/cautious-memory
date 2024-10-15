@@ -5,7 +5,7 @@ enum A {
 	None,
 	Idle,
 	Walk,
-	Attack,
+	Slash,
 	Jump,
 }
 
@@ -91,8 +91,8 @@ func a_to_string(a: A) -> String:
 			return "idle"
 		A.Walk:
 			return "walk"
-		A.Attack:
-			return "attack"
+		A.Slash:
+			return "slash"
 		A.Jump:
 			return "jump"
 	push_error("Missed animation: " + str(a) + str(A))

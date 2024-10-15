@@ -1,0 +1,15 @@
+[remap]
+
+importer="2d-pixel-skins-animation-importer"
+type="AtlasTexture"
+uid="uid://b54tbcsbdqxv0"
+path="res://.godot/imported/jump.png-4093972b4dd9a1d79762a9ce30389937.res"
+
+[deps]
+
+source_file="res://Assets/Characters/Animations/jump.png"
+dest_files=["res://.godot/imported/jump.png-4093972b4dd9a1d79762a9ce30389937.res"]
+
+[params]
+
+skin_map=Resource("res://Assets/Characters/character.map.png")

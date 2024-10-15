@@ -1,0 +1,14 @@
+[remap]
+
+importer="2d-pixel-skins-map-importer"
+type="Resource"
+uid="uid://dmyvf1iclnv8m"
+path="res://.godot/imported/character.map.png-342007b2eabac810673de99f1552819e.res"
+
+[deps]
+
+source_file="res://Assets/Characters/character.map.png"
+dest_files=["res://.godot/imported/character.map.png-342007b2eabac810673de99f1552819e.res"]
+
+[params]
+
