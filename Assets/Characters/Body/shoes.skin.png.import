@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bskusphkbdmdg"
-path="res://.godot/imported/Minifantasy_NPCsWalk_Hat_CowboyHat_white.png-7d84ee89e65caf760a952fca875015ed.ctex"
+uid="uid://c6ojcfqyth3w"
+path="res://.godot/imported/shoes.skin.png-42ed3858f17d4256589f7c9a77386fd0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Head/CowboyHat/Minifantasy_NPCsWalk_Hat_CowboyHat_white.png"
-dest_files=["res://.godot/imported/Minifantasy_NPCsWalk_Hat_CowboyHat_white.png-7d84ee89e65caf760a952fca875015ed.ctex"]
+source_file="res://Assets/Characters/Body/shoes.skin.png"
+dest_files=["res://.godot/imported/shoes.skin.png-42ed3858f17d4256589f7c9a77386fd0.ctex"]
 
 [params]
 

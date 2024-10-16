@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckspj6m5dplsr"
-path="res://.godot/imported/HumanJump.png-6bdb9e31b9266e0694f96d4e27f8416c.ctex"
+uid="uid://cbe1fci5y76m2"
+path="res://.godot/imported/gloves.skin.png-4e2045b25f3119c86168feaea49122d8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Base/Human/HumanJump.png"
-dest_files=["res://.godot/imported/HumanJump.png-6bdb9e31b9266e0694f96d4e27f8416c.ctex"]
+source_file="res://Assets/Characters/Body/gloves.skin.png"
+dest_files=["res://.godot/imported/gloves.skin.png-4e2045b25f3119c86168feaea49122d8.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bg5xljp5ci651"
-path="res://.godot/imported/HumanIdle.png-c4e0ba72bb0be978023a956ea56b9204.ctex"
+uid="uid://b0ncgblhg0jce"
+path="res://.godot/imported/shirt.skin.png-29373b33b8db612504f113167bdc25bc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Base/Human/HumanIdle.png"
-dest_files=["res://.godot/imported/HumanIdle.png-c4e0ba72bb0be978023a956ea56b9204.ctex"]
+source_file="res://Assets/Characters/Body/shirt.skin.png"
+dest_files=["res://.godot/imported/shirt.skin.png-29373b33b8db612504f113167bdc25bc.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dexwjykf60c1a"
-path="res://.godot/imported/Minifantasy_NPCsIdle_Hat_CowboyHat_white.png-c755b01af2c5f90d78a088dd8af43094.ctex"
+uid="uid://bt1ox6liiyqhg"
+path="res://.godot/imported/jacket.skin.png-c9dd24b698f02d3bed5b2828b6745208.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Head/CowboyHat/Minifantasy_NPCsIdle_Hat_CowboyHat_white.png"
-dest_files=["res://.godot/imported/Minifantasy_NPCsIdle_Hat_CowboyHat_white.png-c755b01af2c5f90d78a088dd8af43094.ctex"]
+source_file="res://Assets/Characters/Body/jacket.skin.png"
+dest_files=["res://.godot/imported/jacket.skin.png-c9dd24b698f02d3bed5b2828b6745208.ctex"]
 
 [params]
 

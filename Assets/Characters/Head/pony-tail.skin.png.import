@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7adsnx0hqo1k"
-path="res://.godot/imported/HumanChargedAttack.png-f38389d8bb8b45ca25dea6f30cae9bc1.ctex"
+uid="uid://dymppos43pqd3"
+path="res://.godot/imported/pony-tail.skin.png-d165da96e6e1651a398af7d066d8cadd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Base/Human/HumanChargedAttack.png"
-dest_files=["res://.godot/imported/HumanChargedAttack.png-f38389d8bb8b45ca25dea6f30cae9bc1.ctex"]
+source_file="res://Assets/Characters/Head/pony-tail.skin.png"
+dest_files=["res://.godot/imported/pony-tail.skin.png-d165da96e6e1651a398af7d066d8cadd.ctex"]
 
 [params]
 

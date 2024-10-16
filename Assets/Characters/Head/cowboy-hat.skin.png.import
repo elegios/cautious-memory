@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c61uxwmjlmag5"
-path="res://.godot/imported/Minifantasy_NPCsDie_Jacket_white.png-bb521b0c2084f5cd8be29b003c260c90.ctex"
+uid="uid://crmeddavnlsnh"
+path="res://.godot/imported/cowboy-hat.skin.png-742bbfe8d33db54fb6566e2b25ffbf9f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Body/Jacket/Minifantasy_NPCsDie_Jacket_white.png"
-dest_files=["res://.godot/imported/Minifantasy_NPCsDie_Jacket_white.png-bb521b0c2084f5cd8be29b003c260c90.ctex"]
+source_file="res://Assets/Characters/Head/cowboy-hat.skin.png"
+dest_files=["res://.godot/imported/cowboy-hat.skin.png-742bbfe8d33db54fb6566e2b25ffbf9f.ctex"]
 
 [params]
 

@@ -22,9 +22,6 @@ target_max_distance = 200.0
 [node name="MobAbilities" parent="." index="2"]
 abilities = Array[ExtResource("2_w5xvq")]([SubResource("Resource_jmttu")])
 
-[node name="Animation" parent="SubViewport" index="0"]
-animation = &"attack-ne"
-
 [node name="Mask" parent="." index="9"]
 texture = SubResource("ViewportTexture_frjv8")
 

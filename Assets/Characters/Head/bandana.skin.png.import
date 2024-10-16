@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3rlu0xqduw8j"
-path="res://.godot/imported/Minifantasy_NPCsWalk_Jacket_white.png-27168274fc9041d79e9b1e69c8c1d9b3.ctex"
+uid="uid://ccsh1ts73rjot"
+path="res://.godot/imported/bandana.skin.png-ad0e35b0fd322b32d4e6187e36309a43.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Body/Jacket/Minifantasy_NPCsWalk_Jacket_white.png"
-dest_files=["res://.godot/imported/Minifantasy_NPCsWalk_Jacket_white.png-27168274fc9041d79e9b1e69c8c1d9b3.ctex"]
+source_file="res://Assets/Characters/Head/bandana.skin.png"
+dest_files=["res://.godot/imported/bandana.skin.png-ad0e35b0fd322b32d4e6187e36309a43.ctex"]
 
 [params]
 

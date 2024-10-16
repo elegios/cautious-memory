@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccwwdvvm0wfsx"
-path="res://.godot/imported/HumanDmg.png-cb345177ce3a99766dbe2898cbd3c4e5.ctex"
+uid="uid://cuooabx6oumka"
+path="res://.godot/imported/bald.skin.png-20f56e1e7f9613c9e6b9cab1d96d820e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Base/Human/HumanDmg.png"
-dest_files=["res://.godot/imported/HumanDmg.png-cb345177ce3a99766dbe2898cbd3c4e5.ctex"]
+source_file="res://Assets/Characters/Head/bald.skin.png"
+dest_files=["res://.godot/imported/bald.skin.png-20f56e1e7f9613c9e6b9cab1d96d820e.ctex"]
 
 [params]
 

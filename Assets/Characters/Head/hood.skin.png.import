@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://06xsbyc4pwe1"
-path="res://.godot/imported/HumanSoulDie.png-e484658e91ee21fd0be66a3d1cfb4b0e.ctex"
+uid="uid://buopflh8emves"
+path="res://.godot/imported/hood.skin.png-f4ccefa743a5958bb443db649d9bece4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Base/Human/HumanSoulDie.png"
-dest_files=["res://.godot/imported/HumanSoulDie.png-e484658e91ee21fd0be66a3d1cfb4b0e.ctex"]
+source_file="res://Assets/Characters/Head/hood.skin.png"
+dest_files=["res://.godot/imported/hood.skin.png-f4ccefa743a5958bb443db649d9bece4.ctex"]
 
 [params]
 

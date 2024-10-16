@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://cniq41shbsxkv"]
+
+[ext_resource type="Shader" path="res://addons/2d_pixel_skins/skinned.gdshader" id="1_2o634"]
+[ext_resource type="Texture2D" uid="uid://b6bsksq04e3c8" path="res://Assets/Characters/Base/human.skin.png" id="2_ntxm1"]
+[ext_resource type="SpriteFrames" uid="uid://dvogffjq1ryb3" path="res://Assets/Characters/Animations/minifantasy_human_sized.tres" id="3_okc5f"]
+[ext_resource type="Script" path="res://Code/Components/AnimatedUnit.gd" id="4_fbrda"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fdnbg"]
+shader = ExtResource("1_2o634")
+shader_parameter/skin_dimension = Vector2(31, 19)
+shader_parameter/skin = ExtResource("2_ntxm1")
+
+[node name="Animation" type="AnimatedSprite2D"]
+self_modulate = Color(1, 0.773333, 0.6, 1)
+material = SubResource("ShaderMaterial_fdnbg")
+position = Vector2(16, 16)
+sprite_frames = ExtResource("3_okc5f")
+animation = &"idle-se"
+centered = false
+offset = Vector2(-16, -16)
+script = ExtResource("4_fbrda")

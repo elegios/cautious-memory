@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://klba50nlrkhr"
-path="res://.godot/imported/HumanWalk.png-6473b6cef30e1d5f236a66b8e067dfea.ctex"
+uid="uid://cjgc677i8ipeq"
+path="res://.godot/imported/trousers.skin.png-b0937e94c5b3eadb5490a18c296c2e7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/Base/Human/HumanWalk.png"
-dest_files=["res://.godot/imported/HumanWalk.png-6473b6cef30e1d5f236a66b8e067dfea.ctex"]
+source_file="res://Assets/Characters/Body/trousers.skin.png"
+dest_files=["res://.godot/imported/trousers.skin.png-b0937e94c5b3eadb5490a18c296c2e7f.ctex"]
 
 [params]
 
