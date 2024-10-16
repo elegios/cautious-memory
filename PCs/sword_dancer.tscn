@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://tadb01vw7pr6"]
+[gd_scene load_steps=22 format=3 uid="uid://tadb01vw7pr6"]
 
 [ext_resource type="PackedScene" uid="uid://gcgee3glc6vc" path="res://Scenes/Inheritable/player.tscn" id="1_cn20u"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbility.gd" id="2_vc2fc"]
@@ -11,6 +11,7 @@
 [ext_resource type="Shader" path="res://addons/2d_pixel_skins/skinned.gdshader" id="9_6mmfh"]
 [ext_resource type="Texture2D" uid="uid://bt1ox6liiyqhg" path="res://Assets/Characters/Body/jacket.skin.png" id="10_nxfxf"]
 [ext_resource type="Texture2D" uid="uid://c6ojcfqyth3w" path="res://Assets/Characters/Body/shoes.skin.png" id="11_bh77j"]
+[ext_resource type="Texture2D" uid="uid://chmcxfa0aftkc" path="res://Assets/Characters/Head/short-hair.skin.png" id="12_j3uao"]
 
 [sub_resource type="Resource" id="Resource_tbdex"]
 script = ExtResource("2_vc2fc")
@@ -87,6 +88,11 @@ shader = ExtResource("9_6mmfh")
 shader_parameter/skin_dimension = Vector2(31, 19)
 shader_parameter/skin = ExtResource("11_bh77j")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c0q3c"]
+shader = ExtResource("9_6mmfh")
+shader_parameter/skin_dimension = Vector2(31, 19)
+shader_parameter/skin = ExtResource("12_j3uao")
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_k4r5m"]
 viewport_path = NodePath("SubViewport")
 
@@ -106,6 +112,11 @@ texture = SubResource("AtlasTexture_kket3")
 [node name="AnimationLayer3" parent="SubViewport/Animation" index="2" instance=ExtResource("7_8gcu3")]
 self_modulate = Color(0.51, 0.27999, 0.1734, 1)
 material = SubResource("ShaderMaterial_g1grx")
+texture = SubResource("AtlasTexture_kket3")
+
+[node name="AnimationLayer4" parent="SubViewport/Animation" index="3" instance=ExtResource("7_8gcu3")]
+self_modulate = Color(0.18, 0.08004, 0.0576, 1)
+material = SubResource("ShaderMaterial_c0q3c")
 texture = SubResource("AtlasTexture_kket3")
 
 [node name="Mask" parent="." index="6"]
