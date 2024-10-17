@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://8fg6jk7nc0qw"]
+[gd_scene load_steps=7 format=3 uid="uid://8fg6jk7nc0qw"]
 
 [ext_resource type="PackedScene" uid="uid://chjadf2wp68nl" path="res://Scenes/Inheritable/simple_mob.tscn" id="1_h1afo"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/MobAbility.gd" id="2_w5xvq"]
@@ -11,7 +11,10 @@ cooldown = 2.0
 conditions = Array[String](["bb.m_target", "character.position.distance_squared_to(bb.m_target.position) < 200*200"])
 ability = ExtResource("3_sali5")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_frjv8"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_q06gd"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_2o87j"]
 viewport_path = NodePath("SubViewport")
 
 [node name="Simple Mob" instance=ExtResource("1_h1afo")]
@@ -22,8 +25,8 @@ target_max_distance = 200.0
 [node name="MobAbilities" parent="." index="2"]
 abilities = Array[ExtResource("2_w5xvq")]([SubResource("Resource_jmttu")])
 
-[node name="Mask" parent="." index="9"]
-texture = SubResource("ViewportTexture_frjv8")
+[node name="Mask" parent="Visuals" index="0"]
+texture = SubResource("ViewportTexture_q06gd")
 
-[node name="Sprite" parent="." index="10"]
-texture = SubResource("ViewportTexture_frjv8")
+[node name="Sprite" parent="Visuals" index="1"]
+texture = SubResource("ViewportTexture_2o87j")

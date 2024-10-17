@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=16 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
@@ -11,6 +11,17 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
 radius = 11.0
+
+[sub_resource type="Gradient" id="Gradient_71tpn"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dkg4j"]
+gradient = SubResource("Gradient_71tpn")
+width = 25
+height = 25
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cp2nl"]
 shader = ExtResource("6_hos8x")
@@ -79,7 +90,6 @@ runner = NodePath("../AbilityRunner")
 unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_rf6ld")
 
 [node name="Camera" type="Camera2D" parent="."]
@@ -97,7 +107,12 @@ render_target_update_mode = 4
 [node name="Animation" parent="SubViewport" instance=ExtResource("4_qnr41")]
 unique_name_in_owner = true
 
-[node name="Mask" type="Sprite2D" parent="."]
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_dkg4j")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Mask" type="Sprite2D" parent="Visuals"]
 material = SubResource("ShaderMaterial_cp2nl")
 position = Vector2(0, -8)
 scale = Vector2(4, 4)
@@ -105,7 +120,7 @@ texture = SubResource("ViewportTexture_g0ajc")
 centered = false
 offset = Vector2(-16, -16)
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="Visuals"]
 z_index = 200
 material = SubResource("ShaderMaterial_eqrko")
 position = Vector2(0, -8)
@@ -117,7 +132,7 @@ offset = Vector2(-16, -16)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_e08i6")
 
-[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "health", "nav_agent", "player_input", "shape_cast", "animator")]
+[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "health", "nav_agent", "player_input", "shape_cast", "animator", "visual_offset")]
 unique_name_in_owner = true
 spawn_path = NodePath(".")
 script = ExtResource("4_aqo0i")
@@ -127,6 +142,7 @@ nav_agent = NodePath("../NavAgent")
 player_input = NodePath("../PlayerInput")
 shape_cast = NodePath("../ShapeCast2D")
 animator = NodePath("../SubViewport/Animation")
+visual_offset = NodePath("../Visuals")
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="."]
 visible = false

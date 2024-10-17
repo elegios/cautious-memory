@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://chjadf2wp68nl"]
+[gd_scene load_steps=20 format=3 uid="uid://chjadf2wp68nl"]
 
 [ext_resource type="Script" path="res://Code/Components/SimpleMob.gd" id="1_5x801"]
 [ext_resource type="Script" path="res://Code/Components/Aggro.gd" id="2_hbkp2"]
@@ -33,6 +33,17 @@ properties/2/replication_mode = 2
 properties/3/path = NodePath("MobHealth:health")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_i0q1b"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wj5il"]
+gradient = SubResource("Gradient_i0q1b")
+width = 25
+height = 25
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wiefb"]
 shader = ExtResource("7_nw3jo")
@@ -76,12 +87,13 @@ mob_avoidance_strength = SubResource("Curve_qgu2a")
 script = ExtResource("4_hrisj")
 runner = NodePath("../AbilityRunner")
 
-[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "health", "animator")]
+[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "health", "animator", "visual_offset")]
 spawn_path = NodePath(".")
 script = ExtResource("5_8uhus")
 character = NodePath("..")
 health = NodePath("../MobHealth")
 animator = NodePath("../SubViewport/Animation")
+visual_offset = NodePath("../Visuals")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_i8vk3")
@@ -112,7 +124,12 @@ render_target_update_mode = 4
 [node name="Animation" parent="SubViewport" instance=ExtResource("7_gmi3b")]
 unique_name_in_owner = true
 
-[node name="Mask" type="Sprite2D" parent="."]
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_wj5il")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Mask" type="Sprite2D" parent="Visuals"]
 material = SubResource("ShaderMaterial_wiefb")
 position = Vector2(0, -8)
 scale = Vector2(4, 4)
@@ -120,7 +137,7 @@ texture = SubResource("ViewportTexture_ua3r3")
 centered = false
 offset = Vector2(-16, -16)
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="Visuals"]
 z_index = 200
 material = SubResource("ShaderMaterial_k0xxp")
 position = Vector2(0, -8)

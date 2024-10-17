@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://8rjiyhuyt8wl"]
+
+[ext_resource type="PackedScene" uid="uid://gcgee3glc6vc" path="res://Scenes/Inheritable/player.tscn" id="1_f75jk"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbility.gd" id="2_e6o6d"]
+[ext_resource type="PackedScene" uid="uid://hgk5armc01xa" path="res://Scenes/Inheritable/a_no_missile_aa.tscn" id="3_msmdi"]
+[ext_resource type="PackedScene" uid="uid://2oyblm65w0ow" path="res://PCs/EarthBender/a_slam.tscn" id="4_aq8ve"]
+
+[sub_resource type="Resource" id="Resource_5ww15"]
+script = ExtResource("2_e6o6d")
+is_main = true
+cancel_move = true
+ability = ExtResource("3_msmdi")
+description = ""
+can_target_point = false
+unit_filter = 48
+unit_target_radius = 40.0
+max_range = 100.0
+walk_in_range = true
+cooldown = 0.5
+max_charges = 1
+charge_cooldown = 0.0
+
+[sub_resource type="Resource" id="Resource_0scx4"]
+script = ExtResource("2_e6o6d")
+is_main = true
+cancel_move = true
+ability = ExtResource("4_aq8ve")
+description = "Jump and slam down, knocking up and damaging units in an area."
+can_target_point = true
+unit_filter = 0
+unit_target_radius = 40.0
+max_range = 200.0
+walk_in_range = true
+cooldown = 0.0
+max_charges = 1
+charge_cooldown = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_t8kyp"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Player" instance=ExtResource("1_f75jk")]
+
+[node name="PlayerAbilities" parent="." index="1"]
+abilities = Array[ExtResource("2_e6o6d")]([SubResource("Resource_5ww15"), SubResource("Resource_0scx4")])
+
+[node name="Mask" parent="Visuals" index="0"]
+texture = SubResource("ViewportTexture_t8kyp")
+
+[node name="Sprite" parent="Visuals" index="1"]
+texture = SubResource("ViewportTexture_t8kyp")

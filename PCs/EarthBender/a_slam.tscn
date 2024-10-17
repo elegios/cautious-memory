@@ -1,0 +1,79 @@
+[gd_scene load_steps=15 format=3 uid="uid://2oyblm65w0ow"]
+
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilitySeq.gd" id="1_u2x0e"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/SeqLike/StateChange.gd" id="2_blp4p"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/WriteToBlackboard.gd" id="3_d273t"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityParAny.gd" id="4_bloa5"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AbilityTimer.gd" id="5_hx8dw"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/VisualOffset.gd" id="6_yxwww"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/MoveCharacter.gd" id="7_nrvoe"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/PlayAnimation.gd" id="8_7683e"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/ShapeCast.gd" id="8_h7o2k"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/AlterHealth.gd" id="9_prisv"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Effects/RunAbility.gd" id="10_l18wc"]
+[ext_resource type="PackedScene" uid="uid://bvvfkufsal78f" path="res://PCs/EarthBender/a_knockup.tscn" id="11_puwdq"]
+
+[sub_resource type="Curve" id="Curve_dc04p"]
+_data = [Vector2(0, 0), 0.0, 4.0, 0, 0, Vector2(1, 0), -4.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tc42u"]
+radius = 50.0
+
+[node name="ASlam" type="Node"]
+script = ExtResource("1_u2x0e")
+
+[node name="Phasing" type="Node" parent="."]
+script = ExtResource("2_blp4p")
+phase_through_units = true
+
+[node name="WriteToBlackboard" type="Node" parent="Phasing"]
+script = ExtResource("3_d273t")
+property = &"velocity"
+source = "(bb.target_point - character.position)/0.5"
+
+[node name="AbilityParAny" type="Node" parent="Phasing"]
+script = ExtResource("4_bloa5")
+
+[node name="AbilityTimer" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("5_hx8dw")
+duration = "0.5"
+curve = SubResource("Curve_dc04p")
+property = &"height"
+
+[node name="VisualOffset" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("6_yxwww")
+target = "Vector2(0, -bb.height*100)"
+
+[node name="MoveCharacter" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("7_nrvoe")
+target = "bb.velocity"
+
+[node name="PlayAnimation" type="Node" parent="Phasing/AbilityParAny"]
+script = ExtResource("8_7683e")
+animation = 4
+direction = "bb.velocity"
+duration = "0.5"
+
+[node name="AbilityParAny2" type="Node" parent="Phasing"]
+script = ExtResource("4_bloa5")
+
+[node name="ShapeCast" type="Node" parent="Phasing/AbilityParAny2"]
+script = ExtResource("8_h7o2k")
+shape = SubResource("CircleShape2D_tc42u")
+continuous = true
+collider = &"hit_unit"
+
+[node name="AlterHealth" type="Node" parent="Phasing/AbilityParAny2/ShapeCast"]
+script = ExtResource("9_prisv")
+target = "bb.hit_unit"
+amount = "-4"
+
+[node name="RunAbility" type="Node" parent="Phasing/AbilityParAny2/ShapeCast"]
+script = ExtResource("10_l18wc")
+ability = ExtResource("11_puwdq")
+target = "bb.hit_unit"
+
+[node name="AbilityTimer" type="Node" parent="Phasing/AbilityParAny2"]
+script = ExtResource("5_hx8dw")
+duration = "0"

@@ -93,7 +93,7 @@ shader = ExtResource("9_6mmfh")
 shader_parameter/skin_dimension = Vector2(31, 19)
 shader_parameter/skin = ExtResource("12_j3uao")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_k4r5m"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_owo3h"]
 viewport_path = NodePath("SubViewport")
 
 [node name="Player" instance=ExtResource("1_cn20u")]
@@ -119,8 +119,8 @@ self_modulate = Color(0.18, 0.08004, 0.0576, 1)
 material = SubResource("ShaderMaterial_c0q3c")
 texture = SubResource("AtlasTexture_kket3")
 
-[node name="Mask" parent="." index="6"]
-texture = SubResource("ViewportTexture_k4r5m")
+[node name="Mask" parent="Visuals" index="0"]
+texture = SubResource("ViewportTexture_owo3h")
 
-[node name="Sprite" parent="." index="7"]
-texture = SubResource("ViewportTexture_k4r5m")
+[node name="Sprite" parent="Visuals" index="1"]
+texture = SubResource("ViewportTexture_owo3h")
