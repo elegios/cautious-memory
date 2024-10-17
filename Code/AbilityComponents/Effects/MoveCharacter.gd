@@ -1,5 +1,4 @@
 @icon("../Icons/Character.svg")
-@tool
 ## Move a character in a given direction.
 class_name MoveCharacter extends AbilityNode
 
@@ -12,18 +11,13 @@ enum What { Direction, Point }
 
 ## A vector denoting the movement target. Either a direction to move
 ## in, in pixels per second, or a point to move to.
-@export var target: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var target: String
 @onready var target_e: Expression = parse_expr(target)
 
 ## A scaling factor/speed to be applied to the movement. Defaults to
 ## '1' if absent.
-@export var speed: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var speed: String
 @onready var speed_e: Expression = parse_expr(speed) if speed else null
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"target", "speed":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 func physics_process_ability(delta: float) -> ARunResult:
 	var vec_r := run_expr(target, target_e)

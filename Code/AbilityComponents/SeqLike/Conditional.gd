@@ -1,5 +1,4 @@
 @icon("../Icons/Condition.svg")
-@tool
 ## Like [AbilitySeq], but finish immediately if condition does not
 ## hold.
 class_name Conditional extends AbilitySeq
@@ -9,13 +8,8 @@ class_name Conditional extends AbilitySeq
 ## executing the first child.
 @export var continuous: bool = false
 ## The condition to check.
-@export var condition: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var condition: String
 @onready var condition_e: Expression = parse_expr(condition)
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"condition":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 var checked: bool = false
 

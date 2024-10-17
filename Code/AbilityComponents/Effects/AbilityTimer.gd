@@ -1,10 +1,9 @@
 @icon("../Icons/Timer.svg")
-@tool
 ## Wait for an amount of time, then finish
 class_name AbilityTimer extends AbilityNode
 
 ## The duration to wait in seconds.
-@export var duration: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var duration: String
 @onready var duration_e: Expression = parse_expr(duration)
 var elapsed: float = 0.0
 
@@ -16,11 +15,6 @@ var elapsed: float = 0.0
 @export var curve: Curve
 
 @export var property: StringName
-
-func _validate_property(prop: Dictionary) -> void:
-	match prop.name:
-		"duration":
-			prop.hint = PROPERTY_HINT_EXPRESSION
 
 func save_state(buffer: Array) -> void:
 	buffer.push_back(elapsed)

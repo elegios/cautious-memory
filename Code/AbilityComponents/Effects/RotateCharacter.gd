@@ -1,5 +1,4 @@
 @icon("../Icons/Character.svg")
-@tool
 ## Rotate the character. Note that this is different from setting the
 ## direction to face on sprites with multiple directions.
 class_name RotateCharacter extends AbilityNode
@@ -9,13 +8,8 @@ class_name RotateCharacter extends AbilityNode
 
 ## Target to face. Can be a target (Vector2) or an angle (float, in
 ## radians)
-@export var target: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var target: String
 @onready var target_e: Expression = parse_expr(target)
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"target":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	var res := run_expr(target, target_e)

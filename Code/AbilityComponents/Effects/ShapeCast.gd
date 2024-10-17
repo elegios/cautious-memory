@@ -1,24 +1,18 @@
 @icon("res://Code/AbilityComponents/Icons/ShapeCast.svg")
-@tool
 ## Wait for a [ShapeCast2D] to hit something, save data to the
 ## blackboard, then finish
 class_name ShapeCast extends AbilityTriggered
 
 ## A [Vector2] describing the point at which to put the shape
 ## cast. Defaults to [code]character.position[/code].
-@export var cast_position: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var cast_position: String
 @onready var cast_position_e: Expression = parse_expr(cast_position) if cast_position else null
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"cast_position", "additional_ignore":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 ## Change whether the cast can find the unit itself.
 @export var ignore_self: bool = true
 
 ## Optional. Ignore this unit as well.
-@export var additional_ignore: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var additional_ignore: String
 @onready var additional_ignore_e := parse_expr(additional_ignore) if additional_ignore else null
 
 ## The collision layers to look through.

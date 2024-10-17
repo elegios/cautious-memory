@@ -1,4 +1,3 @@
-@tool
 ## Listen for [AlterHealth] events on the current unit, possibly
 ## modifying the delta applied and doing something in response.
 class_name OnAlteredHealth extends AbilityTriggered
@@ -9,7 +8,7 @@ class_name OnAlteredHealth extends AbilityTriggered
 
 ## The altered health delta to apply. The initial value is available
 ## as [code]delta[/code].
-@export var new_delta: String = "delta"
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var new_delta: String = "delta"
 @onready var new_delta_e: Expression = parse_expr(new_delta, ["delta"])
 
 @export_group("Blackboard Output")
@@ -25,11 +24,6 @@ class_name OnAlteredHealth extends AbilityTriggered
 
 var done := false
 var error := false
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"new_delta":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 func sync_lost() -> void:
 	runner.health.unregister_modifier(_on_health_event)

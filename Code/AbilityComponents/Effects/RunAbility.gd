@@ -1,5 +1,4 @@
 @icon("../Icons/RunAbility.svg")
-@tool
 ## Run an ability on a unit.
 class_name RunAbility extends AbilityNode
 
@@ -9,13 +8,8 @@ class_name RunAbility extends AbilityNode
 
 ## Target on which to try to run an ability. Defaults to self if
 ## absent.
-@export var target: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var target: String
 @onready var target_e: Expression = parse_expr(target) if target else null
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"target":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 ## Run the new ability as a main ability, i.e., attempt to interrupt a
 ## previous main ability. Runs as a background ability if false.

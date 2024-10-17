@@ -1,5 +1,4 @@
 @icon("../Icons/Edit.svg")
-@tool
 ## Write a value (computed via a [DataSource]) to the blackboard.
 class_name WriteToBlackboard extends AbilityNode
 
@@ -19,13 +18,8 @@ class_name WriteToBlackboard extends AbilityNode
 @export var property: StringName
 
 ## The value to write. Will clear the property if absent.
-@export var source: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var source: String
 @onready var source_e: Expression = parse_expr(source) if source else null
-
-func _validate_property(prop: Dictionary) -> void:
-	match prop.name:
-		"source":
-			prop.hint = PROPERTY_HINT_EXPRESSION
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	if source_e:

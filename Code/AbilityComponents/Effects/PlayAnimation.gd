@@ -1,5 +1,4 @@
 @icon("../Icons/PlayAnimation.svg")
-@tool
 ## Play an animation on an [AnimatedUnit].
 class_name PlayAnimation extends AbilityNode
 
@@ -10,14 +9,14 @@ class_name PlayAnimation extends AbilityNode
 ## The direction to face. Either a direction vector, or an angle. The
 ## closest available animation angle will be selected. If absent, or
 ## null, do not change the facing direction.
-@export var direction: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var direction: String
 @onready var direction_e := parse_expr(direction) if direction else null
 
 ## The duration of the animation. The animation will be scaled to be
 ## this long (float, seconds) if present. A negative number means "use
 ## original duration". If the animation is looping, one iteration will
 ## be this long.
-@export var duration: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var duration: String
 @onready var duration_e := parse_expr(duration) if duration else null
 
 ## If true, set the animation to run once independently of this node,
@@ -29,11 +28,6 @@ class_name PlayAnimation extends AbilityNode
 
 var animation_finished := false
 var animation_started := false
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"direction", "duration":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 func pre_first_process() -> void:
 	animation_finished = false

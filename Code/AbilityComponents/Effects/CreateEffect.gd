@@ -1,4 +1,3 @@
-@tool
 ## Create a [i]non-gameplay[/i] related effect at a position or locked
 ## onto a unit.
 class_name CreateEffect extends AbilityNode
@@ -11,7 +10,7 @@ class_name CreateEffect extends AbilityNode
 ## Where to create the effect. Can be a position (Vector2) or a
 ## unit. If it is a unit, the effect will follow the position of that
 ## unit. Defaults to the current character if absent.
-@export var target: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var target: String
 @onready var target_e := parse_expr(target) if target else null
 
 enum What { Direction, Position }
@@ -27,13 +26,8 @@ enum What { Direction, Position }
 ## Vector2, or a unit. A vector is snapshotted and applied
 ## immediately, while a unit will be tracked for the lifetime of the
 ## effect. Defaults to 0 if unset.
-@export var rotation: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var rotation: String
 @onready var rotation_e := parse_expr(rotation) if rotation else null
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"target", "rotation":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	var fx: Node2D = effect.instantiate()

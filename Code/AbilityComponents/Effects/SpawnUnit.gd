@@ -1,4 +1,3 @@
-@tool
 ## Spawn a unit. NOTE: spawning only happens on the server. This means
 ## that for the client, one of two things will happen: 1. If the unit
 ## is saved to the blackboard, then this node will wait for
@@ -13,13 +12,8 @@ class_name SpawnUnit extends AbilityNode
 @export var unit: PackedScene
 
 ## Where to spawn the unit
-@export var point: String
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var point: String
 @onready var point_e: Expression = parse_expr(point)
-
-func _validate_property(property: Dictionary) -> void:
-	match property.name:
-		"point":
-			property.hint = PROPERTY_HINT_EXPRESSION
 
 @export_group("Blackboard Output")
 
