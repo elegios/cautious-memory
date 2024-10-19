@@ -1,36 +1,50 @@
-[gd_scene load_steps=8 format=3 uid="uid://8rjiyhuyt8wl"]
+[gd_scene load_steps=13 format=3 uid="uid://8rjiyhuyt8wl"]
 
 [ext_resource type="PackedScene" uid="uid://gcgee3glc6vc" path="res://Scenes/Inheritable/player.tscn" id="1_f75jk"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbility.gd" id="2_e6o6d"]
-[ext_resource type="PackedScene" uid="uid://hgk5armc01xa" path="res://Scenes/Inheritable/a_no_missile_aa.tscn" id="3_msmdi"]
-[ext_resource type="PackedScene" uid="uid://2oyblm65w0ow" path="res://PCs/EarthBender/a_slam.tscn" id="4_aq8ve"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbilityScript.gd" id="2_a65l5"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_attack_no_missile.gd" id="3_yrkkr"]
+[ext_resource type="Script" path="res://PCs/EarthBender/a_knockup.gd" id="4_tj6rp"]
+[ext_resource type="Script" path="res://PCs/EarthBender/a_slam.gd" id="5_la7k0"]
 
-[sub_resource type="Resource" id="Resource_5ww15"]
-script = ExtResource("2_e6o6d")
-is_main = true
-cancel_move = true
-ability = ExtResource("3_msmdi")
-description = ""
-can_target_point = false
-unit_filter = 48
-unit_target_radius = 40.0
-max_range = 100.0
-walk_in_range = true
-cooldown = 0.5
+[sub_resource type="Resource" id="Resource_8pp6d"]
+script = ExtResource("3_yrkkr")
+animation = 3
+attack_duration = 0.3
+attack_point = 0.1
+health_delta = -3.0
+unit_filter = 1
+max_range = 50.0
+cooldown = 0.0
 max_charges = 1
 charge_cooldown = 0.0
 
-[sub_resource type="Resource" id="Resource_0scx4"]
-script = ExtResource("2_e6o6d")
-is_main = true
-cancel_move = true
-ability = ExtResource("4_aq8ve")
-description = "Jump and slam down, knocking up and damaging units in an area."
-can_target_point = true
-unit_filter = 0
-unit_target_radius = 40.0
-max_range = 200.0
-walk_in_range = true
+[sub_resource type="CircleShape2D" id="CircleShape2D_0ov5s"]
+radius = 50.0
+
+[sub_resource type="Curve" id="Curve_pt7cj"]
+_data = [Vector2(0, 0), 0.0, 4.0, 0, 0, Vector2(1, 0), -4.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_0u8jv"]
+_data = [Vector2(0, 0), 0.0, 4.0, 0, 0, Vector2(1, 0), -4.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Resource" id="Resource_2g2jk"]
+script = ExtResource("4_tj6rp")
+duration = 0.2
+height = SubResource("Curve_0u8jv")
+max_height = 30.0
+
+[sub_resource type="Resource" id="Resource_mku4y"]
+script = ExtResource("5_la7k0")
+max_range = 150.0
+height = SubResource("Curve_pt7cj")
+max_height = 100.0
+duration = 0.5
+aoe = SubResource("CircleShape2D_0ov5s")
+mask = 1
+health_delta = -3.0
+knockup = SubResource("Resource_2g2jk")
 cooldown = 0.0
 max_charges = 1
 charge_cooldown = 0.0
@@ -41,7 +55,7 @@ viewport_path = NodePath("SubViewport")
 [node name="Player" instance=ExtResource("1_f75jk")]
 
 [node name="PlayerAbilities" parent="." index="1"]
-abilities = Array[ExtResource("2_e6o6d")]([SubResource("Resource_5ww15"), SubResource("Resource_0scx4")])
+abilities = Array[ExtResource("2_a65l5")]([SubResource("Resource_8pp6d"), SubResource("Resource_mku4y")])
 
 [node name="Mask" parent="Visuals" index="0"]
 texture = SubResource("ViewportTexture_t8kyp")

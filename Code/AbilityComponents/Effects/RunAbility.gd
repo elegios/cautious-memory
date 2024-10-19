@@ -4,7 +4,7 @@ class_name RunAbility extends AbilityNode
 
 ## The ability to run. The root node in the scene must be a subclass
 ## of [AbilityNode].
-@export var ability: PackedScene
+@export var ability: AbilityScript
 
 ## Target on which to try to run an ability. Defaults to self if
 ## absent.

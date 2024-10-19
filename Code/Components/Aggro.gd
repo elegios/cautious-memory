@@ -26,6 +26,6 @@ func get_target_or_null() -> Node2D:
 				closest = u
 
 	if runner:
-		runner.unit_local.bset(target_property, closest)
+		runner.unit_local.bset_unit(target_property, closest)
 
 	return closest

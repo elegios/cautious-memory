@@ -1,13 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://bh2crvskwyow3"]
+[gd_scene load_steps=7 format=3 uid="uid://bh2crvskwyow3"]
 
 [ext_resource type="PackedScene" uid="uid://c2l4v3ki8kndj" path="res://Scenes/Inheritable/basic_missile.tscn" id="1_mg482"]
-[ext_resource type="PackedScene" uid="uid://ctauqs2eq1gsr" path="res://PCs/SwordDancer/a_thrown_sword_aoe.tscn" id="2_43ajb"]
+[ext_resource type="PackedScene" uid="uid://cp8vllwnh2pim" path="res://PCs/SwordDancer/aoe_swing.tscn" id="2_nudx6"]
 [ext_resource type="Texture2D" uid="uid://derflbsgms3yv" path="res://icon.svg" id="3_7m84p"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_aoe_sword.gd" id="3_dketu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6w3cv"]
+radius = 50.0
+
+[sub_resource type="Resource" id="Resource_r5ygx"]
+script = ExtResource("3_dketu")
+health_delta = -2.0
+hit_duration = 0.1
+interval = 1.0
+hit_box = SubResource("CircleShape2D_6w3cv")
+hit_mask = 1
+effect = ExtResource("2_nudx6")
 
 [node name="MSword" instance=ExtResource("1_mg482")]
 
 [node name="AbilityRunner" parent="." index="0"]
-auto_run = ExtResource("2_43ajb")
+auto_run = SubResource("Resource_r5ygx")
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="4"]
 scale = Vector2(0.15625, 0.046875)

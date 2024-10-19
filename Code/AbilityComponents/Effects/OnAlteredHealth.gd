@@ -11,6 +11,11 @@ class_name OnAlteredHealth extends AbilityTriggered
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var new_delta: String = "delta"
 @onready var new_delta_e: Expression = parse_expr(new_delta, ["delta"])
 
+## An optional condition limiting when this node is triggered. Has
+## access to the initial [code]delta[/code] value.
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var condition: String = "true"
+@onready var condition_e: Expression = parse_expr(condition, ["delta"])
+
 @export_group("Blackboard Output")
 
 ## Optional. Write the initial [code]delta[/code] value to this
@@ -51,6 +56,15 @@ func physics_process_ability(_delta: float) -> ARunResult:
 	return ARunResult.Wait
 
 func _on_health_event(delta: float) -> float:
+	var cond_res := run_expr(condition, condition_e, [delta])
+	if cond_res.err == Err.ShouldBail:
+		sync_lost()
+		error = true
+		return delta
+
+	if not cond_res.value:
+		return delta
+
 	var res := run_expr(new_delta, new_delta_e, [delta])
 	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not float):
 		sync_lost()

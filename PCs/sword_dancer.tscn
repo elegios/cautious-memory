@@ -1,76 +1,89 @@
-[gd_scene load_steps=22 format=3 uid="uid://tadb01vw7pr6"]
+[gd_scene load_steps=32 format=3 uid="uid://tadb01vw7pr6"]
 
 [ext_resource type="PackedScene" uid="uid://gcgee3glc6vc" path="res://Scenes/Inheritable/player.tscn" id="1_cn20u"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbility.gd" id="2_vc2fc"]
-[ext_resource type="PackedScene" uid="uid://60nh8fm0my6x" path="res://PCs/SwordDancer/a_throw_sword.tscn" id="3_3ek8l"]
-[ext_resource type="PackedScene" uid="uid://hgk5armc01xa" path="res://Scenes/Inheritable/a_no_missile_aa.tscn" id="3_rwmeo"]
-[ext_resource type="PackedScene" uid="uid://bpdq3av7p7qu4" path="res://PCs/SwordDancer/a_kick_off.tscn" id="4_0b85u"]
-[ext_resource type="PackedScene" uid="uid://bwuioqeuukxnk" path="res://PCs/SwordDancer/a_parry_return.tscn" id="5_a7twy"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/PlayerAbilityScript.gd" id="2_e558p"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_attack_no_missile.gd" id="3_ex5kv"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_knockback.gd" id="4_0qmg6"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_move_sword.gd" id="4_ftbar"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_throw_sword.gd" id="5_jxwwo"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_kick_off.gd" id="5_kdmfa"]
+[ext_resource type="PackedScene" uid="uid://bh2crvskwyow3" path="res://PCs/SwordDancer/m_sword.tscn" id="6_f3bal"]
 [ext_resource type="PackedScene" uid="uid://dasaqop2owfsq" path="res://Scenes/Inheritable/animation_layer.tscn" id="7_8gcu3"]
 [ext_resource type="Texture2D" uid="uid://df7gnjcg5s8ye" path="res://Assets/Characters/Animations/idle.png" id="8_oqity"]
 [ext_resource type="Shader" path="res://addons/2d_pixel_skins/skinned.gdshader" id="9_6mmfh"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_return_sword.gd" id="9_na8tr"]
 [ext_resource type="Texture2D" uid="uid://bt1ox6liiyqhg" path="res://Assets/Characters/Body/jacket.skin.png" id="10_nxfxf"]
+[ext_resource type="Script" path="res://PCs/SwordDancer/a_parry_return.gd" id="10_putbd"]
 [ext_resource type="Texture2D" uid="uid://c6ojcfqyth3w" path="res://Assets/Characters/Body/shoes.skin.png" id="11_bh77j"]
 [ext_resource type="Texture2D" uid="uid://chmcxfa0aftkc" path="res://Assets/Characters/Head/short-hair.skin.png" id="12_j3uao"]
 
-[sub_resource type="Resource" id="Resource_tbdex"]
-script = ExtResource("2_vc2fc")
-is_main = true
-cancel_move = true
-ability = ExtResource("3_rwmeo")
-description = ""
-can_target_point = false
-unit_filter = 48
-unit_target_radius = 40.0
-max_range = 100.0
-walk_in_range = true
+[sub_resource type="Resource" id="Resource_0aomu"]
+script = ExtResource("3_ex5kv")
+animation = 3
+attack_duration = 0.3
+attack_point = 0.1
+health_delta = -3.0
+unit_filter = 1
+max_range = 50.0
 cooldown = 0.5
 max_charges = 1
 charge_cooldown = 0.0
 
-[sub_resource type="Resource" id="Resource_7o5fk"]
-script = ExtResource("2_vc2fc")
-is_main = false
-cancel_move = false
-ability = ExtResource("3_3ek8l")
-description = "Throw your sword towards a point."
-can_target_point = true
-unit_filter = 0
-unit_target_radius = 40.0
-max_range = 380.0
-walk_in_range = false
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_deoun"]
+size = Vector2(20, 5)
+
+[sub_resource type="Resource" id="Resource_0lmay"]
+script = ExtResource("4_ftbar")
+speed = 480.0
+health_delta = -3.0
+hit_box = SubResource("RectangleShape2D_deoun")
+hit_mask = 1
+
+[sub_resource type="Resource" id="Resource_no6sm"]
+script = ExtResource("5_jxwwo")
+max_range = 150.0
+sword = ExtResource("6_f3bal")
+move_sword = SubResource("Resource_0lmay")
+cooldown = 0.3
+max_charges = 3
+charge_cooldown = 3.0
+
+[sub_resource type="Curve" id="Curve_ij8gx"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Resource" id="Resource_k4nic"]
+script = ExtResource("4_0qmg6")
+duration = 0.2
+speed_factor = SubResource("Curve_ij8gx")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3v6m3"]
+radius = 11.0
+
+[sub_resource type="Resource" id="Resource_hmshy"]
+script = ExtResource("5_kdmfa")
+shape = SubResource("CircleShape2D_3v6m3")
+jump_distance = 150.0
+jump_duration = 0.3
+sit_duration = 0.3
+collision_mask = 1
+knockback = SubResource("Resource_k4nic")
 cooldown = 1.0
-max_charges = 1
-charge_cooldown = 0.0
-
-[sub_resource type="Resource" id="Resource_cimhx"]
-script = ExtResource("2_vc2fc")
-is_main = true
-cancel_move = true
-ability = ExtResource("4_0b85u")
-description = "Jump onto an enemy, then kick off in a new direction based on aim. Two charges."
-can_target_point = true
-unit_filter = 0
-unit_target_radius = 40.0
-max_range = 120.0
-walk_in_range = false
-cooldown = 2.0
 max_charges = 2
-charge_cooldown = 15.0
+charge_cooldown = 5.0
 
-[sub_resource type="Resource" id="Resource_4i5x0"]
-script = ExtResource("2_vc2fc")
-is_main = true
-cancel_move = false
-ability = ExtResource("5_a7twy")
-description = "If the sword is thrown: recall it.
-If not, parry an attack."
-can_target_point = true
-unit_filter = 0
-unit_target_radius = 40.0
-max_range = 0.0
-walk_in_range = true
-cooldown = 10.0
+[sub_resource type="Resource" id="Resource_saxl6"]
+script = ExtResource("9_na8tr")
+speed = 480.0
+health_delta = -3.0
+hit_box = SubResource("RectangleShape2D_deoun")
+hit_mask = 1
+
+[sub_resource type="Resource" id="Resource_uk1jp"]
+script = ExtResource("10_putbd")
+parry_duration = 0.4
+return_ability = SubResource("Resource_saxl6")
+cooldown = 6.0
 max_charges = 1
 charge_cooldown = 0.0
 
@@ -99,7 +112,7 @@ viewport_path = NodePath("SubViewport")
 [node name="Player" instance=ExtResource("1_cn20u")]
 
 [node name="PlayerAbilities" parent="." index="1"]
-abilities = Array[ExtResource("2_vc2fc")]([SubResource("Resource_tbdex"), SubResource("Resource_7o5fk"), SubResource("Resource_cimhx"), SubResource("Resource_4i5x0")])
+abilities = Array[ExtResource("2_e558p")]([SubResource("Resource_0aomu"), SubResource("Resource_no6sm"), SubResource("Resource_hmshy"), SubResource("Resource_uk1jp")])
 
 [node name="AnimationLayer" parent="SubViewport/Animation" index="0" instance=ExtResource("7_8gcu3")]
 texture = SubResource("AtlasTexture_kket3")

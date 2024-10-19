@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp8vllwnh2pim"]
+
+[sub_resource type="Curve" id="Curve_bcc12"]
+max_value = 20.88
+_data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8fdrc"]
+curve = SubResource("Curve_bcc12")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hyrb8"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 50.0
+emission_ring_inner_radius = 40.0
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -100.0
+radial_accel_max = -70.18
+tangential_accel_min = -100.0
+tangential_accel_max = -21.11
+scale_curve = SubResource("CurveTexture_8fdrc")
+
+[node name="AOESwing" type="Node2D"]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_hyrb8")
+one_shot = true
+explosiveness = 1.0
+
+[connection signal="finished" from="GPUParticles2D" to="." method="queue_free"]
+[connection signal="ready" from="GPUParticles2D" to="GPUParticles2D" method="restart"]

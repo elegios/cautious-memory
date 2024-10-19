@@ -6,7 +6,7 @@ signal main_ability_ended
 
 ## Ability to automatically run (as main ability) whenever no main
 ## ability is running.
-@export var auto_run: PackedScene
+@export var auto_run: AbilityScript
 
 ## Various features that ability components may use. Unused features
 ## can be unset.
@@ -74,8 +74,8 @@ func _spawn_ability(config: Dictionary) -> Node:
 		var _ignore := bb.load_state(initial_blackboard_state, 0)
 	bb.merge(unit_local)
 
-	var ps: PackedScene = ResourceLoader.load(path)
-	var abi := ps.instantiate() as AbilityNode
+	var ps: AbilityScript = ResourceLoader.load(path)
+	var abi := ps._ability()
 
 	var root := AbilityRoot.new()
 	root.add_child(abi)

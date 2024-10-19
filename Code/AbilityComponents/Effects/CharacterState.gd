@@ -1,8 +1,7 @@
-## Works like [AbilitySeq] but additionally makes temporary changes to
-## the players state while executing.
-class_name PlayerState extends AbilitySeq
+## Make temporary changes to the character state.
+class_name CharacterState extends AbilityNode
 
-## Stop colliding with other units. Requires a CharacterBody2D.
+## Stop colliding with other units.
 @export var phase_through_units: bool = false
 
 var active: bool:
@@ -19,12 +18,9 @@ func sync_gained() -> void:
 	active = true
 	super()
 
-func physics_process_ability(delta: float) -> ARunResult:
+func physics_process_ability(_delta: float) -> ARunResult:
 	active = true
-	var res := super(delta)
-	if res == ARunResult.Done:
-		active = false
-	return res
+	return ARunResult.Wait
 
 func interrupt(kind: AInterruptKind) -> AInterruptResult:
 	var res := super(kind)

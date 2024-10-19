@@ -2,7 +2,7 @@ class_name MobAbilities extends Node
 
 @export var runner : AbilityRunner
 
-@export var abilities : Array[MobAbility]
+@export var abilities : Array[MobAbilityScript]
 
 var abi_cd : Array[float]
 
@@ -26,8 +26,8 @@ func _physics_process(delta: float) -> void:
 			if not abi.check_condition(runner):
 				continue
 			var config := {
-				&"path": abi.ability.resource_path,
-				&"is_main": abi.is_main,
+				&"path": abi.resource_path,
+				&"is_main": abi._is_main(),
 			}
 			var success := runner.try_run_custom_ability(config, AbilityNode.AInterruptKind.Soft)
 			if success:

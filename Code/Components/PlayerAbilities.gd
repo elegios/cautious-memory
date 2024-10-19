@@ -20,7 +20,7 @@ var controller: int:
 
 ## The abilities directly usable by this player character. Index 0 is
 ## the auto-attack.
-@export var abilities : Array[PlayerAbility]
+@export var abilities : Array[PlayerAbilityScript]
 
 # NOTE(vipa, 2024-10-07): cd remaining in seconds
 var cooldowns : Array[float]
@@ -40,10 +40,10 @@ func _ready() -> void:
 	for i in abilities.size():
 		cooldowns.push_back(0)
 		charge_cooldowns.push_back(0)
-		charges.push_back(abilities[i].max_charges)
+		charges.push_back(abilities[i]._max_charges())
 
 		var abi_i: AbilityIcon = ability_icon.instantiate()
-		abi_i.tooltip_text = abilities[i].description
+		abi_i.tooltip_text = abilities[i]._description()
 		%"AbilityContainer".add_child(abi_i)
 		ability_icons.push_back(abi_i)
 
@@ -61,14 +61,14 @@ func try_run_ability(id: int, pos: Vector2) -> void:
 	var target_unit: Node2D = null
 	var target_point := Vector2.ZERO
 
-	if abi.unit_filter:
+	if abi._unit_filter():
 		cast.global_position = pos
-		cast.collision_mask = abi.unit_filter
+		cast.collision_mask = abi._unit_filter()
 		var c := cast.shape as CircleShape2D
 		if not c:
 			c = CircleShape2D.new()
 			cast.shape = c
-		c.radius = abi.unit_target_radius
+		c.radius = abi._unit_target_radius()
 		cast.force_shapecast_update()
 		if cast.is_colliding():
 			var t: Node2D = null
@@ -81,17 +81,17 @@ func try_run_ability(id: int, pos: Vector2) -> void:
 					dist = new_dist
 			target_unit = t
 
-	if not target_unit and not abi.can_target_point:
+	if not target_unit and not abi._can_target_point():
 		return
 
 	target_point = target_unit.position if target_unit else pos
 
-	if abi.max_range > 0:
-		if target_point.distance_squared_to(runner.character.position) <= abi.max_range*abi.max_range:
+	if abi._max_range() > 0:
+		if target_point.distance_squared_to(runner.character.position) <= abi._max_range()*abi._max_range():
 			pass
 
-		elif abi.walk_in_range:
-			if not abi.is_main or runner.try_soft_interrupt():
+		elif abi._walk_in_range():
+			if not abi._is_main() or runner.try_soft_interrupt():
 				issued_action = id
 				issued_bb = Blackboard.new(runner.unit_spawner)
 				if target_unit:
@@ -102,8 +102,8 @@ func try_run_ability(id: int, pos: Vector2) -> void:
 					move_issued.emit(target_point)
 			return
 
-		elif abi.can_target_point:
-			target_point = runner.character.position + (target_point - runner.character.position).limit_length(abi.max_range)
+		elif abi._can_target_point():
+			target_point = runner.character.position + (target_point - runner.character.position).limit_length(abi._max_range())
 
 		else:
 			return
@@ -129,21 +129,21 @@ func _actually_cast_ability(id: int, bb: Blackboard) -> void:
 	bb.save_state(bb_state)
 
 	var config := {
-		&"path": abi.ability.resource_path,
-		&"is_main": abi.is_main,
+		&"path": abi.resource_path,
+		&"is_main": abi._is_main(),
 		&"blackboard": bb_state,
 	}
 
 	var success := runner.try_run_custom_ability(config, AbilityNode.AInterruptKind.Soft)
 
 	if success:
-		cooldowns[id] = abi.cooldown
-		if abi.charge_cooldown > 0:
+		cooldowns[id] = abi._cooldown()
+		if abi._charge_cooldown() > 0:
 			charges[id] -= 1
 			if charge_cooldowns[id] <= 0:
-				charge_cooldowns[id] = abi.charge_cooldown
+				charge_cooldowns[id] = abi._charge_cooldown()
 
-		if abi.cancel_move:
+		if abi._cancel_move():
 			move_cancelled.emit()
 
 func _physics_process(delta: float) -> void:
@@ -156,24 +156,24 @@ func _physics_process(delta: float) -> void:
 		charge_cooldowns[i] -= delta
 		if charge_cooldowns[i] <= 0:
 			charges[i] += 1
-			if charges[i] < abilities[i].max_charges:
-				charge_cooldowns[i] = abilities[i].charge_cooldown
+			if charges[i] < abilities[i]._max_charges():
+				charge_cooldowns[i] = abilities[i]._charge_cooldown()
 
 	for i in ability_icons.size():
 		var abi_i := ability_icons[i]
 		abi_i.charges = charges[i]
 		var cd_remaining := cooldowns[i]
-		var cd_max := abilities[i].cooldown
+		var cd_max := abilities[i]._cooldown()
 		if charges[i] == 0 and charge_cooldowns[i] > cd_remaining:
 			cd_remaining = charge_cooldowns[i]
-			cd_max = abilities[i].charge_cooldown
+			cd_max = abilities[i]._charge_cooldown()
 		abi_i.cd_remaining = cd_remaining
 		abi_i.cd_max = cd_max
 
 	if issued_action >= 0 and issued_bb:
 		var unit: Variant = issued_bb.bget(&"target_unit", true)
 		var point: Variant = issued_bb.bget(&"target_point", true)
-		var max_range := abilities[issued_action].max_range
+		var max_range := abilities[issued_action]._max_range()
 		if unit is Node2D:
 			var u: Node2D = unit
 			if u.position.distance_squared_to(runner.character.position) < max_range*max_range:

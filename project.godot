@@ -37,7 +37,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/2d_pixel_skins/plugin.cfg", "res://addons/abilityeditor/plugin.cfg", "res://addons/better-terrain/plugin.cfg")
+enabled=PackedStringArray("res://addons/2d_pixel_skins/plugin.cfg", "res://addons/better-terrain/plugin.cfg")
 
 [global_group]
 

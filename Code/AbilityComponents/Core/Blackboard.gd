@@ -110,6 +110,13 @@ func bset(property: StringName, value: Variant) -> void:
 	_dict[property] = value
 	var _ignore := _is_special.erase(property)
 
+func bset_unit(property: StringName, value: Node) -> void:
+	if property.begins_with("m_"):
+		_updated_m[property] = true
+
+	_is_special[property] = Kind.Unit
+	_dict[property] = spawner.unit_to_id[value] if value else -1
+
 func bclear(property: StringName) -> void:
 	if property.begins_with("m_"):
 		_updated_m[property] = true

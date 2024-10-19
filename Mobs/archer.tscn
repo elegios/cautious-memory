@@ -1,15 +1,32 @@
-[gd_scene load_steps=7 format=3 uid="uid://8fg6jk7nc0qw"]
+[gd_scene load_steps=11 format=3 uid="uid://8fg6jk7nc0qw"]
 
 [ext_resource type="PackedScene" uid="uid://chjadf2wp68nl" path="res://Scenes/Inheritable/simple_mob.tscn" id="1_h1afo"]
-[ext_resource type="Script" path="res://Code/AbilityComponents/Core/MobAbility.gd" id="2_w5xvq"]
-[ext_resource type="PackedScene" uid="uid://cg4iheqtjngax" path="res://Mobs/Archer/a_fire_arrow.tscn" id="3_sali5"]
+[ext_resource type="Script" path="res://Code/AbilityComponents/Core/MobAbilityScript.gd" id="2_72w7o"]
+[ext_resource type="PackedScene" uid="uid://cysdemfryj8u8" path="res://Mobs/Archer/m_arrow.tscn" id="3_tgblg"]
+[ext_resource type="Script" path="res://Mobs/Archer/a_move_arrow.gd" id="4_xlxii"]
+[ext_resource type="Script" path="res://Mobs/Archer/a_fire_arrow.gd" id="5_qdd87"]
 
-[sub_resource type="Resource" id="Resource_jmttu"]
-script = ExtResource("2_w5xvq")
-is_main = true
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dfvcn"]
+size = Vector2(20, 5)
+
+[sub_resource type="Resource" id="Resource_5bkh6"]
+script = ExtResource("4_xlxii")
+speed = 376.0
+health_delta = -1.0
+hitbox = SubResource("RectangleShape2D_dfvcn")
+mask = 16
+wall_mask = 4
+lifetime = 1.0
+
+[sub_resource type="Resource" id="Resource_by1ai"]
+script = ExtResource("5_qdd87")
+animation_length = 0.3
+attack_point = 0.1
+extra_wait = 1.0
+missile = ExtResource("3_tgblg")
+move_missile = SubResource("Resource_5bkh6")
 cooldown = 2.0
-conditions = Array[String](["bb.m_target", "character.position.distance_squared_to(bb.m_target.position) < 200*200"])
-ability = ExtResource("3_sali5")
+condition = "bb.m_target.position.distance_squared_to(character.position) <= 200*200"
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_q06gd"]
 viewport_path = NodePath("SubViewport")
@@ -23,7 +40,7 @@ viewport_path = NodePath("SubViewport")
 target_max_distance = 200.0
 
 [node name="MobAbilities" parent="." index="2"]
-abilities = Array[ExtResource("2_w5xvq")]([SubResource("Resource_jmttu")])
+abilities = Array[ExtResource("2_72w7o")]([SubResource("Resource_by1ai")])
 
 [node name="Mask" parent="Visuals" index="0"]
 texture = SubResource("ViewportTexture_q06gd")
