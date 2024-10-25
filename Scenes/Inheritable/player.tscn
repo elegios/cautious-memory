@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=18 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
+[ext_resource type="Script" path="res://Code/Components/InterpolatingSynchronizer.gd" id="2_ndo20"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
 [ext_resource type="PackedScene" uid="uid://tmunigaslihv" path="res://Scenes/Components/player_abilities.tscn" id="3_7qped"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="4_aqo0i"]
@@ -35,42 +36,39 @@ shader = ExtResource("7_hjc6o")
 shader_parameter/outline_color = Color(0, 0.6035, 0.71, 1)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e08i6"]
-properties/0/path = NodePath(".:position")
+properties/0/path = NodePath(".:rotation")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
+properties/1/path = NodePath(".:controller")
 properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:controller")
+properties/1/replication_mode = 2
+properties/2/path = NodePath("AbilityRunner:unit_local:_dict")
 properties/2/spawn = true
 properties/2/replication_mode = 2
-properties/3/path = NodePath("AbilityRunner:unit_local:_dict")
+properties/3/path = NodePath("AbilityRunner:unit_local:_is_special")
 properties/3/spawn = true
 properties/3/replication_mode = 2
-properties/4/path = NodePath("AbilityRunner:unit_local:_is_special")
+properties/4/path = NodePath("PlayerHealth:current_health_diff")
 properties/4/spawn = true
-properties/4/replication_mode = 2
-properties/5/path = NodePath("PlayerHealth:current_health_diff")
+properties/4/replication_mode = 1
+properties/5/path = NodePath("PlayerHealth:current_chip_diff")
 properties/5/spawn = true
 properties/5/replication_mode = 1
-properties/6/path = NodePath("PlayerHealth:current_chip_diff")
+properties/6/path = NodePath(".:pathing")
 properties/6/spawn = true
 properties/6/replication_mode = 1
-properties/7/path = NodePath(".:pathing")
+properties/7/path = NodePath("PlayerAbilities:cooldowns")
 properties/7/spawn = true
 properties/7/replication_mode = 1
-properties/8/path = NodePath("PlayerAbilities:cooldowns")
+properties/8/path = NodePath("PlayerAbilities:charge_cooldowns")
 properties/8/spawn = true
 properties/8/replication_mode = 1
-properties/9/path = NodePath("PlayerAbilities:charge_cooldowns")
+properties/9/path = NodePath("PlayerAbilities:charges")
 properties/9/spawn = true
 properties/9/replication_mode = 1
-properties/10/path = NodePath("PlayerAbilities:charges")
+properties/10/path = NodePath(".:move_to_unit")
 properties/10/spawn = true
 properties/10/replication_mode = 1
-properties/11/path = NodePath(".:move_to_unit")
-properties/11/spawn = true
-properties/11/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 19
@@ -78,6 +76,9 @@ collision_mask = 69
 motion_mode = 1
 script = ExtResource("1_2bwdi")
 movement_speed = 120.0
+
+[node name="InterpolatingSynchronizer" type="Node" parent="."]
+script = ExtResource("2_ndo20")
 
 [node name="Telegraph" type="Node2D" parent="."]
 visible = false
