@@ -2,11 +2,10 @@
 
 [ext_resource type="TileSet" uid="uid://d1hccsh7sacbc" path="res://Tilesets/minifantasy_ground.tres" id="1_whlvk"]
 [ext_resource type="TileSet" uid="uid://b2hoptno1it56" path="res://Tilesets/minifantasy_walls.tres" id="2_2vp5b"]
-[ext_resource type="Script" path="res://Code/debug_spawner.gd" id="2_ufxpm"]
-[ext_resource type="PackedScene" uid="uid://8rjiyhuyt8wl" path="res://PCs/earth_bender.tscn" id="4_3487m"]
 [ext_resource type="PackedScene" uid="uid://c02ld2u1ay4d3" path="res://Scenes/unit_spawner.tscn" id="4_butpq"]
 [ext_resource type="PackedScene" uid="uid://bgniiahsb81y2" path="res://Scenes/mob_spawner.tscn" id="5_eh0x2"]
 [ext_resource type="PackedScene" uid="uid://8fg6jk7nc0qw" path="res://Mobs/archer.tscn" id="6_csdjw"]
+[ext_resource type="Script" path="res://Code/PlayerSpawner.gd" id="6_xsdae"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_exeqb"]
 vertices = PackedVector2Array(2699.21, -1042.96, 2708.98, -555, 2596.56, -555, 2571, -580.563, 2571, -772.563, 2532.56, -811, -753.07, -1032.03, -754.57, -811, 1540.56, 747, 1941, 789, 1851.44, 789, 1131, 772.563, 1499.44, 747, 267, -53, 1595.44, -85, 1749, -85, 1749, 36.5625, 1412.56, 85, 1211.44, 85, 1787.44, 75, 1787.44, 213, 1749, 251.438, 1627.44, 341, 1451, 228.563, 1451, 123.438, 1515, 1060.56, 1515, 987.438, 1653, 1028.56, 1685, 1060.56, 1685, 1205, 1627.44, 1205, 1813, 827.438, 1092.56, -149, 1557, -123.438, 267, -107, 859.438, -149, 1653, 987.438, 1472, 944.438, 1579, 708.563, 1941, 459, 1627.44, 459, 1579, 635.438, 1540.56, 597, 1589, 420.563, 299, -219.438, 299, -309, 452.563, -309, 484.563, -341, 821, -341, 821, -187.438, 1131, -187.438, 1131, -277, 1557, -277, -117, -219.438, 53, -107, 53, -11, 21, -11, -181, -75, -155.438, -181, 21, 53, -181, 53, 75, 107, 75, 43, 107, 43, 821, 228.563, 859.438, 267, 544, 592.438, 501, 635.438, 107, -53, 821, 155.438, 2101, 75, 2101, 213, 1013, 267, 1013, 324.563, 1259, 356.563, 1259, 331, 1284.56, 331, 1467.44, 597, 1323, 292.563, 1323, 267, 1412.56, 267, 1589, 379.438, 1749, 341, 811, 772.563, 949, 699.438, 949, 772.563, 772.563, 811, 811, 699.438, 987.438, 661, 772.563, 661, 587, 661, 587, 635.438, 1813, 949, 1691.44, 949, 1092.56, 811, 1472, 1103.56, 1589, 1243.44, 1589, 1333, 1355, 1333, 1355, 1211.44, 1429, 1060.56, 1316.56, 1173, 1259, 1083.44, 1429, 987.438, 1259, 1173, 1045, 1083.44, 1045, 1237, 555, 1237, 555, 1115.44, 437, 1083.44, 437, 1109, 299, 1109, 299, 955.438, 533, 772.563, 260.563, 917, 107, 917, 107, 731.438, 501, 676.563, 533, 708.563, 68.5625, 693, 11, 693, 11, 571.438, -139, 571.438, -139, 789, -373, 789, -373, 571.438, -411.438, 533, -565, 533, -565, 411.438, -603.438, 373, -661, 373, -661, 203, -603.438, 203, -603.438, 21, -661, 21, -661, -85, -603.438, -85, -565, -123.438, -565, -181, -235, -75, -117, -341, 53, -341, 53, -219.438, 571.438, 811, 480, 1040.44, 1220.56, 1045, 1179.44, 117, 859.438, 117, 1429, 676.563, 1131, 667.438, 1220.56, 395, 1429, 635.438, 1092.56, 629, 1083.44, 395, 1051.44, 629, 260.563, -181, 91.4375, -181, -235, 107, -565, 59.4375, -565, 164.563, 1019.44, 661, 987.438, 811, 1083.44, 1045, -27.4375, 533, -100.563, 533)
@@ -18,7 +17,10 @@ source_geometry_group_name = &"terrain"
 agent_radius = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tyi2o"]
-radius = 114.69
+radius = 105.86
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xqkka"]
+radius = 129.16
 
 [node name="Root" type="Node2D"]
 y_sort_enabled = true
@@ -51,11 +53,6 @@ visible = false
 navigation_polygon = SubResource("NavigationPolygon_exeqb")
 metadata/_edit_lock_ = true
 
-[node name="MultiplayerSpawner" type="Node" parent="." node_paths=PackedStringArray("spawner")]
-script = ExtResource("2_ufxpm")
-player_scene = ExtResource("4_3487m")
-spawner = NodePath("../UnitSpawner")
-
 [node name="UnitSpawner" parent="." instance=ExtResource("4_butpq")]
 spawn_path = NodePath("..")
 
@@ -63,3 +60,8 @@ spawn_path = NodePath("..")
 position = Vector2(-252, 300)
 mob = ExtResource("6_csdjw")
 spawn_area = SubResource("CircleShape2D_tyi2o")
+
+[node name="PlayerSpawner" type="Node2D" parent="."]
+position = Vector2(1246, 516)
+script = ExtResource("6_xsdae")
+spawn_area = SubResource("CircleShape2D_xqkka")

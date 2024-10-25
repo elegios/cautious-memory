@@ -1,5 +1,7 @@
 extends Health
 
+signal health_depleted
+
 @export var max_health := 6
 
 @export_group("Chip Damage")
@@ -87,6 +89,10 @@ func _alter_health(delta: float) -> float:
 
 	regen_timer.stop()
 	chip_timer.stop()
+
+	if max_health + current_health_diff <= 0 and multiplayer.is_server():
+		health_depleted.emit()
+
 	if current_health_diff != 0:
 		regen_timer.one_shot = true
 		regen_timer.start(regen_start_time if current_health_diff < 0 else degen_start_time)
