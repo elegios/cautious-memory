@@ -41,6 +41,7 @@ max_range = 150.0
 height = SubResource("Curve_pt7cj")
 max_height = 100.0
 duration = 0.5
+telegraph_color = Color(0, 0.8265, 0.87, 1)
 aoe = SubResource("CircleShape2D_0ov5s")
 mask = 1
 health_delta = -3.0
@@ -54,7 +55,7 @@ viewport_path = NodePath("SubViewport")
 
 [node name="Player" instance=ExtResource("1_f75jk")]
 
-[node name="PlayerAbilities" parent="." index="1"]
+[node name="PlayerAbilities" parent="." index="2"]
 abilities = Array[ExtResource("2_a65l5")]([SubResource("Resource_8pp6d"), SubResource("Resource_mku4y")])
 
 [node name="Mask" parent="Visuals" index="0"]

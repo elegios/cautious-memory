@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=17 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b8q3nchmonjde" path="res://Scenes/Components/player_health.tscn" id="6_cjdk0"]
 [ext_resource type="Shader" path="res://Code/Rendering/visible_mask.gdshader" id="6_hos8x"]
 [ext_resource type="Shader" path="res://Code/Rendering/outline.gdshader" id="7_hjc6o"]
+[ext_resource type="Script" path="res://Code/Components/Telegraph.gd" id="9_36kk7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rf6ld"]
 radius = 11.0
@@ -31,7 +32,7 @@ viewport_path = NodePath("SubViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eqrko"]
 shader = ExtResource("7_hjc6o")
-shader_parameter/outline_color = Color(0, 0.595, 0.7, 1)
+shader_parameter/outline_color = Color(0, 0.6035, 0.71, 1)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e08i6"]
 properties/0/path = NodePath(".:position")
@@ -77,6 +78,13 @@ collision_mask = 69
 motion_mode = 1
 script = ExtResource("1_2bwdi")
 movement_speed = 120.0
+
+[node name="Telegraph" type="Node2D" parent="."]
+visible = false
+z_index = -1
+script = ExtResource("9_36kk7")
+radius = 200.0
+color = Color(0.088, 0.88, 0.8404, 1)
 
 [node name="PlayerInput" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -133,7 +141,7 @@ offset = Vector2(-16, -16)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_e08i6")
 
-[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "health", "nav_agent", "player_input", "shape_cast", "animator", "visual_offset")]
+[node name="AbilityRunner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("character", "health", "nav_agent", "player_input", "shape_cast", "animator", "visual_offset", "telegraph")]
 unique_name_in_owner = true
 spawn_path = NodePath(".")
 script = ExtResource("4_aqo0i")
@@ -144,6 +152,7 @@ player_input = NodePath("../PlayerInput")
 shape_cast = NodePath("../ShapeCast2D")
 animator = NodePath("../SubViewport/Animation")
 visual_offset = NodePath("../Visuals")
+telegraph = NodePath("../Telegraph")
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="."]
 visible = false

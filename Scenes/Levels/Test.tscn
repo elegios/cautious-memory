@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://d1hccsh7sacbc" path="res://Tilesets/minifantasy_ground.tres" id="1_whlvk"]
 [ext_resource type="TileSet" uid="uid://b2hoptno1it56" path="res://Tilesets/minifantasy_walls.tres" id="2_2vp5b"]
 [ext_resource type="Script" path="res://Code/debug_spawner.gd" id="2_ufxpm"]
-[ext_resource type="PackedScene" uid="uid://tadb01vw7pr6" path="res://PCs/sword_dancer.tscn" id="4_8cmc5"]
+[ext_resource type="PackedScene" uid="uid://8rjiyhuyt8wl" path="res://PCs/earth_bender.tscn" id="4_3487m"]
 [ext_resource type="PackedScene" uid="uid://c02ld2u1ay4d3" path="res://Scenes/unit_spawner.tscn" id="4_butpq"]
 [ext_resource type="PackedScene" uid="uid://bgniiahsb81y2" path="res://Scenes/mob_spawner.tscn" id="5_eh0x2"]
 [ext_resource type="PackedScene" uid="uid://8fg6jk7nc0qw" path="res://Mobs/archer.tscn" id="6_csdjw"]
@@ -50,7 +50,7 @@ metadata/_edit_lock_ = true
 
 [node name="MultiplayerSpawner" type="Node" parent="." node_paths=PackedStringArray("spawner")]
 script = ExtResource("2_ufxpm")
-player_scene = ExtResource("4_8cmc5")
+player_scene = ExtResource("4_3487m")
 spawner = NodePath("../UnitSpawner")
 
 [node name="UnitSpawner" parent="." instance=ExtResource("4_butpq")]

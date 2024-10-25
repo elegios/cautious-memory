@@ -139,6 +139,9 @@ func rotate(target: String, extra: Dictionary = {}) -> AbilityNode:
 	ret.target = target
 	return init_node(ret, extra, [])
 
+func telegraph(options: Dictionary) -> AbilityNode:
+	return init_node(ATelegraph.new(), options, [])
+
 # Effects with children
 
 func shapecast(shape: Shape2D, options: Dictionary, a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode = null, a4: AbilityNode = null, a5: AbilityNode = null, a6: AbilityNode = null, a7: AbilityNode = null, a8: AbilityNode = null, a9: AbilityNode = null) -> AbilityNode:

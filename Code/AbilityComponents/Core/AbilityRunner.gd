@@ -18,6 +18,7 @@ signal main_ability_ended
 @export var shape_cast: ShapeCast2D
 @export var animator: AnimatedUnit
 @export var visual_offset: Node2D
+@export var telegraph: Telegraph
 
 var unit_spawner: UnitSpawner
 var unit_local: Blackboard
