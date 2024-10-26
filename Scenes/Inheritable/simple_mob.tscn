@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://chjadf2wp68nl"]
+[gd_scene load_steps=21 format=3 uid="uid://chjadf2wp68nl"]
 
 [ext_resource type="Script" path="res://Code/Components/SimpleMob.gd" id="1_5x801"]
 [ext_resource type="Script" path="res://Code/Components/Aggro.gd" id="2_hbkp2"]
+[ext_resource type="Script" path="res://Code/Components/Death.gd" id="2_orgrb"]
 [ext_resource type="Script" path="res://Code/Components/MobMovement.gd" id="3_x6253"]
 [ext_resource type="Script" path="res://Code/Components/MobAbilities.gd" id="4_hrisj"]
 [ext_resource type="Script" path="res://Code/AbilityComponents/Core/AbilityRunner.gd" id="5_8uhus"]
@@ -64,6 +65,14 @@ collision_mask = 69
 motion_mode = 1
 script = ExtResource("1_5x801")
 movement_speed = 100.0
+
+[node name="Death" type="Node" parent="." node_paths=PackedStringArray("animation", "runner", "to_disable", "to_hide")]
+script = ExtResource("2_orgrb")
+death_animation = 5
+animation = NodePath("../SubViewport/Animation")
+runner = NodePath("../AbilityRunner")
+to_disable = [NodePath("..")]
+to_hide = [NodePath("../MobHealth")]
 
 [node name="Aggro" type="Node" parent="." node_paths=PackedStringArray("vision", "runner")]
 script = ExtResource("2_hbkp2")
@@ -146,4 +155,4 @@ texture = SubResource("ViewportTexture_g5ttt")
 centered = false
 offset = Vector2(-16, -16)
 
-[connection signal="health_depleted" from="MobHealth" to="." method="queue_free"]
+[connection signal="health_depleted" from="MobHealth" to="Death" method="_on_death"]

@@ -65,6 +65,10 @@ func try_soft_interrupt() -> bool:
 		return main_ability.done or main_ability.try_soft_interrupt()
 	return true
 
+func hard_interrupt() -> void:
+	if main_ability:
+		main_ability.hard_interrupt()
+
 func _spawn_ability(config: Dictionary) -> Node:
 	var path: String = config[&"path"]
 	var is_main: bool = config.get(&"is_main", true)

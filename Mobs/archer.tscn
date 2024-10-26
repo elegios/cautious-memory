@@ -12,7 +12,7 @@ size = Vector2(20, 5)
 [sub_resource type="Resource" id="Resource_5bkh6"]
 script = ExtResource("4_xlxii")
 speed = 376.0
-health_delta = -1.0
+health_delta = -10.0
 hitbox = SubResource("RectangleShape2D_dfvcn")
 mask = 16
 wall_mask = 4

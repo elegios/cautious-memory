@@ -7,6 +7,7 @@ enum A {
 	Walk,
 	Slash,
 	Jump,
+	Die,
 }
 
 var unit_direction: Dir = Dir.SE:
@@ -95,6 +96,8 @@ func a_to_string(a: A) -> String:
 			return "slash"
 		A.Jump:
 			return "jump"
+		A.Die:
+			return "die"
 	push_error("Missed animation: " + str(a) + str(A))
 	return "idle"
 

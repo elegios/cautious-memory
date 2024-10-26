@@ -1,0 +1,15 @@
+[remap]
+
+importer="2d-pixel-skins-animation-importer"
+type="AtlasTexture"
+uid="uid://bw4bql3a6lmn4"
+path="res://.godot/imported/die.png-d511edd0abec8d522ff5f6c507793491.res"
+
+[deps]
+
+source_file="res://Assets/Characters/Animations/die.png"
+dest_files=["res://.godot/imported/die.png-d511edd0abec8d522ff5f6c507793491.res"]
+
+[params]
+
+skin_map=Resource("res://Assets/Characters/character.map.png")

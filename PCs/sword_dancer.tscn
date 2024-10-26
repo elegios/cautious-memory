@@ -111,10 +111,11 @@ viewport_path = NodePath("SubViewport")
 
 [node name="Player" instance=ExtResource("1_cn20u")]
 
-[node name="PlayerAbilities" parent="." index="1"]
+[node name="PlayerAbilities" parent="." index="4"]
 abilities = Array[ExtResource("2_e558p")]([SubResource("Resource_0aomu"), SubResource("Resource_no6sm"), SubResource("Resource_hmshy"), SubResource("Resource_uk1jp")])
 
 [node name="AnimationLayer" parent="SubViewport/Animation" index="0" instance=ExtResource("7_8gcu3")]
+self_modulate = Color(1, 0.11, 0.11, 1)
 texture = SubResource("AtlasTexture_kket3")
 
 [node name="AnimationLayer2" parent="SubViewport/Animation" index="1" instance=ExtResource("7_8gcu3")]

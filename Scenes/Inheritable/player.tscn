@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://gcgee3glc6vc"]
+[gd_scene load_steps=19 format=3 uid="uid://gcgee3glc6vc"]
 
 [ext_resource type="Script" path="res://Code/Player.gd" id="1_2bwdi"]
+[ext_resource type="Script" path="res://Code/Components/Death.gd" id="2_d8x3c"]
 [ext_resource type="Script" path="res://Code/Components/InterpolatingSynchronizer.gd" id="2_ndo20"]
 [ext_resource type="Script" path="res://Code/Components/PlayerInput.gd" id="3_6juq4"]
 [ext_resource type="PackedScene" uid="uid://tmunigaslihv" path="res://Scenes/Components/player_abilities.tscn" id="3_7qped"]
@@ -77,6 +78,14 @@ motion_mode = 1
 script = ExtResource("1_2bwdi")
 movement_speed = 120.0
 
+[node name="Death" type="Node" parent="." node_paths=PackedStringArray("animation", "runner", "to_disable", "to_hide")]
+script = ExtResource("2_d8x3c")
+death_animation = 5
+animation = NodePath("../SubViewport/Animation")
+runner = NodePath("../AbilityRunner")
+to_disable = [NodePath("..")]
+to_hide = [NodePath("../PlayerHealth")]
+
 [node name="InterpolatingSynchronizer" type="Node" parent="."]
 script = ExtResource("2_ndo20")
 
@@ -115,6 +124,7 @@ render_target_update_mode = 4
 
 [node name="Animation" parent="SubViewport" instance=ExtResource("4_qnr41")]
 unique_name_in_owner = true
+animation = &"die-se"
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(0, 4)
@@ -172,4 +182,4 @@ position = Vector2(0, -28)
 [connection signal="move_issued" from="PlayerAbilities" to="." method="_move_command_given"]
 [connection signal="move_to_unit_issued" from="PlayerAbilities" to="." method="_move_to_unit"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="AbilityRunner" method="resync_blackboards"]
-[connection signal="health_depleted" from="PlayerHealth" to="." method="queue_free"]
+[connection signal="health_depleted" from="PlayerHealth" to="Death" method="_on_death"]
