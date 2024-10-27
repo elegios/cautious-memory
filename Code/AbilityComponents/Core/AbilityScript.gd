@@ -142,6 +142,11 @@ func rotate(target: String, extra: Dictionary = {}) -> AbilityNode:
 func telegraph(options: Dictionary) -> AbilityNode:
 	return init_node(ATelegraph.new(), options, [])
 
+func shake(strength : String, extra : Dictionary = {}) -> AbilityNode:
+	var ret := CameraShake.new()
+	ret.shake_strength = strength
+	return init_node(ret, extra, [])
+
 # Effects with children
 
 func shapecast(shape: Shape2D, options: Dictionary, a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode = null, a4: AbilityNode = null, a5: AbilityNode = null, a6: AbilityNode = null, a7: AbilityNode = null, a8: AbilityNode = null, a9: AbilityNode = null) -> AbilityNode:

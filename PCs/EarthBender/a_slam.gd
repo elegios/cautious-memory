@@ -12,6 +12,8 @@ class_name Slam extends PlayerAbilityScript
 @export_flags_2d_physics var mask : int
 @export var health_delta : float
 
+@export var shake_strength : float
+
 @export var knockup : AbilityScript
 
 func _ability() -> AbilityNode:
@@ -43,6 +45,7 @@ func _ability() -> AbilityNode:
 				alter_health(str(health_delta), {"target": "bb.hit_unit"}),
 				run_ability(knockup, {"target": "bb.hit_unit"}),
 				),
+			shake(str(shake_strength)),
 			timer("0.0"),
 			),
 		)

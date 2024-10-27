@@ -110,12 +110,6 @@ unique_name_in_owner = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_rf6ld")
 
-[node name="Camera" type="Camera2D" parent="."]
-unique_name_in_owner = true
-enabled = false
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
 transparent_bg = true
@@ -174,6 +168,11 @@ target_position = Vector2(0, 0)
 [node name="PlayerHealth" parent="." instance=ExtResource("6_cjdk0")]
 z_index = 300
 position = Vector2(0, -28)
+
+[node name="CameraTarget" type="RemoteTransform2D" parent="."]
+unique_name_in_owner = true
+update_rotation = false
+update_scale = false
 
 [connection signal="action_pressed" from="PlayerInput" to="PlayerAbilities" method="try_run_ability"]
 [connection signal="move_command" from="PlayerInput" to="." method="_move_command_given"]

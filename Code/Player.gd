@@ -4,7 +4,7 @@ class_name Player extends CharacterBody2D
 
 @onready var agent: NavigationAgent2D = %NavAgent
 @onready var animation: AnimatedUnit = %Animation
-@onready var camera: Camera2D = %Camera
+@onready var camera_target: RemoteTransform2D = %CameraTarget
 @onready var input: PlayerInput = %PlayerInput
 @onready var abilities: PlayerAbilities = %PlayerAbilities
 @onready var runner: AbilityRunner = %AbilityRunner
@@ -20,8 +20,8 @@ var controller: int:
 			input.controller = value
 		if abilities:
 			abilities.controller = value
-		if camera and value == multiplayer.get_unique_id():
-			camera.enabled = true
+		if camera_target and value == multiplayer.get_unique_id():
+			camera_target.remote_path = PlayerCamera.get_path()
 		controller = value
 
 var pathing: bool = false:
@@ -30,11 +30,11 @@ var pathing: bool = false:
 			animation.unit_animation = AnimatedUnit.A.Walk if value else AnimatedUnit.A.Idle
 		pathing = value
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if controller == multiplayer.get_unique_id():
-		camera.enabled = true
+		camera_target.remote_path = PlayerCamera.get_path()
 	input.controller = controller
+	abilities.controller = controller
 
 func _physics_process(_delta: float) -> void:
 	if runner.is_main_ability_running():

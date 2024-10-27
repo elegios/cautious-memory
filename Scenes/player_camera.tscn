@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqfcbfcrwiicl"]
+
+[ext_resource type="Script" path="res://Code/PlayerCamera.gd" id="1_nvjx8"]
+
+[sub_resource type="Curve" id="Curve_15nsp"]
+_data = [Vector2(0, 1), 0.0, -2.38173, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ceipw"]
+frequency = 0.6
+metadata/_preview_in_3d_space_ = true
+
+[node name="PlayerCamera" type="Camera2D"]
+ignore_rotation = false
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("1_nvjx8")
+shake_range_falloff = SubResource("Curve_15nsp")
+shake_speed = 10.0
+shake_pos_magnitude_max = 40.0
+shake_rot_magnitude_max = 0.1
+shake_dissipation_speed = 0.5
+shake_noise = SubResource("FastNoiseLite_ceipw")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true

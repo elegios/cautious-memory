@@ -45,6 +45,7 @@ telegraph_color = Color(0, 0.8265, 0.87, 1)
 aoe = SubResource("CircleShape2D_0ov5s")
 mask = 1
 health_delta = -3.0
+shake_strength = 0.2
 knockup = SubResource("Resource_2g2jk")
 cooldown = 0.0
 max_charges = 1
@@ -55,7 +56,7 @@ viewport_path = NodePath("SubViewport")
 
 [node name="Player" instance=ExtResource("1_f75jk")]
 
-[node name="PlayerAbilities" parent="." index="2"]
+[node name="PlayerAbilities" parent="." index="4"]
 abilities = Array[ExtResource("2_a65l5")]([SubResource("Resource_8pp6d"), SubResource("Resource_mku4y")])
 
 [node name="Mask" parent="Visuals" index="0"]
