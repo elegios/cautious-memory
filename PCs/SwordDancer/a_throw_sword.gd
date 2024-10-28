@@ -22,7 +22,7 @@ func _description() -> String:
 
 func _ability() -> AbilityNode:
 	return seq(
-		if_once("not bb.m_sword",
+		cond("not bb.m_sword",
 			spawn_unit(sword, "character.position", {"unit_property": "m_sword"})
 			),
 		run_ability(move_sword, {"target": "bb.m_sword", "copy_blackboard": true}),

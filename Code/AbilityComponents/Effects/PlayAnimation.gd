@@ -27,37 +27,23 @@ class_name PlayAnimation extends AbilityNode
 @export var fire_and_forget := false
 
 var animation_finished := false
-var animation_started := false
 
-func pre_first_process() -> void:
+func transition(kind: TKind, tdir: TDir) -> ARunResult:
 	animation_finished = false
-	animation_started = false
 
 	if not fire_and_forget:
-		var _ignore := runner.animator.animation_finished.connect(_animation_over)
+		match kind:
+			TKind.Enter:
+				var _ignore := runner.animator.animation_finished.connect(_animation_over)
+			TKind.Exit:
+				runner.animator.animation_finished.disconnect(_animation_over)
+				runner.animator.set_overlay(AnimatedUnit.A.None, AnimatedUnit.Dir.SE, 0.0, self)
 
-func sync_gained() -> void:
-	pre_first_process()
-
-func sync_lost() -> void:
-	if not fire_and_forget:
-		runner.animator.animation_finished.disconnect(_animation_over)
-		runner.animator.set_overlay(AnimatedUnit.A.None, AnimatedUnit.Dir.SE, 0.0, self)
-
-func interrupt(kind: AInterruptKind) -> AInterruptResult:
-	var res := super(kind)
-	if res == AInterruptResult.Interrupted:
-		sync_lost()
-	return res
-
-func physics_process_ability(_delta: float) -> ARunResult:
-	if not animation_started:
-		animation_started = true
+	if kind == TKind.Enter or (kind == TKind.Skip and tdir == TDir.Forward):
 		# NOTE(vipa, 2024-10-01): Pick a direction
 		var dir := AnimatedUnit.Dir.None
 		var dir_res := run_expr(direction, direction_e) if direction_e else ExprRes.new(null)
 		if dir_res.err == Err.ShouldBail or (dir_res.err == Err.MightBail and dir_res.value is not Vector2 and dir_res.value is not float):
-			sync_lost()
 			return ARunResult.Error
 		if dir_res.value is Vector2:
 			var dir_vec: Vector2 = dir_res.value
@@ -84,15 +70,17 @@ func physics_process_ability(_delta: float) -> ARunResult:
 		else:
 			assert(false, mk_expr_error(direction, "result (%s) is neither Vector2 nor float" % dir_res.value))
 
+		# NOTE(vipa, 2024-11-03): Duration
 		var dur := run_expr(duration, duration_e) if duration_e else ExprRes.new(-1.0)
 		if dur.err == Err.ShouldBail or (dur.err == Err.MightBail and dur.value is not float):
-			sync_lost()
 			return ARunResult.Error
 		var dur_f : float = dur.value
 		runner.animator.set_overlay(animation, dir, dur_f, null if fire_and_forget else self)
 
+	return ARunResult.Done if fire_and_forget else ARunResult.Wait
+
+func physics_process_ability(_delta: float) -> ARunResult:
 	if fire_and_forget or animation_finished:
-		sync_lost()
 		return ARunResult.Done
 	return ARunResult.Wait
 

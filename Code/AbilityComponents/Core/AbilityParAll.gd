@@ -3,83 +3,43 @@
 ## finished. Interrupts are propagated to running children,
 ## potentially interrupting them. This node gets interrupted if no
 ## running children remain afterwards.
-class_name AbilityParAll extends AbilityNode
-
-# NOTE(vipa, 2024-08-19): This is essentially the same class as
-# AbilityParAny, except it waits for *all* children to finish, then
-# interrupts the rest and returns with Done. A change in one probably
-# means the other should change as well.
-
-var children: Array[AbilityNode]
-
-# A bit-mask of children that are currently running.
-var executing_idxes: int = 0
-
-func _ready() -> void:
-	children = []
-	for i in get_child_count():
-		children.append(get_child(i) as AbilityNode)
-
-func save_state(data: Array) -> void:
-	data.push_back(executing_idxes)
-	for i in children.size():
-		if not ((1 << i) & executing_idxes):
-			continue
-		children[i].save_state(data)
-
-func load_state(buffer: Array, idx: int) -> int:
-	var synced_idxes: int = buffer[idx]
-	idx += 1
-	for i in children.size():
-		var was_executing := ((1 << i) & executing_idxes)
-		var is_executing := ((1 << i) & synced_idxes)
-		if is_executing:
-			idx = children[i].load_state(buffer, idx)
-			if not was_executing:
-				children[i].sync_gained()
-		if was_executing and not is_executing:
-			children[i].sync_lost()
-	executing_idxes = synced_idxes
-	return idx
-
-func sync_lost() -> void:
-	for i in children.size():
-		if not ((1 << i) & executing_idxes):
-			continue
-		children[i].sync_lost()
-	executing_idxes = 0
-
-func pre_first_process() -> void:
-	executing_idxes = (1 << children.size()) - 1
-	for c in children:
-		c.pre_first_process()
+class_name AbilityParAll extends AbilityParAny
 
 func physics_process_ability(delta: float) -> ARunResult:
+	if not has_started:
+		has_started = true
+		executing_idxes = (1 << children.size()) - 1
+		for i in children.size():
+			match children[i].transition(TKind.Enter, TDir.Forward):
+				ARunResult.Done:
+					var _ignore := children[i].transition(TKind.Exit, TDir.Forward)
+					executing_idxes &= ~(1 << i)
+				ARunResult.Wait:
+					pass
+				ARunResult.Error:
+					var _ignore := children[i].transition(TKind.Exit, TDir.Forward)
+					# NOTE(vipa, 2024-10-28): Turn off executing for
+					# the later idxes, since we haven't gotten there
+					# yet, as well as the current one, since we've
+					# already run the exit transition for it
+					executing_idxes &= (1 << i) - 1
+					send_interrupts()
+					return ARunResult.Error
+
 	for i in children.size():
 		if not ((1 << i) & executing_idxes):
 			continue
 		match children[i].physics_process_ability(delta):
 			ARunResult.Done:
-				executing_idxes = executing_idxes & ~(1 << i)
+				var _ignore := children[i].transition(TKind.Exit, TDir.Forward)
+				executing_idxes &= ~(1 << i)
 			ARunResult.Error:
-				executing_idxes = executing_idxes & ~(1 << i)
-				var _ignore := interrupt(AInterruptKind.Hard)
+				var _ignore := children[i].transition(TKind.Exit, TDir.Forward)
+				executing_idxes &= ~(1 << i)
+				send_interrupts()
 				return ARunResult.Error
 			ARunResult.Wait:
-				continue
+				pass
 	if executing_idxes:
 		return ARunResult.Wait
 	return ARunResult.Done
-
-func interrupt(kind: AInterruptKind) -> AInterruptResult:
-	for i in children.size():
-		if not ((1 << i) & executing_idxes):
-			continue
-		match children[i].interrupt(kind):
-			AInterruptResult.Interrupted:
-				executing_idxes = executing_idxes & ~(1 << i)
-			AInterruptResult.Uninterrupted:
-				pass
-	if executing_idxes:
-		return AInterruptResult.Uninterrupted
-	return AInterruptResult.Interrupted

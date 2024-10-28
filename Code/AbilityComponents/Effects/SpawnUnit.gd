@@ -23,20 +23,20 @@ class_name SpawnUnit extends AbilityNode
 @export var unit_property: StringName
 
 func physics_process_ability(_delta: float) -> ARunResult:
-	if multiplayer.is_server():
-		var res := run_expr(point, point_e)
-		if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2):
-			return ARunResult.Error
-		var spawn_point: Vector2 = res.value
-		var spawned := runner.unit_spawner.spawn_unit(unit, spawn_point)
-		if unit_property:
-			blackboard.bset(unit_property, spawned)
-		if runner.character:
-			for i in spawned.get_child_count():
-				var other := spawned.get_child(i) as AbilityRunner
-				if other:
-					other.unit_local.bset(&"m_spawner", runner.character)
-					break
-		return ARunResult.Done
+	if not multiplayer.is_server():
+		return ARunResult.Wait if unit_property else ARunResult.Done
 
-	return ARunResult.Wait if unit_property else ARunResult.Done
+	var res := run_expr(point, point_e)
+	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2):
+		return ARunResult.Error
+	var spawn_point: Vector2 = res.value
+	var spawned := runner.unit_spawner.spawn_unit(unit, spawn_point)
+	if unit_property:
+		blackboard.bset(unit_property, spawned)
+	if runner.character:
+		for i in spawned.get_child_count():
+			var other := spawned.get_child(i) as AbilityRunner
+			if other:
+				other.unit_local.bset(&"m_spawner", runner.character)
+				break
+	return ARunResult.Done

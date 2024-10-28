@@ -28,39 +28,36 @@ func setup(a: AbilityRunner, b: Blackboard) -> void:
 		if c:
 			c.setup(a, b)
 
+enum TKind { Enter, Exit, Skip }
+enum TDir { Forward, Backward }
+
+## Called when a transition in the ability tree involves this node in
+## some way, including normal execution (e.g., entering or exiting
+## because of [code]ARunResult.Done[/code]), interrupts, and network
+## synchronization. In case of synchronization,
+## [code]transition[/code] is called [i]after[/i] the [Blackboard] has
+## been loaded, but [i]before[/i] the corresponding
+## [code]load_state[/code].
+##
+## The return value is only relevant for [code]TKind.Enter[/code].
+##
+## Generally, parent [AbilityNode]s are responsible for making the
+## appropriate [code]transition[/code] calls in their child.
+func transition(_kind: TKind, _dir: TDir) -> ARunResult:
+	return ARunResult.Wait
+
 ## Encode node state in an array, to be sent to other clients when
 ## syncing execution status
 func save_state(_buffer: Array) -> void:
 	pass
 
 ## Inverse of [method AbilityNode.save_state], should restore state
-## and possibly call [method AbilityNode.sync_lost] and [method
-## AbilityNode.sync_gained] on children.
+## and possibly call [method AbilityNode.transition] on children.
 func load_state(_buffer: Array, idx: int) -> int:
 	return idx
 
-## Called by parent node if the local ability was executing this node,
-## but the sync stated that it should not be executing. Should
-## recursively call itself in children and perform any required
-## cleanup.
-func sync_lost() -> void:
-	pass
-
-## Called by parent node if the local ability was not executing this
-## node, but the sync stated that it should be executing. Should
-## perform any required setup. Always called [i]after[/i] a
-## corresponding [method AbilityNode.load_state] call. This method
-## typically doesn't need to recursively call itself in children,
-## because the corresponding [method AbilityNode.load_state] should
-## typically perform such calls as needed.
-func sync_gained() -> void:
-	pass
-
-func pre_first_process() -> void:
-	pass
-
 func physics_process_ability(_delta: float) -> ARunResult:
-	return ARunResult.Wait
+	return ARunResult.Done
 
 func interrupt(kind: AInterruptKind) -> AInterruptResult:
 	match kind:

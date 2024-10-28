@@ -35,7 +35,7 @@ class_name RunAbility extends AbilityNode
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	if not multiplayer.is_server():
-		return ARunResult.Done
+		return ARunResult.Wait if success_property else ARunResult.Done
 
 	var other_runner: AbilityRunner = null
 

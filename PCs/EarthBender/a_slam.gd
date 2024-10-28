@@ -40,12 +40,12 @@ func _ability() -> AbilityNode:
 			character_state({"phase_through_units": true}),
 			telegraph(telegraph_config),
 			),
+		shake(str(shake_strength)),
 		any(
 			shapecast(aoe, cast_config,
 				alter_health(str(health_delta), {"target": "bb.hit_unit"}),
 				run_ability(knockup, {"target": "bb.hit_unit"}),
 				),
-			shake(str(shake_strength)),
 			timer("0.0"),
 			),
 		)

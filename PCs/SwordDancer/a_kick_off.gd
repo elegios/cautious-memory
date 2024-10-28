@@ -45,7 +45,7 @@ func _ability() -> AbilityNode:
 			play_animation(AnimatedUnit.A.Jump, jump_config),
 			character_state(phase_config),
 			),
-		if_once("bb.hit_unit",
+		cond("bb.hit_unit",
 			write(&"knockback_direction", "bb.direction"),
 			write(&"knockback_speed", speed),
 			run_ability(knockback, knockback_config),

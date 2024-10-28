@@ -48,23 +48,21 @@ func all(a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode = null,
 func _all(children: Array[AbilityNode]) -> AbilityNode:
 	return init_node(AbilityParAll.new(), {}, children)
 
+## The synchronization of this node is non-obvious, so avoid it unless
+## you really need it
+## @experimental
 func failover(a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode = null, a4: AbilityNode = null, a5: AbilityNode = null, a6: AbilityNode = null, a7: AbilityNode = null, a8: AbilityNode = null, a9: AbilityNode = null) -> AbilityNode:
 	var res: Array[AbilityNode] = [a1, a2, a3, a4, a5, a6, a7, a8, a9]
 	return _failover(res.filter(func(a: AbilityNode) -> bool: return a != null))
+## The synchronization of this node is non-obvious, so avoid it unless
+## you really need it
+## @experimental
 func _failover(children: Array[AbilityNode]) -> AbilityNode:
 	return init_node(AbilityFailover.new(), {}, children)
 
-func if_cont(condition: String, a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode = null, a4: AbilityNode = null, a5: AbilityNode = null, a6: AbilityNode = null, a7: AbilityNode = null, a8: AbilityNode = null, a9: AbilityNode = null) -> AbilityNode:
+func cond(condition: String, a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode = null, a4: AbilityNode = null, a5: AbilityNode = null, a6: AbilityNode = null, a7: AbilityNode = null, a8: AbilityNode = null, a9: AbilityNode = null) -> AbilityNode:
 	var ret := Conditional.new()
 	ret.condition = condition
-	ret.continuous = true
-	var res: Array[AbilityNode] = [a1, a2, a3, a4, a5, a6, a7, a8, a9]
-	return init_node(ret, {}, res.filter(func(a: AbilityNode) -> bool: return a != null))
-
-func if_once(condition: String, a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode = null, a4: AbilityNode = null, a5: AbilityNode = null, a6: AbilityNode = null, a7: AbilityNode = null, a8: AbilityNode = null, a9: AbilityNode = null) -> AbilityNode:
-	var ret := Conditional.new()
-	ret.condition = condition
-	ret.continuous = false
 	var res: Array[AbilityNode] = [a1, a2, a3, a4, a5, a6, a7, a8, a9]
 	return init_node(ret, {}, res.filter(func(a: AbilityNode) -> bool: return a != null))
 
@@ -73,6 +71,12 @@ func cancellable(a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode
 	return _cancellable(res.filter(func(a: AbilityNode) -> bool: return a != null))
 func _cancellable(children: Array[AbilityNode]) -> AbilityNode:
 	return init_node(Cancellable.new(), {}, children)
+
+func debug(transition := true, process := false) -> AbilityNode:
+	var ret := Debug.new()
+	ret.debug_transition = transition
+	ret.debug_process = process
+	return ret
 
 # Effects
 

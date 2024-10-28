@@ -46,22 +46,25 @@ enum PMode { Arbitrary, Center }
 ## if the property is empty.
 @export var collision_normal: StringName
 
-func pre_first_process() -> void:
-	runner.shape_cast.clear_exceptions()
-	# NOTE(vipa, 2024-08-29): This seems like a bug in Godot, since
-	# the corresponding method for raycast re-adds the parent if it's
-	# to be excluded
-	if ignore_self:
-		runner.shape_cast.add_exception(runner.shape_cast.get_parent() as CollisionObject2D)
-	if additional_ignore_e:
-		var res := run_expr(additional_ignore, additional_ignore_e)
-		if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not CollisionObject2D):
-			# NOTE(vipa, 2024-10-11): We silently swallow this thing
-			# since we can't return error here. Might be worth
-			# changing later.w
-			return
-		var extra : CollisionObject2D = res.value
-		runner.shape_cast.add_exception(extra)
+func transition(kind: TKind, _dir: TDir) -> ARunResult:
+	if kind == TKind.Enter:
+		runner.shape_cast.clear_exceptions()
+		# NOTE(vipa, 2024-08-29): This seems like a bug in Godot, since
+		# the corresponding method for raycast re-adds the parent if it's
+		# to be excluded
+		if ignore_self:
+			runner.shape_cast.add_exception(runner.shape_cast.get_parent() as CollisionObject2D)
+		if additional_ignore_e:
+			var res := run_expr(additional_ignore, additional_ignore_e)
+			if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not CollisionObject2D):
+				# NOTE(vipa, 2024-10-11): We silently swallow this thing
+				# since we can't return error here. Might be worth
+				# changing later.w
+				return ARunResult.Error
+			var extra : CollisionObject2D = res.value
+			runner.shape_cast.add_exception(extra)
+
+	return ARunResult.Wait
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	var sc := runner.shape_cast

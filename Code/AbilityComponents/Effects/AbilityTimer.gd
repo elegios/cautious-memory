@@ -7,8 +7,6 @@ class_name AbilityTimer extends AbilityNode
 @onready var duration_e: Expression = parse_expr(duration)
 var elapsed: float = 0.0
 
-var maybe_elapsed : float
-
 @export_group("Blackboard Output")
 
 ## Optional. The curve used to convert between the fraction of time
@@ -18,27 +16,24 @@ var maybe_elapsed : float
 
 @export var property: StringName
 
+var just_entered := false
+
 func save_state(buffer: Array) -> void:
 	buffer.push_back(elapsed)
 
 func load_state(buffer: Array, idx: int) -> int:
-	maybe_elapsed = buffer[idx]
+	if just_entered:
+		elapsed = buffer[idx]
 	return idx + 1
 
-func pre_first_process() -> void:
-	elapsed = 0.0
-
-func sync_lost() -> void:
-	elapsed = 0.0
-
-func sync_gained() -> void:
-	# NOTE(vipa, 2024-10-25): We only apply the synced value if the
-	# timer wasn't already running, with the assumption that it's
-	# better to be smooth than to be literally exact, and that *most*
-	# of the time the time diff is small to non-existent.
-	elapsed = maybe_elapsed
+func transition(kind: TKind, _dir: TDir) -> ARunResult:
+	if kind == TKind.Enter:
+		just_entered = true
+		var _ignore := update_property()
+	return ARunResult.Wait
 
 func physics_process_ability(delta: float) -> ARunResult:
+	just_entered = false
 	elapsed += delta
 	return update_property()
 

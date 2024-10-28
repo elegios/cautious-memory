@@ -29,7 +29,10 @@ enum What { Direction, Position }
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var rotation: String
 @onready var rotation_e := parse_expr(rotation) if rotation else null
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func transition(kind: TKind, tdir: TDir) -> ARunResult:
+	if kind == TKind.Exit or tdir == TDir.Backward:
+		return ARunResult.Done
+
 	var fx: Node2D = effect.instantiate()
 	runner.unit_spawner.get_parent().add_child(fx)
 

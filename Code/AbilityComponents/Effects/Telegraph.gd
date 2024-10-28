@@ -19,15 +19,14 @@ class_name ATelegraph extends AbilityNode
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var rotation: String
 @onready var rotation_e: Expression = parse_expr(rotation) if rotation else null
 
-func sync_gained() -> void:
-	runner.telegraph.visible = true
-	var _ignore := update_tele()
-
-func sync_lost() -> void:
-	runner.telegraph.visible = false
-
-func pre_first_process() -> void:
-	runner.telegraph.visible = true
+func transition(kind: TKind, _dir: TDir) -> ARunResult:
+	match kind:
+		TKind.Enter:
+			runner.telegraph.visible = true
+			return update_tele()
+		TKind.Exit:
+			runner.telegraph.visible = false
+	return ARunResult.Wait
 
 func physics_process_ability(_delta: float) -> ARunResult:
 	return update_tele()
@@ -35,14 +34,12 @@ func physics_process_ability(_delta: float) -> ARunResult:
 func update_tele() -> ARunResult:
 	var pres := run_expr(position, position_e) if position_e else ExprRes.new(runner.character.position)
 	if pres.err == Err.ShouldBail or (pres.err == Err.MightBail and pres.value is not Vector2):
-		sync_lost()
 		return ARunResult.Error
 
 	runner.telegraph.global_position = pres.value
 
 	var rres := run_expr(rotation, rotation_e) if rotation_e else ExprRes.new(0.0)
 	if rres.err == Err.ShouldBail or (rres.err == Err.MightBail and rres.value is not Vector2 and rres.value is not float):
-		sync_lost()
 		return ARunResult.Error
 
 	if rres.value is Vector2:
@@ -70,9 +67,3 @@ func update_tele() -> ARunResult:
 				runner.telegraph.queue_redraw()
 
 	return ARunResult.Wait
-
-func interrupt(kind: AInterruptKind) -> AInterruptResult:
-	var res := super(kind)
-	if res == AInterruptResult.Interrupted:
-		sync_lost()
-	return res

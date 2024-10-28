@@ -113,6 +113,6 @@ func maybe_autorun() -> void:
 func _ability_despawned(node: Node) -> void:
 	var abi := node as AbilityRoot
 	if abi:
-		abi.hard_interrupt()
+		abi.fast_forward()
 	if abi == main_ability:
 		main_ability = null
