@@ -7,6 +7,8 @@ class_name KickOff extends PlayerAbilityScript
 
 @export var sit_duration: float
 
+@export var telegraph_color: Color
+
 @export_flags_2d_physics var collision_mask: int
 
 @export var knockback: AbilityScript
@@ -37,6 +39,14 @@ func _ability() -> AbilityNode:
 		"target": "bb.hit_unit",
 		"copy_blackboard": true,
 	}
+	var telegraph_config := {
+		"position": "character.position",
+		"rotation": "mouse - character.position",
+		"width": 11,
+		"shape": Telegraph.Shape.Arrow,
+		"radius": jump_distance,
+		"color": telegraph_color,
+	}
 	return seq(
 		write(&"direction", "character.position.direction_to(bb.target_point)"),
 		any(
@@ -53,6 +63,7 @@ func _ability() -> AbilityNode:
 				timer(str(sit_duration)),
 				teleport("bb.hit_unit.position", {"continuous": true}),
 				character_state(phase_config),
+				telegraph(telegraph_config),
 				),
 			write(&"direction", "character.position.direction_to(mouse)"),
 			write(&"knockback_direction", "-bb.direction"),

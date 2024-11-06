@@ -9,10 +9,14 @@ class_name ATelegraph extends AbilityNode
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var position: String
 @onready var position_e: Expression = parse_expr(position) if position else null
 
-## Radius of the telegraph. Only relevant if [code]shape[/code] is
-## [code]Circle[/code].
+## Radius of the circle, or length of the arrow.
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var radius: String
 @onready var radius_e: Expression = parse_expr(radius) if radius else null
+
+## Radius of the telegraph. Only relevant if [code]shape[/code] is
+## [code]Circle[/code].
+@export_custom(PROPERTY_HINT_EXPRESSION, "") var width: String
+@onready var width_e: Expression = parse_expr(width) if width else null
 
 ## Rotation of the telegraph, as a directional vector or an
 ## angle (radians). Optional, defaults to 0.0.
@@ -52,18 +56,30 @@ func update_tele() -> ARunResult:
 		runner.telegraph.color = color
 		runner.telegraph.queue_redraw()
 
+	if runner.telegraph.shape != shape:
+		runner.telegraph.shape = shape
+		runner.telegraph.queue_redraw()
+
 	match shape:
 		Telegraph.Shape.Circle:
 			var res := run_expr(radius, radius_e) if radius_e else null
 			if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not float):
 				return ARunResult.Error
 
-			if runner.telegraph.shape != shape:
-				runner.telegraph.shape = shape
-				runner.telegraph.queue_redraw()
-
 			if runner.telegraph.radius != res.value:
 				runner.telegraph.radius = res.value
+				runner.telegraph.queue_redraw()
+
+		Telegraph.Shape.Arrow:
+			var res := run_expr(radius, radius_e) if radius_e else null
+			if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not float):
+				return ARunResult.Error
+			var resw := run_expr(width, width_e) if width_e else null
+			if resw.err == Err.ShouldBail or (resw.err == Err.MightBail and resw.value is not float):
+				return ARunResult.Error
+
+			if runner.telegraph.width != resw.value:
+				runner.telegraph.width = resw.value
 				runner.telegraph.queue_redraw()
 
 	return ARunResult.Wait

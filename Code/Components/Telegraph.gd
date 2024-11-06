@@ -1,12 +1,14 @@
 class_name Telegraph extends Node2D
 
-enum Shape { Circle }
+enum Shape { Circle, Arrow }
 
 @export var shape : Shape
 
-## Only relevant if [code]shape[/code] is [code]Circle[/code]. The
-## radius of the telegraph.
+## The radius of the Circle or length of the Arrow.
 @export var radius : float
+
+## The width of the Arrow.
+@export var width : float
 
 ## The color of the telegraph. The alpha value is irrelevant and will
 ## instead be taken from [code]border_alpha[/code] and
@@ -29,5 +31,8 @@ func _draw() -> void:
 		Shape.Circle:
 			draw_circle(Vector2.ZERO, radius, Color(color.r, color.g, color.b, fill_alpha), true)
 			draw_circle(Vector2.ZERO, radius, Color(color.r, color.g, color.b, border_alpha), false, border_thickness)
+		Shape.Arrow:
+			draw_rect(Rect2(Vector2(0, -width/2), Vector2(radius, width)), Color(color.r, color.g, color.b, fill_alpha), true)
+			draw_rect(Rect2(Vector2(0, -width/2), Vector2(radius, width)), Color(color.r, color.g, color.b, border_alpha), false, border_thickness)
 		_:
 			pass
