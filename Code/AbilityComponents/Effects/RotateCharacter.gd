@@ -11,7 +11,7 @@ class_name RotateCharacter extends AbilityNode
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var target: String
 @onready var target_e: Expression = parse_expr(target)
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	var res := run_expr(target, target_e)
 	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2 and res.value is not float):
 		return ARunResult.Error

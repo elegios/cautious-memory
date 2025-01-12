@@ -21,7 +21,7 @@ class_name WriteToBlackboard extends AbilityNode
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var source: String
 @onready var source_e: Expression = parse_expr(source) if source else null
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	if source_e:
 		var res := run_expr(source, source_e)
 		if res.err == Err.ShouldBail:

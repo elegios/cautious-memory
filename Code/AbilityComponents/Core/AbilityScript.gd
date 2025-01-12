@@ -72,10 +72,12 @@ func cancellable(a1: AbilityNode = null, a2: AbilityNode = null, a3: AbilityNode
 func _cancellable(children: Array[AbilityNode]) -> AbilityNode:
 	return init_node(Cancellable.new(), {}, children)
 
-func debug(transition := true, process := false) -> AbilityNode:
+func debug(label: String, first := true, process := false, deactivate := false) -> AbilityNode:
 	var ret := Debug.new()
-	ret.debug_transition = transition
+	ret.label = label
+	ret.debug_first = first
 	ret.debug_process = process
+	ret.debug_deactivate = deactivate
 	return ret
 
 # Effects

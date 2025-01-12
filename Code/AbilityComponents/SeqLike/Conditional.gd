@@ -7,16 +7,18 @@ class_name Conditional extends AbilitySeq
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var condition: String
 @onready var condition_e: Expression = parse_expr(condition)
 
-var checked: bool = false
+## If true, check the condition every frame, interrupt children if
+## it's ever false. If false, only check once, when we enter this
+## node.
+@export var continuous: bool = false
 
-func transition(kind: TKind, dir: TDir) -> ARunResult:
-	if dir == TDir.Backward or kind == TKind.Exit:
-		return super(kind, dir)
-
-	var res := run_expr(condition, condition_e)
-	if res.err == Err.ShouldBail:
-		return ARunResult.Error
-	if res.value:
-		return super(kind, dir)
-
-	return ARunResult.Done
+func physics_process_ability(delta: float, first: bool) -> ARunResult:
+	if continuous or first:
+		var res := run_expr(condition, condition_e)
+		if res.err == Err.ShouldBail:
+			return ARunResult.Error
+		if not res.value:
+			if current_child:
+				current_child.deactivate()
+			return ARunResult.Done
+	return super(delta, first)

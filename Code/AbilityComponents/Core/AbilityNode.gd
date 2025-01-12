@@ -31,20 +31,21 @@ func setup(a: AbilityRunner, b: Blackboard) -> void:
 enum TKind { Enter, Exit, Skip }
 enum TDir { Forward, Backward }
 
-## Called when a transition in the ability tree involves this node in
-## some way, including normal execution (e.g., entering or exiting
-## because of [code]ARunResult.Done[/code]), interrupts, and network
-## synchronization. In case of synchronization,
-## [code]transition[/code] is called [i]after[/i] the [Blackboard] has
-## been loaded, but [i]before[/i] the corresponding
-## [code]load_state[/code].
-##
-## The return value is only relevant for [code]TKind.Enter[/code].
-##
-## Generally, parent [AbilityNode]s are responsible for making the
-## appropriate [code]transition[/code] calls in their child.
-func transition(_kind: TKind, _dir: TDir) -> ARunResult:
-	return ARunResult.Wait
+## Called when the node becomes inactive, regardless of how. Should be
+## idempotent, i.e., calling it twice should be the same as calling it
+## once.
+func deactivate() -> void:
+	pass
+
+# === Sync strategy ===
+
+# Aggressively sync current state for every node that is currently
+# running. For things that may outlive the node that triggered it
+# (e.g., visual effects) they should only be initiated on the server,
+# and then RPC initiated on clients. Note that such RPCs cannot assume
+# that the triggering ability node exists on the client anymore
+# because of lag and message reordering, so they should send the
+# message to something more long-lived.
 
 ## Encode node state in an array, to be sent to other clients when
 ## syncing execution status
@@ -52,11 +53,12 @@ func save_state(_buffer: Array) -> void:
 	pass
 
 ## Inverse of [method AbilityNode.save_state], should restore state
-## and possibly call [method AbilityNode.transition] on children.
-func load_state(_buffer: Array, idx: int) -> int:
+## and possibly call deactivate on children.
+func load_state(_buffer: Array, idx: int, _was_active: bool) -> int:
 	return idx
 
-func physics_process_ability(_delta: float) -> ARunResult:
+## Called each frame for processing
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	return ARunResult.Done
 
 func interrupt(kind: AInterruptKind) -> AInterruptResult:

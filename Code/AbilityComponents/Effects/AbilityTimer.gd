@@ -16,28 +16,19 @@ var elapsed: float = 0.0
 
 @export var property: StringName
 
-var just_entered := false
-
 func save_state(buffer: Array) -> void:
 	buffer.push_back(elapsed)
 
-func load_state(buffer: Array, idx: int) -> int:
-	if just_entered:
+func load_state(buffer: Array, idx: int, was_active: bool) -> int:
+	if not was_active:
 		elapsed = buffer[idx]
 	return idx + 1
 
-func transition(kind: TKind, _dir: TDir) -> ARunResult:
-	if kind == TKind.Enter:
-		just_entered = true
-		var _ignore := update_property()
-	return ARunResult.Wait
-
-func physics_process_ability(delta: float) -> ARunResult:
-	just_entered = false
+func physics_process_ability(delta: float, first: bool) -> ARunResult:
+	if first:
+		elapsed = 0.0
 	elapsed += delta
-	return update_property()
 
-func update_property() -> ARunResult:
 	var res := run_expr(duration, duration_e)
 	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not float):
 		return ARunResult.Error

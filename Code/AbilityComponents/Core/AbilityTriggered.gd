@@ -6,23 +6,13 @@ func trigger() -> ARunResult:
 	for i in get_child_count():
 		var child: AbilityNode = get_child(i)
 
-		match child.transition(TKind.Enter, TDir.Forward):
+		match child.physics_process_ability(0.0, true):
 			ARunResult.Done:
-				var _ignore := child.transition(TKind.Exit, TDir.Forward)
-				continue
-			ARunResult.Wait:
-				pass
-			ARunResult.Error:
-				var _ignore := child.transition(TKind.Exit, TDir.Forward)
-				return ARunResult.Error
-
-		match child.physics_process_ability(0.0):
-			ARunResult.Done:
-				var _ignore := child.transition(TKind.Exit, TDir.Forward)
+				child.deactivate()
 			ARunResult.Wait:
 				assert(false, "Triggered ability did not finish immediately: " + str(child))
 			ARunResult.Error:
-				var _ignore := child.transition(TKind.Exit, TDir.Forward)
+				child.deactivate()
 				return ARunResult.Error
 
 	return ARunResult.Done

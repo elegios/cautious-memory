@@ -1,14 +1,16 @@
 class_name Debug extends AbilityNode
 
-@export var debug_transition := true
-@export var debug_process := true
+@export var label := ""
 
-func transition(kind: TKind, dir: TDir) -> ARunResult:
-	if debug_transition:
-		push_warning("transition, kind: %s, dir: %s" % [TKind.find_key(kind), TDir.find_key(dir)])
-	return ARunResult.Wait
+@export var debug_first := true
+@export var debug_process := false
+@export var debug_deactivate := true
 
-func physics_process_ability(delta: float) -> ARunResult:
-	if debug_process:
-		push_warning("physics_process_ability, delta: %s" % delta)
+func deactivate() -> void:
+	if debug_deactivate:
+		push_warning("%s deactivate", label)
+
+func physics_process_ability(delta: float, first: bool) -> ARunResult:
+	if debug_process or (debug_first and first):
+		push_warning("%s physics_process_ability, first: %s, delta: %s" % [label, first, delta])
 	return ARunResult.Wait

@@ -22,7 +22,7 @@ class_name SpawnUnit extends AbilityNode
 ## immediately.
 @export var unit_property: StringName
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	if not multiplayer.is_server():
 		return ARunResult.Wait if unit_property else ARunResult.Done
 

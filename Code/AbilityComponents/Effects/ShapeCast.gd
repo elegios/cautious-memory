@@ -46,27 +46,33 @@ enum PMode { Arbitrary, Center }
 ## if the property is empty.
 @export var collision_normal: StringName
 
-func transition(kind: TKind, _dir: TDir) -> ARunResult:
-	if kind == TKind.Enter:
-		runner.shape_cast.clear_exceptions()
-		# NOTE(vipa, 2024-08-29): This seems like a bug in Godot, since
-		# the corresponding method for raycast re-adds the parent if it's
-		# to be excluded
-		if ignore_self:
-			runner.shape_cast.add_exception(runner.shape_cast.get_parent() as CollisionObject2D)
-		if additional_ignore_e:
-			var res := run_expr(additional_ignore, additional_ignore_e)
-			if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not CollisionObject2D):
-				# NOTE(vipa, 2024-10-11): We silently swallow this thing
-				# since we can't return error here. Might be worth
-				# changing later.w
-				return ARunResult.Error
-			var extra : CollisionObject2D = res.value
-			runner.shape_cast.add_exception(extra)
+func load_state(_buffer: Array, idx: int, was_active: bool) -> int:
+	if not was_active:
+		var _ignore := activate()
+	return idx
+
+func activate() -> ARunResult:
+	runner.shape_cast.clear_exceptions()
+	# NOTE(vipa, 2024-08-29): This seems like a bug in Godot, since
+	# the corresponding method for raycast re-adds the parent if it's
+	# to be excluded
+	if ignore_self:
+		runner.shape_cast.add_exception(runner.shape_cast.get_parent() as CollisionObject2D)
+	if additional_ignore_e:
+		var res := run_expr(additional_ignore, additional_ignore_e)
+		if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not CollisionObject2D):
+			return ARunResult.Error
+		var extra : CollisionObject2D = res.value
+		runner.shape_cast.add_exception(extra)
 
 	return ARunResult.Wait
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, first: bool) -> ARunResult:
+	if first:
+		var act_res := activate()
+		if act_res != ARunResult.Wait:
+			return act_res
+
 	var sc := runner.shape_cast
 	var res := run_expr(cast_position, cast_position_e) if cast_position_e else ExprRes.new(runner.character.global_position)
 	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2):

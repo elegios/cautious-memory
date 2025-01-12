@@ -9,7 +9,7 @@ func interrupt(_kind: AInterruptKind) -> AInterruptResult:
 	if child:
 		var res := child.interrupt(AInterruptKind.Hard)
 		if res == AInterruptResult.Interrupted:
-			var _ignore := child.transition(TKind.Exit, TDir.Forward)
+			child.deactivate()
 			executing_idx = get_child_count()
 		return res
 	return AInterruptResult.Interrupted

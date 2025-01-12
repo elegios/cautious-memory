@@ -12,12 +12,10 @@ enum What { Relative, Absolute }
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var target: String
 @onready var target_e: Expression = parse_expr(target)
 
-func transition(kind: TKind, _dir: TDir) -> ARunResult:
-	if kind == TKind.Exit:
-		runner.visual_offset.position = Vector2.ZERO
-	return ARunResult.Wait
+func deactivate() -> void:
+	runner.visual_offset.position = Vector2.ZERO
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	var res := run_expr(target, target_e)
 	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2):
 		return ARunResult.Error

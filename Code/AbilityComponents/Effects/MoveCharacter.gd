@@ -19,7 +19,7 @@ enum What { Direction, Point }
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var speed: String
 @onready var speed_e: Expression = parse_expr(speed) if speed else null
 
-func physics_process_ability(delta: float) -> ARunResult:
+func physics_process_ability(delta: float, _first: bool) -> ARunResult:
 	var vec_r := run_expr(target, target_e)
 	if vec_r.err == Err.ShouldBail or (vec_r.err == Err.MightBail and vec_r.value is not Vector2):
 		return ARunResult.Error

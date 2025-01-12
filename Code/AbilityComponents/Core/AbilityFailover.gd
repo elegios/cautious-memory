@@ -21,61 +21,36 @@ func save_state(buffer: Array) -> void:
 	buffer.push_back(executing_idx)
 	current_child.save_state(buffer)
 
-func load_state(buffer: Array, idx: int) -> int:
-	var new_idx: int = buffer[idx]
-	idx += 1
-	if executing_idx != new_idx:
-		# if current_child:
-		# 	current_child.sync_lost()
-		executing_idx = new_idx
-		idx = current_child.load_state(buffer, idx)
-		# current_child.sync_gained()
-	else:
-		idx = current_child.load_state(buffer, idx)
-	return idx
-
-func transition(kind: TKind, dir: TDir) -> ARunResult:
-	var forward := dir == TDir.Forward
-	match kind:
-		TKind.Enter:
-			executing_idx = -1 if forward else get_child_count()
-		TKind.Exit:
-			# NOTE(vipa, 2024-10-28): When exiting forwards we assume
-			# that the execution of the current node succeeded, thus
-			# we do not [code]Skip[/code] the others.
-			var end := executing_idx if forward else -1
-			var step := 1 if forward else -1
-			var _ignore := current_child.transition(TKind.Exit, dir)
-			for idx in range(executing_idx + step, end, step):
-				var c : AbilityNode = get_child(idx)
-				_ignore = c.transition(TKind.Skip, dir)
-		TKind.Skip:
-			var c : AbilityNode = get_child(0)
-			var _ignore := c.transition(TKind.Skip, dir)
-	return super(kind, dir)
-
-func sync_lost() -> void:
-	# if current_child:
-	# 	current_child.sync_lost()
+func deactivate() -> void:
+	if current_child:
+		current_child.deactivate()
 	executing_idx = -1
 
-func pre_first_process() -> void:
-	executing_idx = 0
-	# if current_child:
-	# 	current_child.pre_first_process()
+func load_state(buffer: Array, idx: int, _was_active: bool) -> int:
+	var new_idx : int = buffer[idx]
+	idx += 1
+	if executing_idx != new_idx and current_child:
+		current_child.deactivate()
+	var was_active := executing_idx == new_idx
+	executing_idx = new_idx
+	idx = current_child.load_state(buffer, idx, was_active)
+	return idx
 
-func physics_process_ability(delta: float) -> ARunResult:
-	# var first := false
+func physics_process_ability(delta: float, first: bool) -> ARunResult:
+	if first:
+		executing_idx = 0
+
 	while executing_idx < get_child_count():
-		# if first:
-		# 	current_child.pre_first_process()
-		var res := current_child.physics_process_ability(delta)
+		var child := current_child
+		var res := child.physics_process_ability(delta, first)
 		match res:
 			ARunResult.Done:
+				child.deactivate()
 				return ARunResult.Done
 			ARunResult.Error:
+				child.deactivate()
 				executing_idx += 1
-				# first = true
+				first = true
 				continue
 			ARunResult.Wait:
 				return ARunResult.Wait
@@ -84,5 +59,8 @@ func physics_process_ability(delta: float) -> ARunResult:
 func interrupt(kind: AInterruptKind) -> AInterruptResult:
 	var child := current_child
 	if child:
-		return child.interrupt(kind)
+		var res := child.interrupt(kind)
+		if res == AInterruptResult.Interrupted:
+			child.deactivate()
+		return res
 	return AInterruptResult.Interrupted

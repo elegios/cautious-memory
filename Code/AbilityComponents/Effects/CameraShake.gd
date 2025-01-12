@@ -9,8 +9,8 @@ class_name CameraShake extends AbilityNode
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var shake_strength: String
 @onready var shake_strength_e: Expression = parse_expr(shake_strength)
 
-func transition(kind: TKind, dir: TDir) -> ARunResult:
-	if kind == TKind.Exit or dir == TDir.Backward:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
+	if not multiplayer.is_server():
 		return ARunResult.Done
 
 	var pos := run_expr(center_position, center_position_e) if center_position_e else ExprRes.new(runner.character.position)

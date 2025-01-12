@@ -3,7 +3,7 @@
 ## last action to run; it will only complete on the server.
 class_name DestroySelf extends AbilityNode
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	if multiplayer.is_server():
 		runner.character.queue_free()
 		return ARunResult.Done

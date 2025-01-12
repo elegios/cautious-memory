@@ -12,7 +12,7 @@ class_name TeleportCharacter extends AbilityNode
 @export_custom(PROPERTY_HINT_EXPRESSION, "") var position: String
 @onready var position_e: Expression = parse_expr(position)
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	var res := run_expr(position, position_e)
 	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not Vector2):
 		return ARunResult.Error

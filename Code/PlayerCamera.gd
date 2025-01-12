@@ -16,6 +16,10 @@ var t := 0.0
 
 ## Strength will be capped at 1.0 after adding
 func add_shake(pos: Vector2, strength: float) -> void:
+	_do_add_shake.rpc(pos, strength)
+
+@rpc("unreliable", "call_local")
+func _do_add_shake(pos: Vector2, strength: float) -> void:
 	var dist_sq := pos.distance_squared_to(position)
 	if dist_sq > shake_max_range * shake_max_range:
 		return

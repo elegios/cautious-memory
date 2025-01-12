@@ -33,7 +33,7 @@ class_name RunAbility extends AbilityNode
 ##    ability did not acknowledge the interrupt.
 @export var success_property: StringName
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	if not multiplayer.is_server():
 		return ARunResult.Wait if success_property else ARunResult.Done
 

@@ -30,24 +30,22 @@ class_name OnAlteredHealth extends AbilityTriggered
 var done := false
 var error := false
 
-func sync_lost() -> void:
+func deactivate() -> void:
 	runner.health.unregister_modifier(_on_health_event)
 
-func pre_first_process() -> void:
+func activate() -> void:
 	runner.health.register_modifier(_on_health_event)
 	done = false
 	error = false
 
-func sync_gained() -> void:
-	pre_first_process()
+func load_state(_buffer: Array, idx: int, was_active: bool) -> int:
+	if not was_active:
+		activate()
+	return idx
 
-func interrupt(kind: AInterruptKind) -> AInterruptResult:
-	var res := super(kind)
-	if kind == AInterruptResult.Interrupted:
-		runner.health.unregister_modifier(_on_health_event)
-	return res
-
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, first: bool) -> ARunResult:
+	if first:
+		activate()
 	if error:
 		return ARunResult.Error
 	if done:
@@ -58,7 +56,6 @@ func physics_process_ability(_delta: float) -> ARunResult:
 func _on_health_event(delta: float) -> float:
 	var cond_res := run_expr(condition, condition_e, [delta])
 	if cond_res.err == Err.ShouldBail:
-		sync_lost()
 		error = true
 		return delta
 
@@ -67,7 +64,6 @@ func _on_health_event(delta: float) -> float:
 
 	var res := run_expr(new_delta, new_delta_e, [delta])
 	if res.err == Err.ShouldBail or (res.err == Err.MightBail and res.value is not float):
-		sync_lost()
 		error = true
 		return delta
 	var altered_delta_value: float = res.value
@@ -81,7 +77,4 @@ func _on_health_event(delta: float) -> float:
 		error = true
 
 	done = not continuous
-	if done or error:
-		sync_lost()
-
 	return altered_delta_value

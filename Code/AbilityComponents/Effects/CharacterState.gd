@@ -10,15 +10,12 @@ var active: bool:
 			set_state_active(value)
 		active = value
 
-func transition(kind: TKind, _dir: TDir) -> ARunResult:
-	match kind:
-		TKind.Enter:
-			active = true
-		TKind.Exit:
-			active = false
-	return ARunResult.Wait
+func deactivate() -> void:
+	active = false
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, first: bool) -> ARunResult:
+	if first:
+		active = true
 	return ARunResult.Wait
 
 func set_state_active(target: bool) -> void:

@@ -16,7 +16,7 @@ class_name AlterHealth extends AbilityNode
 ## changed to this blackboard property. Not saved if empty.
 @export var actual_amount: StringName
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
 	var t_r := run_expr(target, target_e) if target_e else ExprRes.new(runner.character)
 	if t_r.err == Err.ShouldBail or (t_r.err == Err.MightBail and t_r.value is not Node):
 		return ARunResult.Error

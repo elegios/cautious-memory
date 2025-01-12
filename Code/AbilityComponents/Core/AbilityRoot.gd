@@ -23,7 +23,7 @@ func try_interrupt(kind: AbilityNode.AInterruptKind) -> bool:
 		return true
 	done = AbilityNode.AInterruptResult.Interrupted == child.interrupt(kind)
 	if done:
-		var _ignore := child.transition(AbilityNode.TKind.Exit, AbilityNode.TDir.Forward)
+		child.deactivate()
 		ability_done.emit(self)
 	return done
 
@@ -37,10 +37,9 @@ func hard_interrupt() -> void:
 	var _ignore := try_interrupt(AbilityNode.AInterruptKind.Hard)
 
 func fast_forward() -> void:
-	if not started:
-		var _ignore := child.transition(AbilityNode.TKind.Skip, AbilityNode.TDir.Forward)
-	elif not done:
-		var _ignore := child.transition(AbilityNode.TKind.Exit, AbilityNode.TDir.Forward)
+	if started and not done:
+		child.deactivate()
+		done = true
 
 func _physics_process(delta: float) -> void:
 	if multiplayer.is_server():
@@ -48,52 +47,33 @@ func _physics_process(delta: float) -> void:
 		if elapsed >= time_between_syncs:
 			elapsed = 0
 			init_sync()
-	if not started:
-		match child.transition(AbilityNode.TKind.Enter, AbilityNode.TDir.Forward):
-			AbilityNode.ARunResult.Wait:
-				started = true
-			AbilityNode.ARunResult.Done, AbilityNode.ARunResult.Error:
-				done = true
-				var _ignore := child.transition(AbilityNode.TKind.Exit, AbilityNode.TDir.Forward)
-				ability_done.emit(self)
 	if done:
 		return
-	match child.physics_process_ability(delta):
+	match child.physics_process_ability(delta, not started):
 		AbilityNode.ARunResult.Wait:
-			pass
+			started = true
 		AbilityNode.ARunResult.Done, AbilityNode.ARunResult.Error:
+			child.deactivate()
 			done = true
-			var _ignore := child.transition(AbilityNode.TKind.Exit, AbilityNode.TDir.Forward)
 			ability_done.emit(self)
 
 func init_sync() -> void:
 	var state: Array = [started, done]
 	blackboard.save_state(state)
-	child.save_state(state)
+	if started and not done:
+		child.save_state(state)
 	rpc_load_state.rpc(state)
 
 @rpc("unreliable_ordered", "authority", "call_remote", 1)
 func rpc_load_state(state: Array) -> void:
 	var idx := blackboard.load_state(state, 2)
 
-	# NOTE(vipa, 2024-10-28): Cross the "started" boundry only
-	if not started and state[0] and not state[1]:
-		var _ignore := child.transition(AbilityNode.TKind.Enter, AbilityNode.TDir.Forward)
-	elif started and not state[0]:
-		var _ignore := child.transition(AbilityNode.TKind.Exit, AbilityNode.TDir.Backward)
-	# NOTE(vipa, 2024-10-28): Cross the "done" boundry only
-	elif not done and state[1]:
-		var _ignore := child.transition(AbilityNode.TKind.Exit, AbilityNode.TDir.Forward)
-	elif done and state[0] and not state[1]:
-		var _ignore := child.transition(AbilityNode.TKind.Enter, AbilityNode.TDir.Backward)
-	# NOTE(vipa, 2024-10-28): Cross both boundries at once
-	elif not started and state[1]:
-		var _ignore := child.transition(AbilityNode.TKind.Skip, AbilityNode.TDir.Forward)
-	elif done and not state[0]:
-		var _ignore := child.transition(AbilityNode.TKind.Skip, AbilityNode.TDir.Backward)
-
+	var was_active := started and not done
 	started = state[0]
 	done = state[1]
-	idx = child.load_state(state, idx)
+	if started and not done:
+		idx = child.load_state(state, idx, was_active)
+	elif was_active:
+		child.deactivate()
 	if idx != state.size():
 		push_error("Failed to use up all state in ability synchronization")

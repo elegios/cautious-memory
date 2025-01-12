@@ -32,7 +32,11 @@ func transition(kind: TKind, _dir: TDir) -> ARunResult:
 			runner.telegraph.visible = false
 	return ARunResult.Wait
 
-func physics_process_ability(_delta: float) -> ARunResult:
+func deactivate() -> void:
+	runner.telegraph.visible = false
+
+func physics_process_ability(_delta: float, _first: bool) -> ARunResult:
+	runner.telegraph.visible = true
 	return update_tele()
 
 func update_tele() -> ARunResult:
