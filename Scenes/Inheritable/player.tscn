@@ -78,13 +78,14 @@ motion_mode = 1
 script = ExtResource("1_2bwdi")
 movement_speed = 120.0
 
-[node name="Death" type="Node" parent="." node_paths=PackedStringArray("animation", "runner", "to_disable", "to_hide")]
+[node name="Death" type="Node" parent="." node_paths=PackedStringArray("animation", "runner", "to_disable", "to_hide", "to_hide_after_animation")]
 script = ExtResource("2_d8x3c")
 death_animation = 5
 animation = NodePath("../SubViewport/Animation")
 runner = NodePath("../AbilityRunner")
 to_disable = [NodePath("..")]
 to_hide = [NodePath("../PlayerHealth")]
+to_hide_after_animation = [NodePath("../Visuals/Mask"), NodePath("../Visuals/Sprite")]
 
 [node name="InterpolatingSynchronizer" type="Node" parent="."]
 script = ExtResource("2_ndo20")

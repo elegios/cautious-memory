@@ -15,6 +15,7 @@ extends Node
 
 @export var to_disable : Array[Node]
 @export var to_hide : Array[CanvasItem]
+@export var to_hide_after_animation : Array[CanvasItem]
 
 func _on_death() -> void:
 	_do_death.rpc()
@@ -35,3 +36,6 @@ func _do_death() -> void:
 func _on_death_finished() -> void:
 	if multiplayer.is_server():
 		get_parent().queue_free()
+	else:
+		for n in to_hide_after_animation:
+			n.visible = false
