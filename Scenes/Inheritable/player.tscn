@@ -89,6 +89,7 @@ to_hide_after_animation = [NodePath("../Visuals/Mask"), NodePath("../Visuals/Spr
 
 [node name="InterpolatingSynchronizer" type="Node" parent="."]
 script = ExtResource("2_ndo20")
+interpolation_speed = 10.0
 
 [node name="Telegraph" type="Node2D" parent="."]
 visible = false

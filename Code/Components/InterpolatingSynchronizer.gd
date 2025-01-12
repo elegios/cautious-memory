@@ -18,8 +18,8 @@ func _physics_process(_delta: float) -> void:
 	if not multiplayer or not multiplayer.is_server():
 		return
 
-	push_position(parent.position)
+	push_position.rpc(parent.position)
 
 @rpc("unreliable_ordered", "authority", "call_remote")
 func push_position(pos: Vector2) -> void:
-	position_delta = pos - (parent.position + position_delta)
+	position_delta = pos - parent.position
